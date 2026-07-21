@@ -1,0 +1,46 @@
+{
+  "vu32_axis_best": {
+    "name": "H_workmem_16MB",
+    "nopm": 1356244,
+    "delta_pct": 19.91
+  },
+  "vu32_combo_best": {
+    "name": "BEST_merge_sb24",
+    "nopm": 1335495,
+    "delta_pct": 18.08
+  },
+  "vu32_reconfirm_h16": {
+    "nopm": 1296158,
+    "delta_pct": 14.6
+  },
+  "vu4_verify": {
+    "vu4_sb24_merge": {
+      "name": "vu4_sb24_merge",
+      "run_vus": 4,
+      "nopm": 282347,
+      "tpm": 649270,
+      "build_seconds": 71.3,
+      "shared_buffers_gb": 24,
+      "tmpfs_gib": 125,
+      "error": "",
+      "delta_nopm_pct": -75.04,
+      "settings": "shared_buffers=24GB effective_cache_size=188GB work_mem=16MB maintenance_work_mem=1GB max_connections=400 max_worker_processes=32 max_parallel_workers=32 max_parallel_workers_per_gather=0 max_parallel_maintenance_workers=4 io_method=io_uring huge_pages=try synchronous_commit=off wal_buffers=16MB wal_compression=lz4 max_wal_size=16GB min_wal_size=2GB checkpoint_completion_target=0.9 checkpoint_timeout=15min random_page_cost=1.0 effective_io_concurrency=200 maintenance_io_concurrency=100 jit=off listen_addresses=*",
+      "delta_vs_published_vu4_pct": 4.6
+    },
+    "vu4_h_workmem16": {
+      "name": "vu4_h_workmem16",
+      "run_vus": 4,
+      "nopm": 281467,
+      "tpm": 647062,
+      "build_seconds": 89.8,
+      "shared_buffers_gb": 16,
+      "tmpfs_gib": 125,
+      "error": "",
+      "delta_nopm_pct": -75.11,
+      "settings": "shared_buffers=16GB effective_cache_size=188GB work_mem=16MB maintenance_work_mem=1GB max_connections=400 max_parallel_workers=32 max_worker_processes=32 max_parallel_workers_per_gather=0 synchronous_commit=off wal_buffers=64MB wal_compression=lz4 max_wal_size=16GB min_wal_size=2GB checkpoint_completion_target=0.9 io_method=io_uring random_page_cost=1.0 effective_io_concurrency=1000 jit=off listen_addresses=*",
+      "delta_vs_published_vu4_pct": 4.27
+    }
+  },
+  "published_vu4_nopm": 269933,
+  "finished_utc": "2026-07-17T02:33:11.751435+00:00"
+}

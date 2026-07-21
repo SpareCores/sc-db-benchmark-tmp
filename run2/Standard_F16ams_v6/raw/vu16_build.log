@@ -1,0 +1,13022 @@
+HammerDB CLI v4.12
+Copyright (C) 2003-2024 Steve Shaw
+Type "help" for a list of commands
+Initialized new Jobs on-disk database /tmp/hammer.DB
+Database set to PostgreSQL
+
+Benchmark set to TPC-C for PostgreSQL
+
+Changed connection:pg_host from localhost to pg-wh-eval for PostgreSQL
+
+Value 5432 for connection:pg_port is the same as existing value 5432, no change made
+
+Changed connection:pg_sslmode from prefer to disable for PostgreSQL
+
+Value postgres for tpcc:pg_superuser is the same as existing value postgres, no change made
+
+Value postgres for tpcc:pg_superuserpass is the same as existing value postgres, no change made
+
+Value postgres for tpcc:pg_defaultdbase is the same as existing value postgres, no change made
+
+Changed tpcc:pg_storedprocs from false to true for PostgreSQL
+
+Value false for tpcc:pg_partition is the same as existing value false, no change made
+
+Changed tpcc:pg_count_ware from 1 to 80 for PostgreSQL
+
+Changed tpcc:pg_num_vu from 1 to 16 for PostgreSQL
+
+Script cleared
+
+Building 80 Warehouses with 17 Virtual Users, 16 active + 1 Monitor VU(dict value pg_num_vu is set to 16)
+Ready to create a 80 Warehouse PostgreSQL TPROC-C schema
+in host PG-WH-EVAL:5432 sslmode DISABLE under user TPCC in database TPCC?
+
+Enter yes or no: replied yes
+
+Vuser 1 created - WAIT IDLE
+
+Vuser 2 created - WAIT IDLE
+
+Vuser 3 created - WAIT IDLE
+
+Vuser 4 created - WAIT IDLE
+
+Vuser 5 created - WAIT IDLE
+
+Vuser 6 created - WAIT IDLE
+
+Vuser 7 created - WAIT IDLE
+
+Vuser 8 created - WAIT IDLE
+
+Vuser 9 created - WAIT IDLE
+
+Vuser 10 created - WAIT IDLE
+
+Vuser 11 created - WAIT IDLE
+
+Vuser 12 created - WAIT IDLE
+
+Vuser 13 created - WAIT IDLE
+
+Vuser 14 created - WAIT IDLE
+
+Vuser 15 created - WAIT IDLE
+
+Vuser 16 created - WAIT IDLE
+
+Vuser 17 created - WAIT IDLE
+
+Vuser 1:RUNNING
+
+Vuser 1:Monitor Thread
+
+Vuser 1:CREATING TPCC SCHEMA
+
+Vuser 1:CREATING DATABASE tpcc under OWNER tpcc
+
+Vuser 1:CREATING TPCC TABLES
+
+Vuser 1:Loading Item
+
+Vuser 1:Loading Items - 10000
+
+Vuser 1:Loading Items - 20000
+
+Vuser 2:RUNNING
+
+Vuser 2:Worker Thread
+
+Vuser 2:Waiting for Monitor Thread...
+
+Vuser 1:Loading Items - 30000
+
+Vuser 2:Loading 5 Warehouses start:1 end:5
+
+Vuser 2:Start:Thu Jul 16 14:58:36 UTC 2026
+
+Vuser 2:Loading Warehouse
+
+Vuser 2:Loading Stock Wid=1
+
+Vuser 1:Loading Items - 40000
+
+Vuser 1:Loading Items - 50000
+
+Vuser 1:Loading Items - 60000
+
+Vuser 3:RUNNING
+
+Vuser 3:Worker Thread
+
+Vuser 3:Waiting for Monitor Thread...
+
+Vuser 3:Loading 5 Warehouses start:6 end:10
+
+Vuser 1:Loading Items - 70000
+
+Vuser 3:Start:Thu Jul 16 14:58:37 UTC 2026
+
+Vuser 3:Loading Warehouse
+
+Vuser 3:Loading Stock Wid=6
+
+Vuser 1:Loading Items - 80000
+
+Vuser 1:Loading Items - 90000
+
+Vuser 2:Loading Stock - 20000
+
+Vuser 1:Loading Items - 100000
+
+Vuser 1:Item done
+
+Vuser 1:Monitoring Workers...
+
+Vuser 1:Workers: 2 Active 0 Done
+
+Vuser 4:RUNNING
+
+Vuser 4:Worker Thread
+
+Vuser 4:Waiting for Monitor Thread...
+
+Vuser 4:Loading 5 Warehouses start:11 end:15
+
+Vuser 4:Start:Thu Jul 16 14:58:37 UTC 2026
+
+Vuser 4:Loading Warehouse
+
+Vuser 4:Loading Stock Wid=11
+
+Vuser 3:Loading Stock - 20000
+
+Vuser 5:RUNNING
+
+Vuser 5:Worker Thread
+
+Vuser 5:Waiting for Monitor Thread...
+
+Vuser 5:Loading 5 Warehouses start:16 end:20
+
+Vuser 5:Start:Thu Jul 16 14:58:38 UTC 2026
+
+Vuser 5:Loading Warehouse
+
+Vuser 5:Loading Stock Wid=16
+
+Vuser 2:Loading Stock - 40000
+
+Vuser 4:Loading Stock - 20000
+
+Vuser 6:RUNNING
+
+Vuser 6:Worker Thread
+
+Vuser 6:Waiting for Monitor Thread...
+
+Vuser 6:Loading 5 Warehouses start:21 end:25
+
+Vuser 6:Start:Thu Jul 16 14:58:38 UTC 2026
+
+Vuser 6:Loading Warehouse
+
+Vuser 6:Loading Stock Wid=21
+
+Vuser 3:Loading Stock - 40000
+
+Vuser 5:Loading Stock - 20000
+
+Vuser 2:Loading Stock - 60000
+
+Vuser 7:RUNNING
+
+Vuser 7:Worker Thread
+
+Vuser 7:Waiting for Monitor Thread...
+
+Vuser 7:Loading 5 Warehouses start:26 end:30
+
+Vuser 7:Start:Thu Jul 16 14:58:39 UTC 2026
+
+Vuser 7:Loading Warehouse
+
+Vuser 7:Loading Stock Wid=26
+
+Vuser 4:Loading Stock - 40000
+
+Vuser 6:Loading Stock - 20000
+
+Vuser 3:Loading Stock - 60000
+
+Vuser 8:RUNNING
+
+Vuser 8:Worker Thread
+
+Vuser 8:Waiting for Monitor Thread...
+
+Vuser 8:Loading 5 Warehouses start:31 end:35
+
+Vuser 8:Start:Thu Jul 16 14:58:39 UTC 2026
+
+Vuser 8:Loading Warehouse
+
+Vuser 8:Loading Stock Wid=31
+
+Vuser 5:Loading Stock - 40000
+
+Vuser 2:Loading Stock - 80000
+
+Vuser 7:Loading Stock - 20000
+
+Vuser 4:Loading Stock - 60000
+
+Vuser 9:RUNNING
+
+Vuser 9:Worker Thread
+
+Vuser 9:Waiting for Monitor Thread...
+
+Vuser 9:Loading 5 Warehouses start:36 end:40
+
+Vuser 9:Start:Thu Jul 16 14:58:40 UTC 2026
+
+Vuser 9:Loading Warehouse
+
+Vuser 9:Loading Stock Wid=36
+
+Vuser 6:Loading Stock - 40000
+
+Vuser 3:Loading Stock - 80000
+
+Vuser 8:Loading Stock - 20000
+
+Vuser 10:RUNNING
+
+Vuser 10:Worker Thread
+
+Vuser 5:Loading Stock - 60000
+
+Vuser 2:Loading Stock - 100000
+
+Vuser 10:Waiting for Monitor Thread...
+
+Vuser 2:Stock done
+
+Vuser 10:Loading 5 Warehouses start:41 end:45
+
+Vuser 7:Loading Stock - 40000
+
+Vuser 4:Loading Stock - 80000
+
+Vuser 2:Loading District
+
+Vuser 10:Start:Thu Jul 16 14:58:41 UTC 2026
+
+Vuser 2:District done
+
+Vuser 10:Loading Warehouse
+
+Vuser 9:Loading Stock - 20000
+
+Vuser 2:Loading Stock Wid=2
+
+Vuser 10:Loading Stock Wid=41
+
+Vuser 6:Loading Stock - 60000
+
+Vuser 3:Loading Stock - 100000
+
+Vuser 8:Loading Stock - 40000
+
+Vuser 5:Loading Stock - 80000
+
+Vuser 3:Stock done
+
+Vuser 7:Loading Stock - 60000
+
+Vuser 4:Loading Stock - 100000
+
+Vuser 3:Loading District
+
+Vuser 4:Stock done
+
+Vuser 3:District done
+
+Vuser 4:Loading District
+
+Vuser 3:Loading Stock Wid=7
+
+Vuser 9:Loading Stock - 40000
+
+Vuser 4:District done
+
+Vuser 2:Loading Stock - 20000
+
+Vuser 4:Loading Stock Wid=12
+
+Vuser 10:Loading Stock - 20000
+
+Vuser 11:RUNNING
+
+Vuser 11:Worker Thread
+
+Vuser 6:Loading Stock - 80000
+
+Vuser 11:Waiting for Monitor Thread...
+
+Vuser 11:Loading 5 Warehouses start:46 end:50
+
+Vuser 11:Start:Thu Jul 16 14:58:42 UTC 2026
+
+Vuser 11:Loading Warehouse
+
+Vuser 11:Loading Stock Wid=46
+
+Vuser 8:Loading Stock - 60000
+
+Vuser 5:Loading Stock - 100000
+
+Vuser 5:Stock done
+
+Vuser 7:Loading Stock - 80000
+
+Vuser 5:Loading District
+
+Vuser 5:District done
+
+Vuser 5:Loading Stock Wid=17
+
+Vuser 3:Loading Stock - 20000
+
+Vuser 9:Loading Stock - 60000
+
+Vuser 12:RUNNING
+
+Vuser 12:Worker Thread
+
+Vuser 12:Waiting for Monitor Thread...
+
+Vuser 12:Loading 5 Warehouses start:51 end:55
+
+Vuser 12:Start:Thu Jul 16 14:58:43 UTC 2026
+
+Vuser 12:Loading Warehouse
+
+Vuser 12:Loading Stock Wid=51
+
+Vuser 2:Loading Stock - 40000
+
+Vuser 4:Loading Stock - 20000
+
+Vuser 10:Loading Stock - 40000
+
+Vuser 6:Loading Stock - 100000
+
+Vuser 6:Stock done
+
+Vuser 6:Loading District
+
+Vuser 8:Loading Stock - 80000
+
+Vuser 11:Loading Stock - 20000
+
+Vuser 6:District done
+
+Vuser 7:Loading Stock - 100000
+
+Vuser 6:Loading Stock Wid=22
+
+Vuser 7:Stock done
+
+Vuser 9:Loading Stock - 80000
+
+Vuser 5:Loading Stock - 20000
+
+Vuser 3:Loading Stock - 40000
+
+Vuser 12:Loading Stock - 20000
+
+Vuser 7:Loading District
+
+Vuser 2:Loading Stock - 60000
+
+Vuser 4:Loading Stock - 40000
+
+Vuser 10:Loading Stock - 60000
+
+Vuser 7:District done
+
+Vuser 8:Loading Stock - 100000
+
+Vuser 11:Loading Stock - 40000
+
+Vuser 7:Loading Stock Wid=27
+
+Vuser 8:Stock done
+
+Vuser 6:Loading Stock - 20000
+
+Vuser 8:Loading District
+
+Vuser 9:Loading Stock - 100000
+
+Vuser 5:Loading Stock - 40000
+
+Vuser 3:Loading Stock - 60000
+
+Vuser 12:Loading Stock - 40000
+
+Vuser 8:District done
+
+Vuser 2:Loading Stock - 80000
+
+Vuser 9:Stock done
+
+Vuser 4:Loading Stock - 60000
+
+Vuser 10:Loading Stock - 80000
+
+Vuser 8:Loading Stock Wid=32
+
+Vuser 11:Loading Stock - 60000
+
+Vuser 9:Loading District
+
+Vuser 7:Loading Stock - 20000
+
+Vuser 9:District done
+
+Vuser 9:Loading Stock Wid=37
+
+Vuser 13:RUNNING
+
+Vuser 13:Worker Thread
+
+Vuser 6:Loading Stock - 40000
+
+Vuser 13:Waiting for Monitor Thread...
+
+Vuser 13:Loading 5 Warehouses start:56 end:60
+
+Vuser 5:Loading Stock - 60000
+
+Vuser 13:Start:Thu Jul 16 14:58:45 UTC 2026
+
+Vuser 13:Loading Warehouse
+
+Vuser 13:Loading Stock Wid=56
+
+Vuser 3:Loading Stock - 80000
+
+Vuser 12:Loading Stock - 60000
+
+Vuser 14:RUNNING
+
+Vuser 14:Worker Thread
+
+Vuser 14:Waiting for Monitor Thread...
+
+Vuser 14:Loading 5 Warehouses start:61 end:65
+
+Vuser 2:Loading Stock - 100000
+
+Vuser 14:Start:Thu Jul 16 14:58:46 UTC 2026
+
+Vuser 4:Loading Stock - 80000
+
+Vuser 10:Loading Stock - 100000
+
+Vuser 8:Loading Stock - 20000
+
+Vuser 11:Loading Stock - 80000
+
+Vuser 7:Loading Stock - 40000
+
+Vuser 2:Stock done
+
+Vuser 14:Loading Warehouse
+
+Vuser 10:Stock done
+
+Vuser 9:Loading Stock - 20000
+
+Vuser 6:Loading Stock - 60000
+
+Vuser 5:Loading Stock - 80000
+
+Vuser 13:Loading Stock - 20000
+
+Vuser 3:Loading Stock - 100000
+
+Vuser 2:Loading District
+
+Vuser 14:Loading Stock Wid=61
+
+Vuser 12:Loading Stock - 80000
+
+Vuser 10:Loading District
+
+Vuser 3:Stock done
+
+Vuser 2:District done
+
+Vuser 4:Loading Stock - 100000
+
+Vuser 10:District done
+
+Vuser 8:Loading Stock - 40000
+
+Vuser 3:Loading District
+
+Vuser 11:Loading Stock - 100000
+
+Vuser 7:Loading Stock - 60000
+
+Vuser 2:Loading Stock Wid=3
+
+Vuser 9:Loading Stock - 40000
+
+Vuser 4:Stock done
+
+Vuser 6:Loading Stock - 80000
+
+Vuser 5:Loading Stock - 100000
+
+Vuser 13:Loading Stock - 40000
+
+Vuser 10:Loading Stock Wid=42
+
+Vuser 1:Workers: 13 Active 0 Done
+
+Vuser 14:Loading Stock - 20000
+
+Vuser 12:Loading Stock - 100000
+
+Vuser 3:District done
+
+Vuser 11:Stock done
+
+Vuser 4:Loading District
+
+Vuser 5:Stock done
+
+Vuser 12:Stock done
+
+Vuser 3:Loading Stock Wid=8
+
+Vuser 11:Loading District
+
+Vuser 4:District done
+
+Vuser 5:Loading District
+
+Vuser 12:Loading District
+
+Vuser 11:District done
+
+Vuser 4:Loading Stock Wid=13
+
+Vuser 5:District done
+
+Vuser 12:District done
+
+Vuser 11:Loading Stock Wid=47
+
+Vuser 5:Loading Stock Wid=18
+
+Vuser 8:Loading Stock - 60000
+
+Vuser 12:Loading Stock Wid=52
+
+Vuser 15:RUNNING
+
+Vuser 15:Worker Thread
+
+Vuser 15:Waiting for Monitor Thread...
+
+Vuser 15:Loading 5 Warehouses start:66 end:70
+
+Vuser 15:Start:Thu Jul 16 14:58:48 UTC 2026
+
+Vuser 15:Loading Warehouse
+
+Vuser 15:Loading Stock Wid=66
+
+Vuser 7:Loading Stock - 80000
+
+Vuser 9:Loading Stock - 60000
+
+Vuser 6:Loading Stock - 100000
+
+Vuser 2:Loading Stock - 20000
+
+Vuser 13:Loading Stock - 60000
+
+Vuser 6:Stock done
+
+Vuser 14:Loading Stock - 40000
+
+Vuser 10:Loading Stock - 20000
+
+Vuser 6:Loading District
+
+Vuser 6:District done
+
+Vuser 3:Loading Stock - 20000
+
+Vuser 6:Loading Stock Wid=23
+
+Vuser 16:RUNNING
+
+Vuser 16:Worker Thread
+
+Vuser 4:Loading Stock - 20000
+
+Vuser 16:Waiting for Monitor Thread...
+
+Vuser 11:Loading Stock - 20000
+
+Vuser 16:Loading 5 Warehouses start:71 end:75
+
+Vuser 8:Loading Stock - 80000
+
+Vuser 5:Loading Stock - 20000
+
+Vuser 16:Start:Thu Jul 16 14:58:49 UTC 2026
+
+Vuser 16:Loading Warehouse
+
+Vuser 12:Loading Stock - 20000
+
+Vuser 16:Loading Stock Wid=71
+
+Vuser 7:Loading Stock - 100000
+
+Vuser 9:Loading Stock - 80000
+
+Vuser 7:Stock done
+
+Vuser 15:Loading Stock - 20000
+
+Vuser 2:Loading Stock - 40000
+
+Vuser 13:Loading Stock - 80000
+
+Vuser 14:Loading Stock - 60000
+
+Vuser 10:Loading Stock - 40000
+
+Vuser 7:Loading District
+
+Vuser 7:District done
+
+Vuser 17:RUNNING
+
+Vuser 17:Worker Thread
+
+Vuser 7:Loading Stock Wid=28
+
+Vuser 3:Loading Stock - 40000
+
+Vuser 6:Loading Stock - 20000
+
+Vuser 17:Waiting for Monitor Thread...
+
+Vuser 11:Loading Stock - 40000
+
+Vuser 8:Loading Stock - 100000
+
+Vuser 4:Loading Stock - 40000
+
+Vuser 5:Loading Stock - 40000
+
+Vuser 17:Loading 5 Warehouses start:76 end:80
+
+Vuser 8:Stock done
+
+Vuser 12:Loading Stock - 40000
+
+Vuser 16:Loading Stock - 20000
+
+Vuser 17:Start:Thu Jul 16 14:58:50 UTC 2026
+
+Vuser 8:Loading District
+
+Vuser 17:Loading Warehouse
+
+Vuser 9:Loading Stock - 100000
+
+Vuser 15:Loading Stock - 40000
+
+Vuser 8:District done
+
+Vuser 17:Loading Stock Wid=76
+
+Vuser 2:Loading Stock - 60000
+
+Vuser 10:Loading Stock - 60000
+
+Vuser 13:Loading Stock - 100000
+
+Vuser 8:Loading Stock Wid=33
+
+Vuser 14:Loading Stock - 80000
+
+Vuser 7:Loading Stock - 20000
+
+Vuser 9:Stock done
+
+Vuser 11:Loading Stock - 60000
+
+Vuser 13:Stock done
+
+Vuser 3:Loading Stock - 60000
+
+Vuser 6:Loading Stock - 40000
+
+Vuser 4:Loading Stock - 60000
+
+Vuser 5:Loading Stock - 60000
+
+Vuser 9:Loading District
+
+Vuser 12:Loading Stock - 60000
+
+Vuser 13:Loading District
+
+Vuser 15:Loading Stock - 60000
+
+Vuser 16:Loading Stock - 40000
+
+Vuser 13:District done
+
+Vuser 9:District done
+
+Vuser 10:Loading Stock - 80000
+
+Vuser 2:Loading Stock - 80000
+
+Vuser 8:Loading Stock - 20000
+
+Vuser 13:Loading Stock Wid=57
+
+Vuser 14:Loading Stock - 100000
+
+Vuser 9:Loading Stock Wid=38
+
+Vuser 6:Loading Stock - 60000
+
+Vuser 12:Loading Stock - 80000
+
+Vuser 11:Loading Stock - 80000
+
+Vuser 17:Loading Stock - 20000
+
+Vuser 3:Loading Stock - 80000
+
+Vuser 5:Loading Stock - 80000
+
+Vuser 4:Loading Stock - 80000
+
+Vuser 15:Loading Stock - 80000
+
+Vuser 7:Loading Stock - 40000
+
+Vuser 16:Loading Stock - 60000
+
+Vuser 14:Stock done
+
+Vuser 14:Loading District
+
+Vuser 14:District done
+
+Vuser 8:Loading Stock - 40000
+
+Vuser 2:Loading Stock - 100000
+
+Vuser 13:Loading Stock - 20000
+
+Vuser 14:Loading Stock Wid=62
+
+Vuser 10:Loading Stock - 100000
+
+Vuser 9:Loading Stock - 20000
+
+Vuser 6:Loading Stock - 80000
+
+Vuser 2:Stock done
+
+Vuser 2:Loading District
+
+Vuser 2:District done
+
+Vuser 11:Loading Stock - 100000
+
+Vuser 13:Loading Stock - 40000
+
+Vuser 2:Loading Stock Wid=4
+
+Vuser 10:Stock done
+
+Vuser 5:Loading Stock - 100000
+
+Vuser 4:Loading Stock - 100000
+
+Vuser 14:Loading Stock - 20000
+
+Vuser 3:Loading Stock - 100000
+
+Vuser 16:Loading Stock - 80000
+
+Vuser 12:Loading Stock - 100000
+
+Vuser 7:Loading Stock - 60000
+
+Vuser 17:Loading Stock - 40000
+
+Vuser 10:Loading District
+
+Vuser 15:Loading Stock - 100000
+
+Vuser 9:Loading Stock - 40000
+
+Vuser 8:Loading Stock - 60000
+
+Vuser 10:District done
+
+Vuser 2:Loading Stock - 20000
+
+Vuser 12:Stock done
+
+Vuser 4:Stock done
+
+Vuser 15:Stock done
+
+Vuser 5:Stock done
+
+Vuser 10:Loading Stock Wid=43
+
+Vuser 11:Stock done
+
+Vuser 3:Stock done
+
+Vuser 12:Loading District
+
+Vuser 6:Loading Stock - 100000
+
+Vuser 4:Loading District
+
+Vuser 15:Loading District
+
+Vuser 16:Loading Stock - 100000
+
+Vuser 14:Loading Stock - 40000
+
+Vuser 5:Loading District
+
+Vuser 13:Loading Stock - 60000
+
+Vuser 9:Loading Stock - 60000
+
+Vuser 11:Loading District
+
+Vuser 3:Loading District
+
+Vuser 2:Loading Stock - 40000
+
+Vuser 6:Stock done
+
+Vuser 12:District done
+
+Vuser 4:District done
+
+Vuser 7:Loading Stock - 80000
+
+Vuser 17:Loading Stock - 60000
+
+Vuser 8:Loading Stock - 80000
+
+Vuser 16:Stock done
+
+Vuser 15:District done
+
+Vuser 10:Loading Stock - 20000
+
+Vuser 5:District done
+
+Vuser 11:District done
+
+Vuser 3:District done
+
+Vuser 14:Loading Stock - 60000
+
+Vuser 1:Workers: 16 Active 0 Done
+
+Vuser 6:Loading District
+
+Vuser 13:Loading Stock - 80000
+
+Vuser 12:Loading Stock Wid=53
+
+Vuser 9:Loading Stock - 80000
+
+Vuser 4:Loading Stock Wid=14
+
+Vuser 16:Loading District
+
+Vuser 15:Loading Stock Wid=67
+
+Vuser 2:Loading Stock - 60000
+
+Vuser 5:Loading Stock Wid=19
+
+Vuser 11:Loading Stock Wid=48
+
+Vuser 3:Loading Stock Wid=9
+
+Vuser 6:District done
+
+Vuser 16:District done
+
+Vuser 6:Loading Stock Wid=24
+
+Vuser 16:Loading Stock Wid=72
+
+Vuser 7:Loading Stock - 100000
+
+Vuser 7:Stock done
+
+Vuser 8:Loading Stock - 100000
+
+Vuser 7:Loading District
+
+Vuser 17:Loading Stock - 80000
+
+Vuser 8:Stock done
+
+Vuser 10:Loading Stock - 40000
+
+Vuser 14:Loading Stock - 80000
+
+Vuser 12:Loading Stock - 20000
+
+Vuser 7:District done
+
+Vuser 13:Loading Stock - 100000
+
+Vuser 9:Loading Stock - 100000
+
+Vuser 15:Loading Stock - 20000
+
+Vuser 4:Loading Stock - 20000
+
+Vuser 2:Loading Stock - 80000
+
+Vuser 5:Loading Stock - 20000
+
+Vuser 11:Loading Stock - 20000
+
+Vuser 3:Loading Stock - 20000
+
+Vuser 6:Loading Stock - 20000
+
+Vuser 16:Loading Stock - 20000
+
+Vuser 8:Loading District
+
+Vuser 7:Loading Stock Wid=29
+
+Vuser 13:Stock done
+
+Vuser 9:Stock done
+
+Vuser 17:Loading Stock - 100000
+
+Vuser 10:Loading Stock - 60000
+
+Vuser 14:Loading Stock - 100000
+
+Vuser 12:Loading Stock - 40000
+
+Vuser 8:District done
+
+Vuser 13:Loading District
+
+Vuser 15:Loading Stock - 40000
+
+Vuser 9:Loading District
+
+Vuser 17:Stock done
+
+Vuser 4:Loading Stock - 40000
+
+Vuser 2:Loading Stock - 100000
+
+Vuser 14:Stock done
+
+Vuser 5:Loading Stock - 40000
+
+Vuser 11:Loading Stock - 40000
+
+Vuser 3:Loading Stock - 40000
+
+Vuser 6:Loading Stock - 40000
+
+Vuser 16:Loading Stock - 40000
+
+Vuser 7:Loading Stock - 20000
+
+Vuser 8:Loading Stock Wid=34
+
+Vuser 13:District done
+
+Vuser 10:Loading Stock - 80000
+
+Vuser 9:District done
+
+Vuser 17:Loading District
+
+Vuser 12:Loading Stock - 60000
+
+Vuser 2:Stock done
+
+Vuser 14:Loading District
+
+Vuser 13:Loading Stock Wid=58
+
+Vuser 15:Loading Stock - 60000
+
+Vuser 9:Loading Stock Wid=39
+
+Vuser 17:District done
+
+Vuser 2:Loading District
+
+Vuser 14:District done
+
+Vuser 4:Loading Stock - 60000
+
+Vuser 5:Loading Stock - 60000
+
+Vuser 11:Loading Stock - 60000
+
+Vuser 3:Loading Stock - 60000
+
+Vuser 6:Loading Stock - 60000
+
+Vuser 16:Loading Stock - 60000
+
+Vuser 17:Loading Stock Wid=77
+
+Vuser 2:District done
+
+Vuser 7:Loading Stock - 40000
+
+Vuser 8:Loading Stock - 20000
+
+Vuser 10:Loading Stock - 100000
+
+Vuser 14:Loading Stock Wid=63
+
+Vuser 12:Loading Stock - 80000
+
+Vuser 13:Loading Stock - 20000
+
+Vuser 2:Loading Stock Wid=5
+
+Vuser 15:Loading Stock - 80000
+
+Vuser 9:Loading Stock - 20000
+
+Vuser 10:Stock done
+
+Vuser 4:Loading Stock - 80000
+
+Vuser 10:Loading District
+
+Vuser 10:District done
+
+Vuser 5:Loading Stock - 80000
+
+Vuser 10:Loading Stock Wid=44
+
+Vuser 11:Loading Stock - 80000
+
+Vuser 3:Loading Stock - 80000
+
+Vuser 16:Loading Stock - 80000
+
+Vuser 6:Loading Stock - 80000
+
+Vuser 17:Loading Stock - 20000
+
+Vuser 7:Loading Stock - 60000
+
+Vuser 8:Loading Stock - 40000
+
+Vuser 14:Loading Stock - 20000
+
+Vuser 12:Loading Stock - 100000
+
+Vuser 13:Loading Stock - 40000
+
+Vuser 15:Loading Stock - 100000
+
+Vuser 2:Loading Stock - 20000
+
+Vuser 9:Loading Stock - 40000
+
+Vuser 4:Loading Stock - 100000
+
+Vuser 5:Loading Stock - 100000
+
+Vuser 12:Stock done
+
+Vuser 10:Loading Stock - 20000
+
+Vuser 11:Loading Stock - 100000
+
+Vuser 3:Loading Stock - 100000
+
+Vuser 12:Loading District
+
+Vuser 15:Stock done
+
+Vuser 16:Loading Stock - 100000
+
+Vuser 17:Loading Stock - 40000
+
+Vuser 14:Loading Stock - 40000
+
+Vuser 8:Loading Stock - 60000
+
+Vuser 7:Loading Stock - 80000
+
+Vuser 4:Stock done
+
+Vuser 12:District done
+
+Vuser 15:Loading District
+
+Vuser 5:Stock done
+
+Vuser 6:Loading Stock - 100000
+
+Vuser 13:Loading Stock - 60000
+
+Vuser 2:Loading Stock - 40000
+
+Vuser 9:Loading Stock - 60000
+
+Vuser 3:Stock done
+
+Vuser 16:Stock done
+
+Vuser 4:Loading District
+
+Vuser 12:Loading Stock Wid=54
+
+Vuser 10:Loading Stock - 40000
+
+Vuser 5:Loading District
+
+Vuser 15:District done
+
+Vuser 11:Stock done
+
+Vuser 17:Loading Stock - 60000
+
+Vuser 14:Loading Stock - 60000
+
+Vuser 8:Loading Stock - 80000
+
+Vuser 7:Loading Stock - 100000
+
+Vuser 6:Stock done
+
+Vuser 13:Loading Stock - 80000
+
+Vuser 3:Loading District
+
+Vuser 2:Loading Stock - 60000
+
+Vuser 9:Loading Stock - 80000
+
+Vuser 16:Loading District
+
+Vuser 4:District done
+
+Vuser 12:Loading Stock - 20000
+
+Vuser 5:District done
+
+Vuser 15:Loading Stock Wid=68
+
+Vuser 10:Loading Stock - 60000
+
+Vuser 11:Loading District
+
+Vuser 7:Stock done
+
+Vuser 6:Loading District
+
+Vuser 3:District done
+
+Vuser 16:District done
+
+Vuser 4:Loading Stock Wid=15
+
+Vuser 5:Loading Stock Wid=20
+
+Vuser 11:District done
+
+Vuser 7:Loading District
+
+Vuser 6:District done
+
+Vuser 17:Loading Stock - 80000
+
+Vuser 3:Loading Stock Wid=10
+
+Vuser 16:Loading Stock Wid=73
+
+Vuser 11:Loading Stock Wid=49
+
+Vuser 7:District done
+
+Vuser 6:Loading Stock Wid=25
+
+Vuser 7:Loading Stock Wid=30
+
+Vuser 14:Loading Stock - 80000
+
+Vuser 8:Loading Stock - 100000
+
+Vuser 8:Stock done
+
+Vuser 13:Loading Stock - 100000
+
+Vuser 2:Loading Stock - 80000
+
+Vuser 9:Loading Stock - 100000
+
+Vuser 8:Loading District
+
+Vuser 12:Loading Stock - 40000
+
+Vuser 10:Loading Stock - 80000
+
+Vuser 15:Loading Stock - 20000
+
+Vuser 13:Stock done
+
+Vuser 9:Stock done
+
+Vuser 4:Loading Stock - 20000
+
+Vuser 5:Loading Stock - 20000
+
+Vuser 3:Loading Stock - 20000
+
+Vuser 17:Loading Stock - 100000
+
+Vuser 8:District done
+
+Vuser 16:Loading Stock - 20000
+
+Vuser 11:Loading Stock - 20000
+
+Vuser 7:Loading Stock - 20000
+
+Vuser 6:Loading Stock - 20000
+
+Vuser 14:Loading Stock - 100000
+
+Vuser 13:Loading District
+
+Vuser 9:Loading District
+
+Vuser 17:Stock done
+
+Vuser 8:Loading Stock Wid=35
+
+Vuser 2:Loading Stock - 100000
+
+Vuser 14:Stock done
+
+Vuser 12:Loading Stock - 60000
+
+Vuser 13:District done
+
+Vuser 10:Loading Stock - 100000
+
+Vuser 9:District done
+
+Vuser 15:Loading Stock - 40000
+
+Vuser 17:Loading District
+
+Vuser 4:Loading Stock - 40000
+
+Vuser 5:Loading Stock - 40000
+
+Vuser 3:Loading Stock - 40000
+
+Vuser 2:Stock done
+
+Vuser 16:Loading Stock - 40000
+
+Vuser 14:Loading District
+
+Vuser 11:Loading Stock - 40000
+
+Vuser 7:Loading Stock - 40000
+
+Vuser 6:Loading Stock - 40000
+
+Vuser 13:Loading Stock Wid=59
+
+Vuser 10:Stock done
+
+Vuser 9:Loading Stock Wid=40
+
+Vuser 17:District done
+
+Vuser 2:Loading District
+
+Vuser 14:District done
+
+Vuser 8:Loading Stock - 20000
+
+Vuser 10:Loading District
+
+Vuser 17:Loading Stock Wid=78
+
+Vuser 2:District done
+
+Vuser 14:Loading Stock Wid=64
+
+Vuser 10:District done
+
+Vuser 2:Loading Customer for DID=1 WID=1
+
+Vuser 12:Loading Stock - 80000
+
+Vuser 10:Loading Stock Wid=45
+
+Vuser 15:Loading Stock - 60000
+
+Vuser 2:Customer Done
+
+Vuser 4:Loading Stock - 60000
+
+Vuser 5:Loading Stock - 60000
+
+Vuser 3:Loading Stock - 60000
+
+Vuser 11:Loading Stock - 60000
+
+Vuser 2:Loading Customer for DID=2 WID=1
+
+Vuser 7:Loading Stock - 60000
+
+Vuser 16:Loading Stock - 60000
+
+Vuser 6:Loading Stock - 60000
+
+Vuser 13:Loading Stock - 20000
+
+Vuser 9:Loading Stock - 20000
+
+Vuser 8:Loading Stock - 40000
+
+Vuser 14:Loading Stock - 20000
+
+Vuser 17:Loading Stock - 20000
+
+Vuser 2:Customer Done
+
+Vuser 12:Loading Stock - 100000
+
+Vuser 2:Loading Customer for DID=3 WID=1
+
+Vuser 10:Loading Stock - 20000
+
+Vuser 12:Stock done
+
+Vuser 15:Loading Stock - 80000
+
+Vuser 4:Loading Stock - 80000
+
+Vuser 3:Loading Stock - 80000
+
+Vuser 11:Loading Stock - 80000
+
+Vuser 5:Loading Stock - 80000
+
+Vuser 7:Loading Stock - 80000
+
+Vuser 12:Loading District
+
+Vuser 16:Loading Stock - 80000
+
+Vuser 6:Loading Stock - 80000
+
+Vuser 13:Loading Stock - 40000
+
+Vuser 9:Loading Stock - 40000
+
+Vuser 8:Loading Stock - 60000
+
+Vuser 14:Loading Stock - 40000
+
+Vuser 17:Loading Stock - 40000
+
+Vuser 2:Customer Done
+
+Vuser 12:District done
+
+Vuser 10:Loading Stock - 40000
+
+Vuser 15:Loading Stock - 100000
+
+Vuser 4:Loading Stock - 100000
+
+Vuser 3:Loading Stock - 100000
+
+Vuser 11:Loading Stock - 100000
+
+Vuser 2:Loading Customer for DID=4 WID=1
+
+Vuser 12:Loading Stock Wid=55
+
+Vuser 5:Loading Stock - 100000
+
+Vuser 7:Loading Stock - 100000
+
+Vuser 15:Stock done
+
+Vuser 3:Stock done
+
+Vuser 4:Stock done
+
+Vuser 16:Loading Stock - 100000
+
+Vuser 11:Stock done
+
+Vuser 6:Loading Stock - 100000
+
+Vuser 5:Stock done
+
+Vuser 13:Loading Stock - 60000
+
+Vuser 7:Stock done
+
+Vuser 8:Loading Stock - 80000
+
+Vuser 9:Loading Stock - 60000
+
+Vuser 14:Loading Stock - 60000
+
+Vuser 15:Loading District
+
+Vuser 3:Loading District
+
+Vuser 17:Loading Stock - 60000
+
+Vuser 4:Loading District
+
+Vuser 2:Customer Done
+
+Vuser 10:Loading Stock - 60000
+
+Vuser 16:Stock done
+
+Vuser 11:Loading District
+
+Vuser 6:Stock done
+
+Vuser 12:Loading Stock - 20000
+
+Vuser 5:Loading District
+
+Vuser 7:Loading District
+
+Vuser 15:District done
+
+Vuser 3:District done
+
+Vuser 4:District done
+
+Vuser 2:Loading Customer for DID=5 WID=1
+
+Vuser 16:Loading District
+
+Vuser 11:District done
+
+Vuser 6:Loading District
+
+Vuser 5:District done
+
+Vuser 7:District done
+
+Vuser 15:Loading Stock Wid=69
+
+Vuser 3:Loading Customer for DID=1 WID=6
+
+Vuser 4:Loading Customer for DID=1 WID=11
+
+Vuser 16:District done
+
+Vuser 11:Loading Stock Wid=50
+
+Vuser 13:Loading Stock - 80000
+
+Vuser 6:District done
+
+Vuser 8:Loading Stock - 100000
+
+Vuser 9:Loading Stock - 80000
+
+Vuser 14:Loading Stock - 80000
+
+Vuser 5:Loading Customer for DID=1 WID=16
+
+Vuser 7:Loading Customer for DID=1 WID=26
+
+Vuser 2:Customer Done
+
+Vuser 16:Loading Stock Wid=74
+
+Vuser 6:Loading Customer for DID=1 WID=21
+
+Vuser 8:Stock done
+
+Vuser 17:Loading Stock - 80000
+
+Vuser 3:Customer Done
+
+Vuser 2:Loading Customer for DID=6 WID=1
+
+Vuser 10:Loading Stock - 80000
+
+Vuser 4:Customer Done
+
+Vuser 8:Loading District
+
+Vuser 12:Loading Stock - 40000
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 3:Loading Customer for DID=2 WID=6
+
+Vuser 4:Loading Customer for DID=2 WID=11
+
+Vuser 8:District done
+
+Vuser 15:Loading Stock - 20000
+
+Vuser 2:Customer Done
+
+Vuser 5:Loading Customer for DID=2 WID=16
+
+Vuser 13:Loading Stock - 100000
+
+Vuser 7:Loading Customer for DID=2 WID=26
+
+Vuser 6:Loading Customer for DID=2 WID=21
+
+Vuser 11:Loading Stock - 20000
+
+Vuser 8:Loading Customer for DID=1 WID=31
+
+Vuser 9:Loading Stock - 100000
+
+Vuser 2:Loading Customer for DID=7 WID=1
+
+Vuser 14:Loading Stock - 100000
+
+Vuser 13:Stock done
+
+Vuser 16:Loading Stock - 20000
+
+Vuser 3:Customer Done
+
+Vuser 9:Stock done
+
+Vuser 4:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 17:Loading Stock - 100000
+
+Vuser 7:Customer Done
+
+Vuser 14:Stock done
+
+Vuser 8:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 13:Loading District
+
+Vuser 10:Loading Stock - 100000
+
+Vuser 3:Loading Customer for DID=3 WID=6
+
+Vuser 9:Loading District
+
+Vuser 4:Loading Customer for DID=3 WID=11
+
+Vuser 5:Loading Customer for DID=3 WID=16
+
+Vuser 17:Stock done
+
+Vuser 2:Customer Done
+
+Vuser 7:Loading Customer for DID=3 WID=26
+
+Vuser 14:Loading District
+
+Vuser 8:Loading Customer for DID=2 WID=31
+
+Vuser 12:Loading Stock - 60000
+
+Vuser 6:Loading Customer for DID=3 WID=21
+
+Vuser 13:District done
+
+Vuser 10:Stock done
+
+Vuser 9:District done
+
+Vuser 17:Loading District
+
+Vuser 2:Loading Customer for DID=8 WID=1
+
+Vuser 14:District done
+
+Vuser 15:Loading Stock - 40000
+
+Vuser 13:Loading Stock Wid=60
+
+Vuser 10:Loading District
+
+Vuser 9:Loading Customer for DID=1 WID=36
+
+Vuser 17:District done
+
+Vuser 14:Loading Stock Wid=65
+
+Vuser 10:District done
+
+Vuser 3:Customer Done
+
+Vuser 11:Loading Stock - 40000
+
+Vuser 4:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 17:Loading Stock Wid=79
+
+Vuser 7:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 10:Loading Customer for DID=1 WID=41
+
+Vuser 3:Loading Customer for DID=4 WID=6
+
+Vuser 2:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 4:Loading Customer for DID=4 WID=11
+
+Vuser 5:Loading Customer for DID=4 WID=16
+
+Vuser 7:Loading Customer for DID=4 WID=26
+
+Vuser 8:Loading Customer for DID=3 WID=31
+
+Vuser 6:Loading Customer for DID=4 WID=21
+
+Vuser 2:Loading Customer for DID=9 WID=1
+
+Vuser 9:Loading Customer for DID=2 WID=36
+
+Vuser 16:Loading Stock - 40000
+
+Vuser 3:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 12:Loading Stock - 80000
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 3:Loading Customer for DID=5 WID=6
+
+Vuser 4:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 15:Loading Stock - 60000
+
+Vuser 10:Loading Customer for DID=2 WID=41
+
+Vuser 2:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 13:Loading Stock - 20000
+
+Vuser 5:Loading Customer for DID=5 WID=16
+
+Vuser 7:Loading Customer for DID=5 WID=26
+
+Vuser 4:Loading Customer for DID=5 WID=11
+
+Vuser 8:Loading Customer for DID=4 WID=31
+
+Vuser 6:Loading Customer for DID=5 WID=21
+
+Vuser 14:Loading Stock - 20000
+
+Vuser 2:Loading Customer for DID=10 WID=1
+
+Vuser 9:Loading Customer for DID=3 WID=36
+
+Vuser 11:Loading Stock - 60000
+
+Vuser 17:Loading Stock - 20000
+
+Vuser 3:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 16:Loading Stock - 60000
+
+Vuser 7:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 12:Loading Stock - 100000
+
+Vuser 3:Loading Customer for DID=6 WID=6
+
+Vuser 6:Customer Done
+
+Vuser 10:Loading Customer for DID=3 WID=41
+
+Vuser 15:Loading Stock - 80000
+
+Vuser 5:Loading Customer for DID=6 WID=16
+
+Vuser 7:Loading Customer for DID=6 WID=26
+
+Vuser 2:Customer Done
+
+Vuser 4:Loading Customer for DID=6 WID=11
+
+Vuser 9:Customer Done
+
+Vuser 8:Loading Customer for DID=5 WID=31
+
+Vuser 12:Stock done
+
+Vuser 6:Loading Customer for DID=6 WID=21
+
+Vuser 13:Loading Stock - 40000
+
+Vuser 2:Loading Customer for DID=1 WID=2
+
+Vuser 9:Loading Customer for DID=4 WID=36
+
+Vuser 3:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 12:Loading District
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 3:Loading Customer for DID=7 WID=6
+
+Vuser 10:Loading Customer for DID=4 WID=41
+
+Vuser 14:Loading Stock - 40000
+
+Vuser 11:Loading Stock - 80000
+
+Vuser 12:District done
+
+Vuser 8:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 5:Loading Customer for DID=7 WID=16
+
+Vuser 17:Loading Stock - 40000
+
+Vuser 2:Customer Done
+
+Vuser 7:Loading Customer for DID=7 WID=26
+
+Vuser 4:Loading Customer for DID=7 WID=11
+
+Vuser 9:Customer Done
+
+Vuser 16:Loading Stock - 80000
+
+Vuser 12:Loading Customer for DID=1 WID=51
+
+Vuser 8:Loading Customer for DID=6 WID=31
+
+Vuser 6:Loading Customer for DID=7 WID=21
+
+Vuser 15:Loading Stock - 100000
+
+Vuser 2:Loading Customer for DID=2 WID=2
+
+Vuser 9:Loading Customer for DID=5 WID=36
+
+Vuser 3:Customer Done
+
+Vuser 15:Stock done
+
+Vuser 10:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 3:Loading Customer for DID=8 WID=6
+
+Vuser 13:Loading Stock - 60000
+
+Vuser 8:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 15:Loading District
+
+Vuser 2:Customer Done
+
+Vuser 10:Loading Customer for DID=5 WID=41
+
+Vuser 5:Loading Customer for DID=8 WID=16
+
+Vuser 7:Loading Customer for DID=8 WID=26
+
+Vuser 4:Loading Customer for DID=8 WID=11
+
+Vuser 12:Loading Customer for DID=2 WID=51
+
+Vuser 9:Customer Done
+
+Vuser 8:Loading Customer for DID=7 WID=31
+
+Vuser 6:Loading Customer for DID=8 WID=21
+
+Vuser 15:District done
+
+Vuser 14:Loading Stock - 60000
+
+Vuser 11:Loading Stock - 100000
+
+Vuser 2:Loading Customer for DID=3 WID=2
+
+Vuser 9:Loading Customer for DID=6 WID=36
+
+Vuser 3:Customer Done
+
+Vuser 15:Loading Stock Wid=70
+
+Vuser 11:Stock done
+
+Vuser 17:Loading Stock - 60000
+
+Vuser 16:Loading Stock - 100000
+
+Vuser 10:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 3:Loading Customer for DID=9 WID=6
+
+Vuser 12:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 11:Loading District
+
+Vuser 16:Stock done
+
+Vuser 2:Customer Done
+
+Vuser 10:Loading Customer for DID=6 WID=41
+
+Vuser 5:Loading Customer for DID=9 WID=16
+
+Vuser 7:Loading Customer for DID=9 WID=26
+
+Vuser 4:Loading Customer for DID=9 WID=11
+
+Vuser 9:Customer Done
+
+Vuser 12:Loading Customer for DID=3 WID=51
+
+Vuser 8:Loading Customer for DID=8 WID=31
+
+Vuser 6:Loading Customer for DID=9 WID=21
+
+Vuser 11:District done
+
+Vuser 16:Loading District
+
+Vuser 2:Loading Customer for DID=4 WID=2
+
+Vuser 9:Loading Customer for DID=7 WID=36
+
+Vuser 13:Loading Stock - 80000
+
+Vuser 11:Loading Customer for DID=1 WID=46
+
+Vuser 16:District done
+
+Vuser 3:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 16:Loading Stock Wid=75
+
+Vuser 12:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 14:Loading Stock - 80000
+
+Vuser 3:Loading Customer for DID=10 WID=6
+
+Vuser 10:Loading Customer for DID=7 WID=41
+
+Vuser 5:Loading Customer for DID=10 WID=16
+
+Vuser 2:Customer Done
+
+Vuser 7:Loading Customer for DID=10 WID=26
+
+Vuser 9:Customer Done
+
+Vuser 12:Loading Customer for DID=4 WID=51
+
+Vuser 4:Loading Customer for DID=10 WID=11
+
+Vuser 11:Customer Done
+
+Vuser 8:Loading Customer for DID=9 WID=31
+
+Vuser 15:Loading Stock - 20000
+
+Vuser 6:Loading Customer for DID=10 WID=21
+
+Vuser 17:Loading Stock - 80000
+
+Vuser 2:Loading Customer for DID=5 WID=2
+
+Vuser 9:Loading Customer for DID=8 WID=36
+
+Vuser 11:Loading Customer for DID=2 WID=46
+
+Vuser 3:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 3:Loading Customer for DID=1 WID=7
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 10:Loading Customer for DID=8 WID=41
+
+Vuser 2:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 5:Loading Customer for DID=1 WID=17
+
+Vuser 13:Loading Stock - 100000
+
+Vuser 7:Loading Customer for DID=1 WID=27
+
+Vuser 12:Loading Customer for DID=5 WID=51
+
+Vuser 4:Loading Customer for DID=1 WID=12
+
+Vuser 8:Loading Customer for DID=10 WID=31
+
+Vuser 6:Loading Customer for DID=1 WID=22
+
+Vuser 2:Loading Customer for DID=6 WID=2
+
+Vuser 3:Customer Done
+
+Vuser 9:Loading Customer for DID=9 WID=36
+
+Vuser 16:Loading Stock - 20000
+
+Vuser 11:Loading Customer for DID=3 WID=46
+
+Vuser 13:Stock done
+
+Vuser 10:Customer Done
+
+Vuser 14:Loading Stock - 100000
+
+Vuser 3:Loading Customer for DID=2 WID=7
+
+Vuser 15:Loading Stock - 40000
+
+Vuser 17:Loading Stock - 100000
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 13:Loading District
+
+Vuser 12:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 10:Loading Customer for DID=9 WID=41
+
+Vuser 16:Loading Stock - 40000
+
+Vuser 14:Stock done
+
+Vuser 3:Customer Done
+
+Vuser 17:Stock done
+
+Vuser 15:Loading Stock - 60000
+
+Vuser 5:Loading Customer for DID=2 WID=17
+
+Vuser 7:Loading Customer for DID=2 WID=27
+
+Vuser 13:District done
+
+Vuser 12:Loading Customer for DID=6 WID=51
+
+Vuser 4:Loading Customer for DID=2 WID=12
+
+Vuser 8:Loading Customer for DID=1 WID=32
+
+Vuser 6:Loading Customer for DID=2 WID=22
+
+Vuser 2:Loading Customer for DID=7 WID=2
+
+Vuser 9:Loading Customer for DID=10 WID=36
+
+Vuser 11:Loading Customer for DID=4 WID=46
+
+Vuser 14:Loading District
+
+Vuser 3:Loading Customer for DID=3 WID=7
+
+Vuser 17:Loading District
+
+Vuser 13:Loading Customer for DID=1 WID=56
+
+Vuser 14:District done
+
+Vuser 17:District done
+
+Vuser 10:Customer Done
+
+Vuser 14:Loading Customer for DID=1 WID=61
+
+Vuser 17:Loading Stock Wid=80
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 10:Loading Customer for DID=10 WID=41
+
+Vuser 12:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 5:Loading Customer for DID=3 WID=17
+
+Vuser 7:Loading Customer for DID=3 WID=27
+
+Vuser 13:Customer Done
+
+Vuser 12:Loading Customer for DID=7 WID=51
+
+Vuser 4:Loading Customer for DID=3 WID=12
+
+Vuser 8:Loading Customer for DID=2 WID=32
+
+Vuser 6:Loading Customer for DID=3 WID=22
+
+Vuser 2:Loading Customer for DID=8 WID=2
+
+Vuser 9:Loading Customer for DID=1 WID=37
+
+Vuser 11:Loading Customer for DID=5 WID=46
+
+Vuser 3:Loading Customer for DID=4 WID=7
+
+Vuser 14:Customer Done
+
+Vuser 13:Loading Customer for DID=2 WID=56
+
+Vuser 10:Customer Done
+
+Vuser 16:Loading Stock - 60000
+
+Vuser 15:Loading Stock - 80000
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 14:Loading Customer for DID=2 WID=61
+
+Vuser 4:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 10:Loading Customer for DID=1 WID=42
+
+Vuser 9:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 17:Loading Stock - 20000
+
+Vuser 13:Customer Done
+
+Vuser 5:Loading Customer for DID=4 WID=17
+
+Vuser 7:Loading Customer for DID=4 WID=27
+
+Vuser 12:Loading Customer for DID=8 WID=51
+
+Vuser 4:Loading Customer for DID=4 WID=12
+
+Vuser 8:Loading Customer for DID=3 WID=32
+
+Vuser 6:Loading Customer for DID=4 WID=22
+
+Vuser 2:Loading Customer for DID=9 WID=2
+
+Vuser 9:Loading Customer for DID=2 WID=37
+
+Vuser 11:Loading Customer for DID=6 WID=46
+
+Vuser 3:Loading Customer for DID=5 WID=7
+
+Vuser 13:Loading Customer for DID=3 WID=56
+
+Vuser 14:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 14:Loading Customer for DID=3 WID=61
+
+Vuser 10:Loading Customer for DID=2 WID=42
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 5:Loading Customer for DID=5 WID=17
+
+Vuser 7:Loading Customer for DID=5 WID=27
+
+Vuser 14:Customer Done
+
+Vuser 12:Loading Customer for DID=9 WID=51
+
+Vuser 16:Loading Stock - 80000
+
+Vuser 15:Loading Stock - 100000
+
+Vuser 10:Customer Done
+
+Vuser 4:Loading Customer for DID=5 WID=12
+
+Vuser 8:Loading Customer for DID=4 WID=32
+
+Vuser 17:Loading Stock - 40000
+
+Vuser 6:Loading Customer for DID=5 WID=22
+
+Vuser 2:Loading Customer for DID=10 WID=2
+
+Vuser 9:Loading Customer for DID=3 WID=37
+
+Vuser 11:Loading Customer for DID=7 WID=46
+
+Vuser 3:Loading Customer for DID=6 WID=7
+
+Vuser 13:Loading Customer for DID=4 WID=56
+
+Vuser 14:Loading Customer for DID=4 WID=61
+
+Vuser 15:Stock done
+
+Vuser 10:Loading Customer for DID=3 WID=42
+
+Vuser 15:Loading District
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 15:District done
+
+Vuser 5:Loading Customer for DID=6 WID=17
+
+Vuser 12:Customer Done
+
+Vuser 7:Loading Customer for DID=6 WID=27
+
+Vuser 15:Loading Customer for DID=1 WID=66
+
+Vuser 4:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 12:Loading Customer for DID=10 WID=51
+
+Vuser 2:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 4:Loading Customer for DID=6 WID=12
+
+Vuser 5:Customer Done
+
+Vuser 8:Loading Customer for DID=5 WID=32
+
+Vuser 7:Customer Done
+
+Vuser 6:Loading Customer for DID=6 WID=22
+
+Vuser 2:Loading Customer for DID=1 WID=3
+
+Vuser 9:Loading Customer for DID=4 WID=37
+
+Vuser 11:Loading Customer for DID=8 WID=46
+
+Vuser 3:Loading Customer for DID=7 WID=7
+
+Vuser 13:Loading Customer for DID=5 WID=56
+
+Vuser 14:Loading Customer for DID=5 WID=61
+
+Vuser 10:Loading Customer for DID=4 WID=42
+
+Vuser 15:Customer Done
+
+Vuser 5:Loading Customer for DID=7 WID=17
+
+Vuser 7:Loading Customer for DID=7 WID=27
+
+Vuser 16:Loading Stock - 100000
+
+Vuser 17:Loading Stock - 60000
+
+Vuser 12:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 15:Loading Customer for DID=2 WID=66
+
+Vuser 9:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 16:Stock done
+
+Vuser 11:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 12:Loading Customer for DID=1 WID=52
+
+Vuser 10:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 4:Loading Customer for DID=7 WID=12
+
+Vuser 7:Customer Done
+
+Vuser 9:Loading Customer for DID=5 WID=37
+
+Vuser 6:Loading Customer for DID=7 WID=22
+
+Vuser 8:Loading Customer for DID=6 WID=32
+
+Vuser 2:Loading Customer for DID=2 WID=3
+
+Vuser 16:Loading District
+
+Vuser 11:Loading Customer for DID=9 WID=46
+
+Vuser 3:Loading Customer for DID=8 WID=7
+
+Vuser 13:Loading Customer for DID=6 WID=56
+
+Vuser 14:Loading Customer for DID=6 WID=61
+
+Vuser 10:Loading Customer for DID=5 WID=42
+
+Vuser 5:Loading Customer for DID=8 WID=17
+
+Vuser 7:Loading Customer for DID=8 WID=27
+
+Vuser 16:District done
+
+Vuser 15:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 16:Loading Customer for DID=1 WID=71
+
+Vuser 10:Customer Done
+
+Vuser 15:Loading Customer for DID=3 WID=66
+
+Vuser 5:Customer Done
+
+Vuser 12:Loading Customer for DID=2 WID=52
+
+Vuser 17:Loading Stock - 80000
+
+Vuser 4:Loading Customer for DID=8 WID=12
+
+Vuser 9:Loading Customer for DID=6 WID=37
+
+Vuser 6:Loading Customer for DID=8 WID=22
+
+Vuser 8:Loading Customer for DID=7 WID=32
+
+Vuser 2:Loading Customer for DID=3 WID=3
+
+Vuser 11:Loading Customer for DID=10 WID=46
+
+Vuser 3:Loading Customer for DID=9 WID=7
+
+Vuser 13:Loading Customer for DID=7 WID=56
+
+Vuser 7:Customer Done
+
+Vuser 14:Loading Customer for DID=7 WID=61
+
+Vuser 10:Loading Customer for DID=6 WID=42
+
+Vuser 5:Loading Customer for DID=9 WID=17
+
+Vuser 16:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 7:Loading Customer for DID=9 WID=27
+
+Vuser 9:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 16:Loading Customer for DID=2 WID=71
+
+Vuser 15:Loading Customer for DID=4 WID=66
+
+Vuser 12:Loading Customer for DID=3 WID=52
+
+Vuser 4:Loading Customer for DID=9 WID=12
+
+Vuser 13:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 9:Loading Customer for DID=7 WID=37
+
+Vuser 6:Loading Customer for DID=9 WID=22
+
+Vuser 8:Loading Customer for DID=8 WID=32
+
+Vuser 2:Loading Customer for DID=4 WID=3
+
+Vuser 11:Loading Customer for DID=1 WID=47
+
+Vuser 3:Loading Customer for DID=10 WID=7
+
+Vuser 10:Customer Done
+
+Vuser 13:Loading Customer for DID=8 WID=56
+
+Vuser 14:Loading Customer for DID=8 WID=61
+
+Vuser 5:Customer Done
+
+Vuser 17:Loading Stock - 100000
+
+Vuser 7:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 10:Loading Customer for DID=7 WID=42
+
+Vuser 9:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 5:Loading Customer for DID=10 WID=17
+
+Vuser 2:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 17:Stock done
+
+Vuser 7:Loading Customer for DID=10 WID=27
+
+Vuser 13:Customer Done
+
+Vuser 16:Loading Customer for DID=3 WID=71
+
+Vuser 14:Customer Done
+
+Vuser 15:Loading Customer for DID=5 WID=66
+
+Vuser 12:Loading Customer for DID=4 WID=52
+
+Vuser 4:Loading Customer for DID=10 WID=12
+
+Vuser 9:Loading Customer for DID=8 WID=37
+
+Vuser 6:Loading Customer for DID=10 WID=22
+
+Vuser 8:Loading Customer for DID=9 WID=32
+
+Vuser 2:Loading Customer for DID=5 WID=3
+
+Vuser 11:Loading Customer for DID=2 WID=47
+
+Vuser 3:Loading Customer for DID=1 WID=8
+
+Vuser 17:Loading District
+
+Vuser 13:Loading Customer for DID=9 WID=56
+
+Vuser 14:Loading Customer for DID=9 WID=61
+
+Vuser 10:Customer Done
+
+Vuser 17:District done
+
+Vuser 5:Customer Done
+
+Vuser 10:Loading Customer for DID=8 WID=42
+
+Vuser 16:Customer Done
+
+Vuser 17:Loading Customer for DID=1 WID=76
+
+Vuser 7:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 5:Loading Customer for DID=1 WID=18
+
+Vuser 16:Loading Customer for DID=4 WID=71
+
+Vuser 8:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 7:Loading Customer for DID=1 WID=28
+
+Vuser 13:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 12:Loading Customer for DID=5 WID=52
+
+Vuser 10:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 15:Loading Customer for DID=6 WID=66
+
+Vuser 8:Loading Customer for DID=10 WID=32
+
+Vuser 4:Loading Customer for DID=1 WID=13
+
+Vuser 9:Loading Customer for DID=9 WID=37
+
+Vuser 11:Loading Customer for DID=3 WID=47
+
+Vuser 2:Loading Customer for DID=6 WID=3
+
+Vuser 6:Loading Customer for DID=1 WID=23
+
+Vuser 3:Loading Customer for DID=2 WID=8
+
+Vuser 13:Loading Customer for DID=10 WID=56
+
+Vuser 14:Loading Customer for DID=10 WID=61
+
+Vuser 10:Loading Customer for DID=9 WID=42
+
+Vuser 17:Loading Customer for DID=2 WID=76
+
+Vuser 5:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 5:Loading Customer for DID=2 WID=18
+
+Vuser 16:Loading Customer for DID=5 WID=71
+
+Vuser 7:Loading Customer for DID=2 WID=28
+
+Vuser 15:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 15:Loading Customer for DID=7 WID=66
+
+Vuser 12:Loading Customer for DID=6 WID=52
+
+Vuser 8:Loading Customer for DID=1 WID=33
+
+Vuser 4:Loading Customer for DID=2 WID=13
+
+Vuser 2:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 9:Loading Customer for DID=10 WID=37
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 2:Loading Customer for DID=7 WID=3
+
+Vuser 11:Loading Customer for DID=4 WID=47
+
+Vuser 6:Loading Customer for DID=2 WID=23
+
+Vuser 3:Loading Customer for DID=3 WID=8
+
+Vuser 15:Customer Done
+
+Vuser 14:Loading Customer for DID=1 WID=62
+
+Vuser 12:Customer Done
+
+Vuser 13:Loading Customer for DID=1 WID=57
+
+Vuser 8:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 10:Loading Customer for DID=10 WID=42
+
+Vuser 17:Loading Customer for DID=3 WID=76
+
+Vuser 5:Loading Customer for DID=3 WID=18
+
+Vuser 16:Loading Customer for DID=6 WID=71
+
+Vuser 7:Loading Customer for DID=3 WID=28
+
+Vuser 15:Loading Customer for DID=8 WID=66
+
+Vuser 12:Loading Customer for DID=7 WID=52
+
+Vuser 8:Loading Customer for DID=2 WID=33
+
+Vuser 4:Loading Customer for DID=3 WID=13
+
+Vuser 9:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 9:Loading Customer for DID=1 WID=38
+
+Vuser 10:Customer Done
+
+Vuser 2:Loading Customer for DID=8 WID=3
+
+Vuser 17:Customer Done
+
+Vuser 11:Loading Customer for DID=5 WID=47
+
+Vuser 6:Loading Customer for DID=3 WID=23
+
+Vuser 5:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 3:Loading Customer for DID=4 WID=8
+
+Vuser 8:Customer Done
+
+Vuser 14:Loading Customer for DID=2 WID=62
+
+Vuser 4:Customer Done
+
+Vuser 13:Loading Customer for DID=2 WID=57
+
+Vuser 10:Loading Customer for DID=1 WID=43
+
+Vuser 17:Loading Customer for DID=4 WID=76
+
+Vuser 5:Loading Customer for DID=4 WID=18
+
+Vuser 16:Loading Customer for DID=7 WID=71
+
+Vuser 7:Loading Customer for DID=4 WID=28
+
+Vuser 15:Loading Customer for DID=9 WID=66
+
+Vuser 12:Loading Customer for DID=8 WID=52
+
+Vuser 8:Loading Customer for DID=3 WID=33
+
+Vuser 4:Loading Customer for DID=4 WID=13
+
+Vuser 9:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 9:Loading Customer for DID=2 WID=38
+
+Vuser 2:Loading Customer for DID=9 WID=3
+
+Vuser 3:Customer Done
+
+Vuser 11:Loading Customer for DID=6 WID=47
+
+Vuser 6:Loading Customer for DID=4 WID=23
+
+Vuser 14:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 3:Loading Customer for DID=5 WID=8
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 14:Loading Customer for DID=3 WID=62
+
+Vuser 13:Loading Customer for DID=3 WID=57
+
+Vuser 10:Loading Customer for DID=2 WID=43
+
+Vuser 11:Customer Done
+
+Vuser 17:Loading Customer for DID=5 WID=76
+
+Vuser 5:Loading Customer for DID=5 WID=18
+
+Vuser 16:Loading Customer for DID=8 WID=71
+
+Vuser 7:Loading Customer for DID=5 WID=28
+
+Vuser 15:Loading Customer for DID=10 WID=66
+
+Vuser 12:Loading Customer for DID=9 WID=52
+
+Vuser 8:Loading Customer for DID=4 WID=33
+
+Vuser 4:Loading Customer for DID=5 WID=13
+
+Vuser 9:Loading Customer for DID=3 WID=38
+
+Vuser 2:Loading Customer for DID=10 WID=3
+
+Vuser 11:Loading Customer for DID=7 WID=47
+
+Vuser 6:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 6:Loading Customer for DID=5 WID=23
+
+Vuser 3:Loading Customer for DID=6 WID=8
+
+Vuser 14:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 14:Loading Customer for DID=4 WID=62
+
+Vuser 11:Customer Done
+
+Vuser 13:Loading Customer for DID=4 WID=57
+
+Vuser 10:Loading Customer for DID=3 WID=43
+
+Vuser 17:Loading Customer for DID=6 WID=76
+
+Vuser 5:Loading Customer for DID=6 WID=18
+
+Vuser 16:Loading Customer for DID=9 WID=71
+
+Vuser 6:Customer Done
+
+Vuser 7:Loading Customer for DID=6 WID=28
+
+Vuser 15:Loading Customer for DID=1 WID=67
+
+Vuser 12:Loading Customer for DID=10 WID=52
+
+Vuser 8:Loading Customer for DID=5 WID=33
+
+Vuser 4:Loading Customer for DID=6 WID=13
+
+Vuser 9:Loading Customer for DID=4 WID=38
+
+Vuser 3:Customer Done
+
+Vuser 2:Loading Customer for DID=1 WID=4
+
+Vuser 11:Loading Customer for DID=8 WID=47
+
+Vuser 6:Loading Customer for DID=6 WID=23
+
+Vuser 3:Loading Customer for DID=7 WID=8
+
+Vuser 14:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 14:Loading Customer for DID=5 WID=62
+
+Vuser 4:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 13:Loading Customer for DID=5 WID=57
+
+Vuser 10:Loading Customer for DID=4 WID=43
+
+Vuser 17:Loading Customer for DID=7 WID=76
+
+Vuser 5:Loading Customer for DID=7 WID=18
+
+Vuser 16:Loading Customer for DID=10 WID=71
+
+Vuser 7:Loading Customer for DID=7 WID=28
+
+Vuser 15:Loading Customer for DID=2 WID=67
+
+Vuser 12:Loading Customer for DID=1 WID=53
+
+Vuser 8:Loading Customer for DID=6 WID=33
+
+Vuser 4:Loading Customer for DID=7 WID=13
+
+Vuser 9:Loading Customer for DID=5 WID=38
+
+Vuser 2:Loading Customer for DID=2 WID=4
+
+Vuser 11:Loading Customer for DID=9 WID=47
+
+Vuser 6:Loading Customer for DID=7 WID=23
+
+Vuser 3:Loading Customer for DID=8 WID=8
+
+Vuser 14:Customer Done
+
+Vuser 14:Loading Customer for DID=6 WID=62
+
+Vuser 13:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 13:Loading Customer for DID=6 WID=57
+
+Vuser 12:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 17:Loading Customer for DID=8 WID=76
+
+Vuser 6:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 5:Loading Customer for DID=8 WID=18
+
+Vuser 10:Loading Customer for DID=5 WID=43
+
+Vuser 16:Loading Customer for DID=1 WID=72
+
+Vuser 7:Loading Customer for DID=8 WID=28
+
+Vuser 15:Loading Customer for DID=3 WID=67
+
+Vuser 12:Loading Customer for DID=2 WID=53
+
+Vuser 8:Loading Customer for DID=7 WID=33
+
+Vuser 9:Loading Customer for DID=6 WID=38
+
+Vuser 4:Loading Customer for DID=8 WID=13
+
+Vuser 2:Loading Customer for DID=3 WID=4
+
+Vuser 11:Loading Customer for DID=10 WID=47
+
+Vuser 6:Loading Customer for DID=8 WID=23
+
+Vuser 3:Loading Customer for DID=9 WID=8
+
+Vuser 14:Loading Customer for DID=7 WID=62
+
+Vuser 13:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 13:Loading Customer for DID=7 WID=57
+
+Vuser 7:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 17:Loading Customer for DID=9 WID=76
+
+Vuser 11:Customer Done
+
+Vuser 5:Loading Customer for DID=9 WID=18
+
+Vuser 6:Customer Done
+
+Vuser 12:Loading Customer for DID=3 WID=53
+
+Vuser 3:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 7:Loading Customer for DID=9 WID=28
+
+Vuser 16:Loading Customer for DID=2 WID=72
+
+Vuser 15:Loading Customer for DID=4 WID=67
+
+Vuser 10:Loading Customer for DID=6 WID=43
+
+Vuser 8:Loading Customer for DID=8 WID=33
+
+Vuser 9:Loading Customer for DID=7 WID=38
+
+Vuser 4:Loading Customer for DID=9 WID=13
+
+Vuser 2:Loading Customer for DID=4 WID=4
+
+Vuser 11:Loading Customer for DID=1 WID=48
+
+Vuser 6:Loading Customer for DID=9 WID=23
+
+Vuser 3:Loading Customer for DID=10 WID=8
+
+Vuser 14:Loading Customer for DID=8 WID=62
+
+Vuser 13:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 13:Loading Customer for DID=8 WID=57
+
+Vuser 16:Customer Done
+
+Vuser 17:Loading Customer for DID=10 WID=76
+
+Vuser 15:Customer Done
+
+Vuser 5:Loading Customer for DID=10 WID=18
+
+Vuser 10:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 12:Loading Customer for DID=4 WID=53
+
+Vuser 4:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 7:Loading Customer for DID=10 WID=28
+
+Vuser 11:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 16:Loading Customer for DID=3 WID=72
+
+Vuser 15:Loading Customer for DID=5 WID=67
+
+Vuser 10:Loading Customer for DID=7 WID=43
+
+Vuser 8:Loading Customer for DID=9 WID=33
+
+Vuser 9:Loading Customer for DID=8 WID=38
+
+Vuser 4:Loading Customer for DID=10 WID=13
+
+Vuser 2:Loading Customer for DID=5 WID=4
+
+Vuser 11:Loading Customer for DID=2 WID=48
+
+Vuser 6:Loading Customer for DID=10 WID=23
+
+Vuser 3:Loading Customer for DID=1 WID=9
+
+Vuser 14:Loading Customer for DID=9 WID=62
+
+Vuser 13:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 13:Loading Customer for DID=9 WID=57
+
+Vuser 17:Loading Customer for DID=1 WID=77
+
+Vuser 16:Customer Done
+
+Vuser 5:Loading Customer for DID=1 WID=19
+
+Vuser 15:Customer Done
+
+Vuser 12:Loading Customer for DID=5 WID=53
+
+Vuser 10:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 7:Loading Customer for DID=1 WID=29
+
+Vuser 9:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 16:Loading Customer for DID=4 WID=72
+
+Vuser 15:Loading Customer for DID=6 WID=67
+
+Vuser 10:Loading Customer for DID=8 WID=43
+
+Vuser 8:Loading Customer for DID=10 WID=33
+
+Vuser 9:Loading Customer for DID=9 WID=38
+
+Vuser 4:Loading Customer for DID=1 WID=14
+
+Vuser 2:Loading Customer for DID=6 WID=4
+
+Vuser 11:Loading Customer for DID=3 WID=48
+
+Vuser 6:Loading Customer for DID=1 WID=24
+
+Vuser 3:Loading Customer for DID=2 WID=9
+
+Vuser 14:Loading Customer for DID=10 WID=62
+
+Vuser 13:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 13:Loading Customer for DID=10 WID=57
+
+Vuser 17:Loading Customer for DID=2 WID=77
+
+Vuser 5:Loading Customer for DID=2 WID=19
+
+Vuser 12:Loading Customer for DID=6 WID=53
+
+Vuser 7:Loading Customer for DID=2 WID=29
+
+Vuser 16:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 16:Loading Customer for DID=5 WID=72
+
+Vuser 15:Loading Customer for DID=7 WID=67
+
+Vuser 10:Loading Customer for DID=9 WID=43
+
+Vuser 8:Loading Customer for DID=1 WID=34
+
+Vuser 13:Customer Done
+
+Vuser 9:Loading Customer for DID=10 WID=38
+
+Vuser 6:Loading Customer for DID=2 WID=24
+
+Vuser 4:Loading Customer for DID=2 WID=14
+
+Vuser 2:Loading Customer for DID=7 WID=4
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 3:Loading Customer for DID=3 WID=9
+
+Vuser 14:Loading Customer for DID=1 WID=63
+
+Vuser 11:Loading Customer for DID=4 WID=48
+
+Vuser 7:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 13:Loading Customer for DID=1 WID=58
+
+Vuser 17:Loading Customer for DID=3 WID=77
+
+Vuser 5:Loading Customer for DID=3 WID=19
+
+Vuser 7:Loading Customer for DID=3 WID=29
+
+Vuser 12:Loading Customer for DID=7 WID=53
+
+Vuser 16:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 16:Loading Customer for DID=6 WID=72
+
+Vuser 9:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 15:Loading Customer for DID=8 WID=67
+
+Vuser 2:Customer Done
+
+Vuser 10:Loading Customer for DID=10 WID=43
+
+Vuser 8:Loading Customer for DID=2 WID=34
+
+Vuser 9:Loading Customer for DID=1 WID=39
+
+Vuser 3:Loading Customer for DID=4 WID=9
+
+Vuser 13:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 6:Loading Customer for DID=3 WID=24
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 4:Loading Customer for DID=3 WID=14
+
+Vuser 2:Loading Customer for DID=8 WID=4
+
+Vuser 16:Customer Done
+
+Vuser 13:Loading Customer for DID=2 WID=58
+
+Vuser 14:Loading Customer for DID=2 WID=63
+
+Vuser 11:Loading Customer for DID=5 WID=48
+
+Vuser 17:Loading Customer for DID=4 WID=77
+
+Vuser 5:Loading Customer for DID=4 WID=19
+
+Vuser 7:Loading Customer for DID=4 WID=29
+
+Vuser 12:Loading Customer for DID=8 WID=53
+
+Vuser 16:Loading Customer for DID=7 WID=72
+
+Vuser 15:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 15:Loading Customer for DID=9 WID=67
+
+Vuser 10:Loading Customer for DID=1 WID=44
+
+Vuser 4:Customer Done
+
+Vuser 8:Loading Customer for DID=3 WID=34
+
+Vuser 2:Customer Done
+
+Vuser 9:Loading Customer for DID=2 WID=39
+
+Vuser 13:Customer Done
+
+Vuser 3:Loading Customer for DID=5 WID=9
+
+Vuser 6:Loading Customer for DID=4 WID=24
+
+Vuser 14:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 4:Loading Customer for DID=4 WID=14
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 2:Loading Customer for DID=9 WID=4
+
+Vuser 7:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 13:Loading Customer for DID=3 WID=58
+
+Vuser 14:Loading Customer for DID=3 WID=63
+
+Vuser 11:Loading Customer for DID=6 WID=48
+
+Vuser 17:Loading Customer for DID=5 WID=77
+
+Vuser 5:Loading Customer for DID=5 WID=19
+
+Vuser 7:Loading Customer for DID=5 WID=29
+
+Vuser 12:Loading Customer for DID=9 WID=53
+
+Vuser 16:Loading Customer for DID=8 WID=72
+
+Vuser 15:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 15:Loading Customer for DID=10 WID=67
+
+Vuser 2:Customer Done
+
+Vuser 10:Loading Customer for DID=2 WID=44
+
+Vuser 8:Loading Customer for DID=4 WID=34
+
+Vuser 9:Loading Customer for DID=3 WID=39
+
+Vuser 3:Loading Customer for DID=6 WID=9
+
+Vuser 13:Customer Done
+
+Vuser 6:Loading Customer for DID=5 WID=24
+
+Vuser 14:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 4:Loading Customer for DID=5 WID=14
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 2:Loading Customer for DID=10 WID=4
+
+Vuser 16:Customer Done
+
+Vuser 13:Loading Customer for DID=4 WID=58
+
+Vuser 14:Loading Customer for DID=4 WID=63
+
+Vuser 11:Loading Customer for DID=7 WID=48
+
+Vuser 17:Loading Customer for DID=6 WID=77
+
+Vuser 5:Loading Customer for DID=6 WID=19
+
+Vuser 7:Loading Customer for DID=6 WID=29
+
+Vuser 12:Loading Customer for DID=10 WID=53
+
+Vuser 16:Loading Customer for DID=9 WID=72
+
+Vuser 15:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 15:Loading Customer for DID=1 WID=68
+
+Vuser 13:Customer Done
+
+Vuser 10:Loading Customer for DID=3 WID=44
+
+Vuser 8:Loading Customer for DID=5 WID=34
+
+Vuser 9:Loading Customer for DID=4 WID=39
+
+Vuser 6:Loading Customer for DID=6 WID=24
+
+Vuser 14:Customer Done
+
+Vuser 3:Loading Customer for DID=7 WID=9
+
+Vuser 4:Loading Customer for DID=6 WID=14
+
+Vuser 2:Loading Customer for DID=1 WID=5
+
+Vuser 11:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 13:Loading Customer for DID=5 WID=58
+
+Vuser 12:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 14:Loading Customer for DID=5 WID=63
+
+Vuser 6:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 11:Loading Customer for DID=8 WID=48
+
+Vuser 17:Loading Customer for DID=7 WID=77
+
+Vuser 5:Loading Customer for DID=7 WID=19
+
+Vuser 7:Loading Customer for DID=7 WID=29
+
+Vuser 13:Customer Done
+
+Vuser 12:Loading Customer for DID=1 WID=54
+
+Vuser 16:Loading Customer for DID=10 WID=72
+
+Vuser 15:Loading Customer for DID=2 WID=68
+
+Vuser 10:Loading Customer for DID=4 WID=44
+
+Vuser 8:Loading Customer for DID=6 WID=34
+
+Vuser 9:Loading Customer for DID=5 WID=39
+
+Vuser 6:Loading Customer for DID=7 WID=24
+
+Vuser 3:Loading Customer for DID=8 WID=9
+
+Vuser 4:Loading Customer for DID=7 WID=14
+
+Vuser 2:Loading Customer for DID=2 WID=5
+
+Vuser 13:Loading Customer for DID=6 WID=58
+
+Vuser 14:Customer Done
+
+Vuser 14:Loading Customer for DID=6 WID=63
+
+Vuser 11:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 11:Loading Customer for DID=9 WID=48
+
+Vuser 16:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 17:Loading Customer for DID=8 WID=77
+
+Vuser 5:Loading Customer for DID=8 WID=19
+
+Vuser 7:Loading Customer for DID=8 WID=29
+
+Vuser 13:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 16:Loading Customer for DID=1 WID=73
+
+Vuser 14:Customer Done
+
+Vuser 12:Loading Customer for DID=2 WID=54
+
+Vuser 15:Loading Customer for DID=3 WID=68
+
+Vuser 8:Loading Customer for DID=7 WID=34
+
+Vuser 10:Loading Customer for DID=5 WID=44
+
+Vuser 9:Loading Customer for DID=6 WID=39
+
+Vuser 3:Loading Customer for DID=9 WID=9
+
+Vuser 6:Loading Customer for DID=8 WID=24
+
+Vuser 13:Loading Customer for DID=7 WID=58
+
+Vuser 11:Customer Done
+
+Vuser 2:Loading Customer for DID=3 WID=5
+
+Vuser 4:Loading Customer for DID=8 WID=14
+
+Vuser 14:Loading Customer for DID=7 WID=63
+
+Vuser 11:Loading Customer for DID=10 WID=48
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 17:Loading Customer for DID=9 WID=77
+
+Vuser 5:Loading Customer for DID=9 WID=19
+
+Vuser 12:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 7:Loading Customer for DID=9 WID=29
+
+Vuser 13:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 16:Loading Customer for DID=2 WID=73
+
+Vuser 11:Customer Done
+
+Vuser 12:Loading Customer for DID=3 WID=54
+
+Vuser 8:Loading Customer for DID=8 WID=34
+
+Vuser 15:Loading Customer for DID=4 WID=68
+
+Vuser 3:Loading Customer for DID=10 WID=9
+
+Vuser 10:Loading Customer for DID=6 WID=44
+
+Vuser 9:Loading Customer for DID=7 WID=39
+
+Vuser 13:Loading Customer for DID=8 WID=58
+
+Vuser 4:Loading Customer for DID=9 WID=14
+
+Vuser 6:Loading Customer for DID=9 WID=24
+
+Vuser 14:Loading Customer for DID=8 WID=63
+
+Vuser 2:Loading Customer for DID=4 WID=5
+
+Vuser 11:Loading Customer for DID=1 WID=49
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 17:Loading Customer for DID=10 WID=77
+
+Vuser 10:Customer Done
+
+Vuser 5:Loading Customer for DID=10 WID=19
+
+Vuser 9:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 7:Loading Customer for DID=10 WID=29
+
+Vuser 16:Loading Customer for DID=3 WID=73
+
+Vuser 12:Loading Customer for DID=4 WID=54
+
+Vuser 8:Loading Customer for DID=9 WID=34
+
+Vuser 2:Customer Done
+
+Vuser 15:Loading Customer for DID=5 WID=68
+
+Vuser 3:Loading Customer for DID=1 WID=10
+
+Vuser 10:Loading Customer for DID=7 WID=44
+
+Vuser 9:Loading Customer for DID=8 WID=39
+
+Vuser 11:Customer Done
+
+Vuser 6:Loading Customer for DID=10 WID=24
+
+Vuser 14:Loading Customer for DID=9 WID=63
+
+Vuser 4:Loading Customer for DID=10 WID=14
+
+Vuser 13:Loading Customer for DID=9 WID=58
+
+Vuser 2:Loading Customer for DID=5 WID=5
+
+Vuser 11:Loading Customer for DID=2 WID=49
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 17:Loading Customer for DID=1 WID=78
+
+Vuser 3:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 5:Loading Customer for DID=1 WID=20
+
+Vuser 7:Loading Customer for DID=1 WID=30
+
+Vuser 16:Loading Customer for DID=4 WID=73
+
+Vuser 2:Customer Done
+
+Vuser 12:Loading Customer for DID=5 WID=54
+
+Vuser 11:Customer Done
+
+Vuser 8:Loading Customer for DID=10 WID=34
+
+Vuser 15:Loading Customer for DID=6 WID=68
+
+Vuser 3:Loading Customer for DID=2 WID=10
+
+Vuser 10:Loading Customer for DID=8 WID=44
+
+Vuser 9:Loading Customer for DID=9 WID=39
+
+Vuser 6:Loading Customer for DID=1 WID=25
+
+Vuser 14:Loading Customer for DID=10 WID=63
+
+Vuser 4:Loading Customer for DID=1 WID=15
+
+Vuser 13:Loading Customer for DID=10 WID=58
+
+Vuser 2:Loading Customer for DID=6 WID=5
+
+Vuser 11:Loading Customer for DID=3 WID=49
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 17:Loading Customer for DID=2 WID=78
+
+Vuser 12:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 5:Loading Customer for DID=2 WID=20
+
+Vuser 15:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 7:Loading Customer for DID=2 WID=30
+
+Vuser 9:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 16:Loading Customer for DID=5 WID=73
+
+Vuser 12:Loading Customer for DID=6 WID=54
+
+Vuser 8:Loading Customer for DID=1 WID=35
+
+Vuser 2:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 15:Loading Customer for DID=7 WID=68
+
+Vuser 3:Loading Customer for DID=3 WID=10
+
+Vuser 10:Loading Customer for DID=9 WID=44
+
+Vuser 6:Loading Customer for DID=2 WID=25
+
+Vuser 9:Loading Customer for DID=10 WID=39
+
+Vuser 14:Loading Customer for DID=1 WID=64
+
+Vuser 13:Loading Customer for DID=1 WID=59
+
+Vuser 4:Loading Customer for DID=2 WID=15
+
+Vuser 2:Loading Customer for DID=7 WID=5
+
+Vuser 11:Loading Customer for DID=4 WID=49
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 17:Loading Customer for DID=3 WID=78
+
+Vuser 5:Loading Customer for DID=3 WID=20
+
+Vuser 7:Loading Customer for DID=3 WID=30
+
+Vuser 15:Customer Done
+
+Vuser 16:Loading Customer for DID=6 WID=73
+
+Vuser 3:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 12:Loading Customer for DID=7 WID=54
+
+Vuser 8:Loading Customer for DID=2 WID=35
+
+Vuser 9:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 15:Loading Customer for DID=8 WID=68
+
+Vuser 3:Loading Customer for DID=4 WID=10
+
+Vuser 10:Loading Customer for DID=10 WID=44
+
+Vuser 6:Loading Customer for DID=3 WID=25
+
+Vuser 9:Loading Customer for DID=1 WID=40
+
+Vuser 14:Loading Customer for DID=2 WID=64
+
+Vuser 13:Loading Customer for DID=2 WID=59
+
+Vuser 4:Loading Customer for DID=3 WID=15
+
+Vuser 2:Loading Customer for DID=8 WID=5
+
+Vuser 11:Loading Customer for DID=5 WID=49
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 17:Loading Customer for DID=4 WID=78
+
+Vuser 5:Loading Customer for DID=4 WID=20
+
+Vuser 7:Loading Customer for DID=4 WID=30
+
+Vuser 16:Loading Customer for DID=7 WID=73
+
+Vuser 8:Loading Customer for DID=3 WID=35
+
+Vuser 12:Loading Customer for DID=8 WID=54
+
+Vuser 15:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 15:Loading Customer for DID=9 WID=68
+
+Vuser 3:Loading Customer for DID=5 WID=10
+
+Vuser 10:Loading Customer for DID=1 WID=45
+
+Vuser 6:Loading Customer for DID=4 WID=25
+
+Vuser 14:Loading Customer for DID=3 WID=64
+
+Vuser 9:Loading Customer for DID=2 WID=40
+
+Vuser 17:Customer Done
+
+Vuser 13:Loading Customer for DID=3 WID=59
+
+Vuser 4:Loading Customer for DID=4 WID=15
+
+Vuser 2:Loading Customer for DID=9 WID=5
+
+Vuser 11:Loading Customer for DID=6 WID=49
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 17:Loading Customer for DID=5 WID=78
+
+Vuser 5:Loading Customer for DID=5 WID=20
+
+Vuser 7:Loading Customer for DID=5 WID=30
+
+Vuser 16:Loading Customer for DID=8 WID=73
+
+Vuser 8:Loading Customer for DID=4 WID=35
+
+Vuser 12:Loading Customer for DID=9 WID=54
+
+Vuser 15:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 2:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 15:Loading Customer for DID=10 WID=68
+
+Vuser 3:Loading Customer for DID=6 WID=10
+
+Vuser 10:Loading Customer for DID=2 WID=45
+
+Vuser 6:Loading Customer for DID=5 WID=25
+
+Vuser 13:Loading Customer for DID=4 WID=59
+
+Vuser 11:Customer Done
+
+Vuser 9:Loading Customer for DID=3 WID=40
+
+Vuser 17:Customer Done
+
+Vuser 14:Loading Customer for DID=4 WID=64
+
+Vuser 2:Loading Customer for DID=10 WID=5
+
+Vuser 5:Customer Done
+
+Vuser 4:Loading Customer for DID=5 WID=15
+
+Vuser 7:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 11:Loading Customer for DID=7 WID=49
+
+Vuser 17:Loading Customer for DID=6 WID=78
+
+Vuser 10:Customer Done
+
+Vuser 5:Loading Customer for DID=6 WID=20
+
+Vuser 6:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 7:Loading Customer for DID=6 WID=30
+
+Vuser 9:Customer Done
+
+Vuser 16:Loading Customer for DID=9 WID=73
+
+Vuser 8:Loading Customer for DID=5 WID=35
+
+Vuser 12:Loading Customer for DID=10 WID=54
+
+Vuser 15:Loading Customer for DID=1 WID=69
+
+Vuser 14:Customer Done
+
+Vuser 3:Loading Customer for DID=7 WID=10
+
+Vuser 2:Customer Done
+
+Vuser 10:Loading Customer for DID=3 WID=45
+
+Vuser 4:Customer Done
+
+Vuser 6:Loading Customer for DID=6 WID=25
+
+Vuser 13:Loading Customer for DID=5 WID=59
+
+Vuser 9:Loading Customer for DID=4 WID=40
+
+Vuser 11:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 14:Loading Customer for DID=5 WID=64
+
+Vuser 2:Loading Orders for D=1 W=1
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 4:Loading Customer for DID=6 WID=15
+
+Vuser 10:Customer Done
+
+Vuser 11:Loading Customer for DID=8 WID=49
+
+Vuser 17:Loading Customer for DID=7 WID=78
+
+Vuser 6:Customer Done
+
+Vuser 5:Loading Customer for DID=7 WID=20
+
+Vuser 7:Loading Customer for DID=7 WID=30
+
+Vuser 8:Loading Customer for DID=6 WID=35
+
+Vuser 15:Loading Customer for DID=2 WID=69
+
+Vuser 3:Loading Customer for DID=8 WID=10
+
+Vuser 12:Loading Customer for DID=1 WID=55
+
+Vuser 16:Loading Customer for DID=10 WID=73
+
+Vuser 13:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 10:Loading Customer for DID=4 WID=45
+
+Vuser 14:Customer Done
+
+Vuser 2:...1000
+
+Vuser 6:Loading Customer for DID=7 WID=25
+
+Vuser 13:Loading Customer for DID=6 WID=59
+
+Vuser 4:Customer Done
+
+Vuser 9:Loading Customer for DID=5 WID=40
+
+Vuser 11:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 14:Loading Customer for DID=6 WID=64
+
+Vuser 16:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 4:Loading Customer for DID=7 WID=15
+
+Vuser 2:...2000
+
+Vuser 10:Customer Done
+
+Vuser 11:Loading Customer for DID=9 WID=49
+
+Vuser 17:Loading Customer for DID=8 WID=78
+
+Vuser 5:Loading Customer for DID=8 WID=20
+
+Vuser 7:Loading Customer for DID=8 WID=30
+
+Vuser 16:Loading Customer for DID=1 WID=74
+
+Vuser 6:Customer Done
+
+Vuser 15:Loading Customer for DID=3 WID=69
+
+Vuser 8:Loading Customer for DID=7 WID=35
+
+Vuser 13:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 3:Loading Customer for DID=9 WID=10
+
+Vuser 12:Loading Customer for DID=2 WID=55
+
+Vuser 10:Loading Customer for DID=5 WID=45
+
+Vuser 14:Customer Done
+
+Vuser 2:...3000
+
+Vuser 6:Loading Customer for DID=8 WID=25
+
+Vuser 4:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 13:Loading Customer for DID=7 WID=59
+
+Vuser 9:Loading Customer for DID=6 WID=40
+
+Vuser 14:Loading Customer for DID=7 WID=64
+
+Vuser 5:Customer Done
+
+Vuser 2:Orders Done
+
+Vuser 7:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 4:Loading Customer for DID=8 WID=15
+
+Vuser 11:Loading Customer for DID=10 WID=49
+
+Vuser 15:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 17:Loading Customer for DID=9 WID=78
+
+Vuser 12:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 5:Loading Customer for DID=9 WID=20
+
+Vuser 2:Loading Orders for D=2 W=1
+
+Vuser 7:Loading Customer for DID=9 WID=30
+
+Vuser 16:Loading Customer for DID=2 WID=74
+
+Vuser 15:Loading Customer for DID=4 WID=69
+
+Vuser 8:Loading Customer for DID=8 WID=35
+
+Vuser 12:Loading Customer for DID=3 WID=55
+
+Vuser 13:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 10:Loading Customer for DID=6 WID=45
+
+Vuser 11:Customer Done
+
+Vuser 4:Customer Done
+
+Vuser 3:Loading Customer for DID=10 WID=10
+
+Vuser 6:Loading Customer for DID=9 WID=25
+
+Vuser 17:Customer Done
+
+Vuser 13:Loading Customer for DID=8 WID=59
+
+Vuser 9:Loading Customer for DID=7 WID=40
+
+Vuser 14:Loading Customer for DID=8 WID=64
+
+Vuser 2:...1000
+
+Vuser 16:Customer Done
+
+Vuser 7:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 8:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 11:Loading Customer for DID=1 WID=50
+
+Vuser 4:Loading Customer for DID=9 WID=15
+
+Vuser 10:Customer Done
+
+Vuser 17:Loading Customer for DID=10 WID=78
+
+Vuser 16:Loading Customer for DID=3 WID=74
+
+Vuser 7:Loading Customer for DID=10 WID=30
+
+Vuser 6:Customer Done
+
+Vuser 3:Customer Done
+
+Vuser 2:...2000
+
+Vuser 5:Loading Customer for DID=10 WID=20
+
+Vuser 15:Loading Customer for DID=5 WID=69
+
+Vuser 14:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 8:Loading Customer for DID=9 WID=35
+
+Vuser 12:Loading Customer for DID=4 WID=55
+
+Vuser 10:Loading Customer for DID=7 WID=45
+
+Vuser 6:Loading Customer for DID=10 WID=25
+
+Vuser 11:Customer Done
+
+Vuser 3:Loading Orders for D=1 W=6
+
+Vuser 4:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 14:Loading Customer for DID=9 WID=64
+
+Vuser 13:Loading Customer for DID=9 WID=59
+
+Vuser 2:...3000
+
+Vuser 9:Loading Customer for DID=8 WID=40
+
+Vuser 7:Customer Done
+
+Vuser 5:Customer Done
+
+Vuser 15:Customer Done
+
+Vuser 11:Loading Customer for DID=2 WID=50
+
+Vuser 4:Loading Customer for DID=10 WID=15
+
+Vuser 16:Loading Customer for DID=4 WID=74
+
+Vuser 17:Loading Customer for DID=1 WID=79
+
+Vuser 8:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 3:...1000
+
+Vuser 10:Customer Done
+
+Vuser 6:Customer Done
+
+Vuser 2:Orders Done
+
+Vuser 13:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 7:Loading Orders for D=1 W=26
+
+Vuser 5:Loading Orders for D=1 W=16
+
+Vuser 15:Loading Customer for DID=6 WID=69
+
+Vuser 8:Loading Customer for DID=10 WID=35
+
+Vuser 12:Loading Customer for DID=5 WID=55
+
+Vuser 9:Customer Done
+
+Vuser 10:Loading Customer for DID=8 WID=45
+
+Vuser 4:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 6:Loading Orders for D=1 W=21
+
+Vuser 2:Loading Orders for D=3 W=1
+
+Vuser 13:Loading Customer for DID=10 WID=59
+
+Vuser 14:Loading Customer for DID=10 WID=64
+
+Vuser 3:...2000
+
+Vuser 9:Loading Customer for DID=9 WID=40
+
+Vuser 7:...1000
+
+Vuser 5:...1000
+
+Vuser 4:Loading Orders for D=1 W=11
+
+Vuser 16:Loading Customer for DID=5 WID=74
+
+Vuser 15:Customer Done
+
+Vuser 11:Loading Customer for DID=3 WID=50
+
+Vuser 17:Loading Customer for DID=2 WID=79
+
+Vuser 8:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 6:...1000
+
+Vuser 2:...1000
+
+Vuser 14:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 3:...3000
+
+Vuser 15:Loading Customer for DID=7 WID=69
+
+Vuser 7:...2000
+
+Vuser 9:Customer Done
+
+Vuser 5:...2000
+
+Vuser 4:...1000
+
+Vuser 8:Loading Orders for D=1 W=31
+
+Vuser 12:Loading Customer for DID=6 WID=55
+
+Vuser 10:Loading Customer for DID=9 WID=45
+
+Vuser 11:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 14:Loading Customer for DID=1 WID=65
+
+Vuser 17:Customer Done
+
+Vuser 6:...2000
+
+Vuser 2:...2000
+
+Vuser 13:Loading Customer for DID=1 WID=60
+
+Vuser 3:Orders Done
+
+Vuser 9:Loading Customer for DID=10 WID=40
+
+Vuser 11:Loading Customer for DID=4 WID=50
+
+Vuser 7:...3000
+
+Vuser 5:...3000
+
+Vuser 16:Loading Customer for DID=6 WID=74
+
+Vuser 4:...2000
+
+Vuser 8:...1000
+
+Vuser 15:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 17:Loading Customer for DID=3 WID=79
+
+Vuser 3:Loading Orders for D=2 W=6
+
+Vuser 6:...3000
+
+Vuser 2:...3000
+
+Vuser 14:Customer Done
+
+Vuser 9:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 7:Orders Done
+
+Vuser 5:Orders Done
+
+Vuser 15:Loading Customer for DID=8 WID=69
+
+Vuser 12:Loading Customer for DID=7 WID=55
+
+Vuser 11:Customer Done
+
+Vuser 10:Loading Customer for DID=10 WID=45
+
+Vuser 4:...3000
+
+Vuser 6:Orders Done
+
+Vuser 2:Orders Done
+
+Vuser 14:Loading Customer for DID=2 WID=65
+
+Vuser 16:Customer Done
+
+Vuser 8:...2000
+
+Vuser 9:Loading Orders for D=1 W=36
+
+Vuser 13:Loading Customer for DID=2 WID=60
+
+Vuser 7:Loading Orders for D=2 W=26
+
+Vuser 5:Loading Orders for D=2 W=16
+
+Vuser 17:Customer Done
+
+Vuser 3:...1000
+
+Vuser 11:Loading Customer for DID=5 WID=50
+
+Vuser 4:Orders Done
+
+Vuser 6:Loading Orders for D=2 W=21
+
+Vuser 2:Loading Orders for D=4 W=1
+
+Vuser 15:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 10:Customer Done
+
+Vuser 16:Loading Customer for DID=7 WID=74
+
+Vuser 17:Loading Customer for DID=4 WID=79
+
+Vuser 8:...3000
+
+Vuser 14:Customer Done
+
+Vuser 9:...1000
+
+Vuser 7:...1000
+
+Vuser 5:...1000
+
+Vuser 3:...2000
+
+Vuser 13:Customer Done
+
+Vuser 4:Loading Orders for D=2 W=11
+
+Vuser 15:Loading Customer for DID=9 WID=69
+
+Vuser 12:Loading Customer for DID=8 WID=55
+
+Vuser 10:Loading Orders for D=1 W=41
+
+Vuser 11:Customer Done
+
+Vuser 6:...1000
+
+Vuser 2:...1000
+
+Vuser 8:Orders Done
+
+Vuser 14:Loading Customer for DID=3 WID=65
+
+Vuser 16:Customer Done
+
+Vuser 9:...2000
+
+Vuser 17:Customer Done
+
+Vuser 7:...2000
+
+Vuser 3:...3000
+
+Vuser 13:Loading Customer for DID=3 WID=60
+
+Vuser 5:...2000
+
+Vuser 11:Loading Customer for DID=6 WID=50
+
+Vuser 8:Loading Orders for D=2 W=31
+
+Vuser 16:Loading Customer for DID=8 WID=74
+
+Vuser 4:...1000
+
+Vuser 10:...1000
+
+Vuser 9:...3000
+
+Vuser 6:...2000
+
+Vuser 2:...2000
+
+Vuser 15:Customer Done
+
+Vuser 17:Loading Customer for DID=5 WID=79
+
+Vuser 12:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 3:Orders Done
+
+Vuser 7:...3000
+
+Vuser 5:...3000
+
+Vuser 13:Customer Done
+
+Vuser 8:...1000
+
+Vuser 4:...2000
+
+Vuser 11:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 9:Orders Done
+
+Vuser 10:...2000
+
+Vuser 6:...3000
+
+Vuser 2:...3000
+
+Vuser 15:Loading Customer for DID=10 WID=69
+
+Vuser 12:Loading Customer for DID=9 WID=55
+
+Vuser 14:Loading Customer for DID=4 WID=65
+
+Vuser 3:Loading Orders for D=3 W=6
+
+Vuser 7:Orders Done
+
+Vuser 5:Orders Done
+
+Vuser 13:Loading Customer for DID=4 WID=60
+
+Vuser 11:Loading Customer for DID=7 WID=50
+
+Vuser 17:Customer Done
+
+Vuser 4:...3000
+
+Vuser 8:...2000
+
+Vuser 16:Loading Customer for DID=9 WID=74
+
+Vuser 9:Loading Orders for D=2 W=36
+
+Vuser 6:Orders Done
+
+Vuser 2:Orders Done
+
+Vuser 7:Loading Orders for D=3 W=26
+
+Vuser 5:Loading Orders for D=3 W=16
+
+Vuser 10:...3000
+
+Vuser 17:Loading Customer for DID=6 WID=79
+
+Vuser 4:Orders Done
+
+Vuser 3:...1000
+
+Vuser 15:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 13:Customer Done
+
+Vuser 8:...3000
+
+Vuser 6:Loading Orders for D=3 W=21
+
+Vuser 16:Customer Done
+
+Vuser 2:Loading Orders for D=5 W=1
+
+Vuser 9:...1000
+
+Vuser 10:Orders Done
+
+Vuser 4:Loading Orders for D=3 W=11
+
+Vuser 7:...1000
+
+Vuser 5:...1000
+
+Vuser 17:Customer Done
+
+Vuser 15:Loading Customer for DID=1 WID=70
+
+Vuser 12:Loading Customer for DID=10 WID=55
+
+Vuser 14:Loading Customer for DID=5 WID=65
+
+Vuser 11:Loading Customer for DID=8 WID=50
+
+Vuser 13:Loading Customer for DID=5 WID=60
+
+Vuser 3:...2000
+
+Vuser 8:Orders Done
+
+Vuser 16:Loading Customer for DID=10 WID=74
+
+Vuser 10:Loading Orders for D=2 W=41
+
+Vuser 17:Loading Customer for DID=7 WID=79
+
+Vuser 6:...1000
+
+Vuser 2:...1000
+
+Vuser 9:...2000
+
+Vuser 4:...1000
+
+Vuser 7:...2000
+
+Vuser 5:...2000
+
+Vuser 15:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 12:Customer Done
+
+Vuser 8:Loading Orders for D=3 W=31
+
+Vuser 11:Customer Done
+
+Vuser 3:...3000
+
+Vuser 13:Customer Done
+
+Vuser 9:...3000
+
+Vuser 16:Customer Done
+
+Vuser 10:...1000
+
+Vuser 7:...3000
+
+Vuser 6:...2000
+
+Vuser 2:...2000
+
+Vuser 17:Customer Done
+
+Vuser 4:...2000
+
+Vuser 15:Loading Customer for DID=2 WID=70
+
+Vuser 14:Loading Customer for DID=6 WID=65
+
+Vuser 5:...3000
+
+Vuser 12:Loading Orders for D=1 W=51
+
+Vuser 11:Loading Customer for DID=9 WID=50
+
+Vuser 3:Orders Done
+
+Vuser 13:Loading Customer for DID=6 WID=60
+
+Vuser 9:Orders Done
+
+Vuser 16:Loading Customer for DID=1 WID=75
+
+Vuser 7:Orders Done
+
+Vuser 8:...1000
+
+Vuser 6:...3000
+
+Vuser 10:...2000
+
+Vuser 2:...3000
+
+Vuser 17:Loading Customer for DID=8 WID=79
+
+Vuser 5:Orders Done
+
+Vuser 4:...3000
+
+Vuser 15:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 3:Loading Orders for D=4 W=6
+
+Vuser 12:...1000
+
+Vuser 11:Customer Done
+
+Vuser 9:Loading Orders for D=3 W=36
+
+Vuser 7:Loading Orders for D=4 W=26
+
+Vuser 6:Orders Done
+
+Vuser 2:Orders Done
+
+Vuser 5:Loading Orders for D=4 W=16
+
+Vuser 10:...3000
+
+Vuser 13:Customer Done
+
+Vuser 8:...2000
+
+Vuser 16:Customer Done
+
+Vuser 4:Orders Done
+
+Vuser 17:Customer Done
+
+Vuser 15:Loading Customer for DID=3 WID=70
+
+Vuser 14:Loading Customer for DID=7 WID=65
+
+Vuser 11:Loading Customer for DID=10 WID=50
+
+Vuser 12:...2000
+
+Vuser 3:...1000
+
+Vuser 6:Loading Orders for D=4 W=21
+
+Vuser 2:Loading Orders for D=6 W=1
+
+Vuser 9:...1000
+
+Vuser 10:Orders Done
+
+Vuser 13:Loading Customer for DID=7 WID=60
+
+Vuser 7:...1000
+
+Vuser 5:...1000
+
+Vuser 16:Loading Customer for DID=2 WID=75
+
+Vuser 8:...3000
+
+Vuser 4:Loading Orders for D=4 W=11
+
+Vuser 17:Loading Customer for DID=9 WID=79
+
+Vuser 10:Loading Orders for D=3 W=41
+
+Vuser 12:...3000
+
+Vuser 15:Customer Done
+
+Vuser 11:Customer Done
+
+Vuser 14:Customer Done
+
+Vuser 6:...1000
+
+Vuser 3:...2000
+
+Vuser 2:...1000
+
+Vuser 9:...2000
+
+Vuser 13:Customer Done
+
+Vuser 8:Orders Done
+
+Vuser 7:...2000
+
+Vuser 5:...2000
+
+Vuser 12:Orders Done
+
+Vuser 16:Customer Done
+
+Vuser 4:...1000
+
+Vuser 15:Loading Customer for DID=4 WID=70
+
+Vuser 17:Customer Done
+
+Vuser 11:Loading Orders for D=1 W=46
+
+Vuser 10:...1000
+
+Vuser 14:Loading Customer for DID=8 WID=65
+
+Vuser 3:...3000
+
+Vuser 6:...2000
+
+Vuser 13:Loading Customer for DID=8 WID=60
+
+Vuser 8:Loading Orders for D=4 W=31
+
+Vuser 12:Loading Orders for D=2 W=51
+
+Vuser 16:Loading Customer for DID=3 WID=75
+
+Vuser 9:...3000
+
+Vuser 17:Loading Customer for DID=10 WID=79
+
+Vuser 2:...2000
+
+Vuser 7:...3000
+
+Vuser 5:...3000
+
+Vuser 4:...2000
+
+Vuser 15:Customer Done
+
+Vuser 11:...1000
+
+Vuser 10:...2000
+
+Vuser 3:Orders Done
+
+Vuser 14:Customer Done
+
+Vuser 6:...3000
+
+Vuser 9:Orders Done
+
+Vuser 13:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 8:...1000
+
+Vuser 12:...1000
+
+Vuser 2:...3000
+
+Vuser 7:Orders Done
+
+Vuser 5:Orders Done
+
+Vuser 17:Customer Done
+
+Vuser 15:Loading Customer for DID=5 WID=70
+
+Vuser 3:Loading Orders for D=5 W=6
+
+Vuser 14:Loading Customer for DID=9 WID=65
+
+Vuser 6:Orders Done
+
+Vuser 9:Loading Orders for D=4 W=36
+
+Vuser 4:...3000
+
+Vuser 10:...3000
+
+Vuser 11:...2000
+
+Vuser 13:Loading Customer for DID=9 WID=60
+
+Vuser 16:Loading Customer for DID=4 WID=75
+
+Vuser 2:Orders Done
+
+Vuser 7:Loading Orders for D=5 W=26
+
+Vuser 5:Loading Orders for D=5 W=16
+
+Vuser 17:Loading Customer for DID=1 WID=80
+
+Vuser 8:...2000
+
+Vuser 12:...2000
+
+Vuser 15:Customer Done
+
+Vuser 6:Loading Orders for D=5 W=21
+
+Vuser 4:Orders Done
+
+Vuser 3:...1000
+
+Vuser 10:Orders Done
+
+Vuser 14:Customer Done
+
+Vuser 2:Loading Orders for D=7 W=1
+
+Vuser 9:...1000
+
+Vuser 11:...3000
+
+Vuser 13:Customer Done
+
+Vuser 8:...3000
+
+Vuser 12:...3000
+
+Vuser 7:...1000
+
+Vuser 5:...1000
+
+Vuser 16:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 15:Loading Customer for DID=6 WID=70
+
+Vuser 4:Loading Orders for D=5 W=11
+
+Vuser 10:Loading Orders for D=4 W=41
+
+Vuser 14:Loading Customer for DID=10 WID=65
+
+Vuser 6:...1000
+
+Vuser 3:...2000
+
+Vuser 2:...1000
+
+Vuser 11:Orders Done
+
+Vuser 13:Loading Customer for DID=10 WID=60
+
+Vuser 8:Orders Done
+
+Vuser 12:Orders Done
+
+Vuser 16:Loading Customer for DID=5 WID=75
+
+Vuser 17:Loading Customer for DID=2 WID=80
+
+Vuser 9:...2000
+
+Vuser 7:...2000
+
+Vuser 5:...2000
+
+Vuser 4:...1000
+
+Vuser 11:Loading Orders for D=2 W=46
+
+Vuser 15:Customer Done
+
+Vuser 10:...1000
+
+Vuser 3:...3000
+
+Vuser 6:...2000
+
+Vuser 2:...2000
+
+Vuser 14:Customer Done
+
+Vuser 8:Loading Orders for D=5 W=31
+
+Vuser 12:Loading Orders for D=3 W=51
+
+Vuser 13:Customer Done
+
+Vuser 9:...3000
+
+Vuser 7:...3000
+
+Vuser 5:...3000
+
+Vuser 16:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 15:Loading Customer for DID=7 WID=70
+
+Vuser 4:...2000
+
+Vuser 11:...1000
+
+Vuser 3:Orders Done
+
+Vuser 10:...2000
+
+Vuser 14:Loading Orders for D=1 W=61
+
+Vuser 13:Loading Orders for D=1 W=56
+
+Vuser 9:Orders Done
+
+Vuser 6:...3000
+
+Vuser 2:...3000
+
+Vuser 7:Orders Done
+
+Vuser 5:Orders Done
+
+Vuser 16:Loading Customer for DID=6 WID=75
+
+Vuser 17:Loading Customer for DID=3 WID=80
+
+Vuser 8:...1000
+
+Vuser 12:...1000
+
+Vuser 3:Loading Orders for D=6 W=6
+
+Vuser 9:Loading Orders for D=5 W=36
+
+Vuser 4:...3000
+
+Vuser 6:Orders Done
+
+Vuser 10:...3000
+
+Vuser 2:Orders Done
+
+Vuser 7:Loading Orders for D=6 W=26
+
+Vuser 5:Loading Orders for D=6 W=16
+
+Vuser 11:...2000
+
+Vuser 15:Customer Done
+
+Vuser 14:...1000
+
+Vuser 13:...1000
+
+Vuser 8:...2000
+
+Vuser 16:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 4:Orders Done
+
+Vuser 6:Loading Orders for D=6 W=21
+
+Vuser 10:Orders Done
+
+Vuser 2:Loading Orders for D=8 W=1
+
+Vuser 12:...2000
+
+Vuser 3:...1000
+
+Vuser 9:...1000
+
+Vuser 11:...3000
+
+Vuser 15:Loading Customer for DID=8 WID=70
+
+Vuser 7:...1000
+
+Vuser 5:...1000
+
+Vuser 16:Loading Customer for DID=7 WID=75
+
+Vuser 17:Loading Customer for DID=4 WID=80
+
+Vuser 14:...2000
+
+Vuser 8:...3000
+
+Vuser 4:Loading Orders for D=6 W=11
+
+Vuser 10:Loading Orders for D=5 W=41
+
+Vuser 13:...2000
+
+Vuser 11:Orders Done
+
+Vuser 12:...3000
+
+Vuser 6:...1000
+
+Vuser 2:...1000
+
+Vuser 3:...2000
+
+Vuser 9:...2000
+
+Vuser 7:...2000
+
+Vuser 15:Customer Done
+
+Vuser 5:...2000
+
+Vuser 8:Orders Done
+
+Vuser 14:...3000
+
+Vuser 16:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 4:...1000
+
+Vuser 13:...3000
+
+Vuser 10:...1000
+
+Vuser 11:Loading Orders for D=3 W=46
+
+Vuser 12:Orders Done
+
+Vuser 15:Loading Customer for DID=9 WID=70
+
+Vuser 8:Loading Orders for D=6 W=31
+
+Vuser 14:Orders Done
+
+Vuser 3:...3000
+
+Vuser 6:...2000
+
+Vuser 2:...2000
+
+Vuser 7:...3000
+
+Vuser 9:...3000
+
+Vuser 5:...3000
+
+Vuser 16:Loading Customer for DID=8 WID=75
+
+Vuser 17:Loading Customer for DID=5 WID=80
+
+Vuser 13:Orders Done
+
+Vuser 12:Loading Orders for D=4 W=51
+
+Vuser 14:Loading Orders for D=2 W=61
+
+Vuser 4:...2000
+
+Vuser 3:Orders Done
+
+Vuser 10:...2000
+
+Vuser 11:...1000
+
+Vuser 7:Orders Done
+
+Vuser 9:Orders Done
+
+Vuser 5:Orders Done
+
+Vuser 13:Loading Orders for D=2 W=56
+
+Vuser 8:...1000
+
+Vuser 6:...3000
+
+Vuser 2:...3000
+
+Vuser 15:Customer Done
+
+Vuser 4:...3000
+
+Vuser 12:...1000
+
+Vuser 14:...1000
+
+Vuser 16:Customer Done
+
+Vuser 17:Customer Done
+
+Vuser 3:Loading Orders for D=7 W=6
+
+Vuser 10:...3000
+
+Vuser 11:...2000
+
+Vuser 7:Loading Orders for D=7 W=26
+
+Vuser 9:Loading Orders for D=6 W=36
+
+Vuser 5:Loading Orders for D=7 W=16
+
+Vuser 6:Orders Done
+
+Vuser 2:Orders Done
+
+Vuser 15:Loading Customer for DID=10 WID=70
+
+Vuser 13:...1000
+
+Vuser 8:...2000
+
+Vuser 4:Orders Done
+
+Vuser 16:Loading Customer for DID=9 WID=75
+
+Vuser 17:Loading Customer for DID=6 WID=80
+
+Vuser 10:Orders Done
+
+Vuser 14:...2000
+
+Vuser 12:...2000
+
+Vuser 6:Loading Orders for D=7 W=21
+
+Vuser 2:Loading Orders for D=9 W=1
+
+Vuser 3:...1000
+
+Vuser 11:...3000
+
+Vuser 7:...1000
+
+Vuser 9:...1000
+
+Vuser 5:...1000
+
+Vuser 13:...2000
+
+Vuser 4:Loading Orders for D=7 W=11
+
+Vuser 15:Customer Done
+
+Vuser 8:...3000
+
+Vuser 10:Loading Orders for D=6 W=41
+
+Vuser 14:...3000
+
+Vuser 12:...3000
+
+Vuser 17:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 11:Orders Done
+
+Vuser 6:...1000
+
+Vuser 2:...1000
+
+Vuser 3:...2000
+
+Vuser 7:...2000
+
+Vuser 9:...2000
+
+Vuser 15:Loading Orders for D=1 W=66
+
+Vuser 8:Orders Done
+
+Vuser 13:...3000
+
+Vuser 5:...2000
+
+Vuser 14:Orders Done
+
+Vuser 12:Orders Done
+
+Vuser 17:Loading Customer for DID=7 WID=80
+
+Vuser 16:Loading Customer for DID=10 WID=75
+
+Vuser 11:Loading Orders for D=4 W=46
+
+Vuser 4:...1000
+
+Vuser 10:...1000
+
+Vuser 8:Loading Orders for D=7 W=31
+
+Vuser 13:Orders Done
+
+Vuser 14:Loading Orders for D=3 W=61
+
+Vuser 3:...3000
+
+Vuser 6:...2000
+
+Vuser 7:...3000
+
+Vuser 9:...3000
+
+Vuser 2:...2000
+
+Vuser 5:...3000
+
+Vuser 15:...1000
+
+Vuser 12:Loading Orders for D=5 W=51
+
+Vuser 13:Loading Orders for D=3 W=56
+
+Vuser 3:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 9:Orders Done
+
+Vuser 11:...1000
+
+Vuser 5:Orders Done
+
+Vuser 10:...2000
+
+Vuser 4:...2000
+
+Vuser 6:...3000
+
+Vuser 17:Customer Done
+
+Vuser 16:Customer Done
+
+Vuser 8:...1000
+
+Vuser 2:...3000
+
+Vuser 14:...1000
+
+Vuser 3:Loading Orders for D=8 W=6
+
+Vuser 7:Loading Orders for D=8 W=26
+
+Vuser 9:Loading Orders for D=7 W=36
+
+Vuser 5:Loading Orders for D=8 W=16
+
+Vuser 15:...2000
+
+Vuser 12:...1000
+
+Vuser 13:...1000
+
+Vuser 6:Orders Done
+
+Vuser 17:Loading Customer for DID=8 WID=80
+
+Vuser 11:...2000
+
+Vuser 10:...3000
+
+Vuser 16:Loading Orders for D=1 W=71
+
+Vuser 4:...3000
+
+Vuser 2:Orders Done
+
+Vuser 8:...2000
+
+Vuser 14:...2000
+
+Vuser 3:...1000
+
+Vuser 15:...3000
+
+Vuser 7:...1000
+
+Vuser 9:...1000
+
+Vuser 5:...1000
+
+Vuser 6:Loading Orders for D=8 W=21
+
+Vuser 12:...2000
+
+Vuser 13:...2000
+
+Vuser 10:Orders Done
+
+Vuser 11:...3000
+
+Vuser 4:Orders Done
+
+Vuser 2:Loading Orders for D=10 W=1
+
+Vuser 17:Customer Done
+
+Vuser 15:Orders Done
+
+Vuser 16:...1000
+
+Vuser 8:...3000
+
+Vuser 14:...3000
+
+Vuser 10:Loading Orders for D=7 W=41
+
+Vuser 11:Orders Done
+
+Vuser 4:Loading Orders for D=8 W=11
+
+Vuser 3:...2000
+
+Vuser 12:...3000
+
+Vuser 7:...2000
+
+Vuser 9:...2000
+
+Vuser 13:...3000
+
+Vuser 5:...2000
+
+Vuser 6:...1000
+
+Vuser 17:Loading Customer for DID=9 WID=80
+
+Vuser 15:Loading Orders for D=2 W=66
+
+Vuser 2:...1000
+
+Vuser 8:Orders Done
+
+Vuser 14:Orders Done
+
+Vuser 11:Loading Orders for D=5 W=46
+
+Vuser 12:Orders Done
+
+Vuser 16:...2000
+
+Vuser 13:Orders Done
+
+Vuser 3:...3000
+
+Vuser 10:...1000
+
+Vuser 7:...3000
+
+Vuser 4:...1000
+
+Vuser 9:...3000
+
+Vuser 5:...3000
+
+Vuser 8:Loading Orders for D=8 W=31
+
+Vuser 14:Loading Orders for D=4 W=61
+
+Vuser 6:...2000
+
+Vuser 12:Loading Orders for D=6 W=51
+
+Vuser 13:Loading Orders for D=4 W=56
+
+Vuser 3:Orders Done
+
+Vuser 15:...1000
+
+Vuser 17:Customer Done
+
+Vuser 2:...2000
+
+Vuser 7:Orders Done
+
+Vuser 16:...3000
+
+Vuser 9:Orders Done
+
+Vuser 5:Orders Done
+
+Vuser 11:...1000
+
+Vuser 3:Loading Orders for D=9 W=6
+
+Vuser 10:...2000
+
+Vuser 17:Loading Customer for DID=10 WID=80
+
+Vuser 7:Loading Orders for D=9 W=26
+
+Vuser 4:...2000
+
+Vuser 6:...3000
+
+Vuser 8:...1000
+
+Vuser 16:Orders Done
+
+Vuser 14:...1000
+
+Vuser 12:...1000
+
+Vuser 2:...3000
+
+Vuser 13:...1000
+
+Vuser 9:Loading Orders for D=8 W=36
+
+Vuser 15:...2000
+
+Vuser 5:Loading Orders for D=9 W=16
+
+Vuser 6:Orders Done
+
+Vuser 16:Loading Orders for D=2 W=71
+
+Vuser 10:...3000
+
+Vuser 4:...3000
+
+Vuser 11:...2000
+
+Vuser 3:...1000
+
+Vuser 7:...1000
+
+Vuser 8:...2000
+
+Vuser 17:Customer Done
+
+Vuser 14:...2000
+
+Vuser 2:Orders Done
+
+Vuser 12:...2000
+
+Vuser 13:...2000
+
+Vuser 6:Loading Orders for D=9 W=21
+
+Vuser 10:Orders Done
+
+Vuser 4:Orders Done
+
+Vuser 9:...1000
+
+Vuser 15:...3000
+
+Vuser 17:Loading Orders for D=1 W=76
+
+Vuser 5:...1000
+
+Vuser 11:...3000
+
+Vuser 16:...1000
+
+Vuser 8:...3000
+
+Vuser 14:...3000
+
+Vuser 2:Loading Orders for D=1 W=2
+
+Vuser 3:...2000
+
+Vuser 7:...2000
+
+Vuser 10:Loading Orders for D=8 W=41
+
+Vuser 4:Loading Orders for D=9 W=11
+
+Vuser 12:...3000
+
+Vuser 13:...3000
+
+Vuser 6:...1000
+
+Vuser 9:...2000
+
+Vuser 15:Orders Done
+
+Vuser 11:Orders Done
+
+Vuser 8:Orders Done
+
+Vuser 14:Orders Done
+
+Vuser 12:Orders Done
+
+Vuser 13:Orders Done
+
+Vuser 17:...1000
+
+Vuser 5:...2000
+
+Vuser 3:...3000
+
+Vuser 7:...3000
+
+Vuser 16:...2000
+
+Vuser 2:...1000
+
+Vuser 10:...1000
+
+Vuser 4:...1000
+
+Vuser 15:Loading Orders for D=3 W=66
+
+Vuser 6:...2000
+
+Vuser 9:...3000
+
+Vuser 11:Loading Orders for D=6 W=46
+
+Vuser 8:Loading Orders for D=9 W=31
+
+Vuser 14:Loading Orders for D=5 W=61
+
+Vuser 12:Loading Orders for D=7 W=51
+
+Vuser 13:Loading Orders for D=5 W=56
+
+Vuser 3:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 5:...3000
+
+Vuser 17:...2000
+
+Vuser 16:...3000
+
+Vuser 2:...2000
+
+Vuser 10:...2000
+
+Vuser 9:Orders Done
+
+Vuser 4:...2000
+
+Vuser 15:...1000
+
+Vuser 6:...3000
+
+Vuser 3:Loading Orders for D=10 W=6
+
+Vuser 7:Loading Orders for D=10 W=26
+
+Vuser 5:Orders Done
+
+Vuser 11:...1000
+
+Vuser 8:...1000
+
+Vuser 14:...1000
+
+Vuser 12:...1000
+
+Vuser 16:Orders Done
+
+Vuser 13:...1000
+
+Vuser 9:Loading Orders for D=9 W=36
+
+Vuser 17:...3000
+
+Vuser 6:Orders Done
+
+Vuser 5:Loading Orders for D=10 W=16
+
+Vuser 2:...3000
+
+Vuser 10:...3000
+
+Vuser 4:...3000
+
+Vuser 15:...2000
+
+Vuser 3:...1000
+
+Vuser 7:...1000
+
+Vuser 16:Loading Orders for D=3 W=71
+
+Vuser 11:...2000
+
+Vuser 17:Orders Done
+
+Vuser 6:Loading Orders for D=10 W=21
+
+Vuser 8:...2000
+
+Vuser 2:Orders Done
+
+Vuser 14:...2000
+
+Vuser 12:...2000
+
+Vuser 13:...2000
+
+Vuser 10:Orders Done
+
+Vuser 9:...1000
+
+Vuser 4:Orders Done
+
+Vuser 5:...1000
+
+Vuser 17:Loading Orders for D=2 W=76
+
+Vuser 2:Loading Orders for D=2 W=2
+
+Vuser 15:...3000
+
+Vuser 11:...3000
+
+Vuser 7:...2000
+
+Vuser 3:...2000
+
+Vuser 8:...3000
+
+Vuser 16:...1000
+
+Vuser 14:...3000
+
+Vuser 6:...1000
+
+Vuser 10:Loading Orders for D=9 W=41
+
+Vuser 4:Loading Orders for D=10 W=11
+
+Vuser 12:...3000
+
+Vuser 15:Orders Done
+
+Vuser 11:Orders Done
+
+Vuser 13:...3000
+
+Vuser 9:...2000
+
+Vuser 5:...2000
+
+Vuser 17:...1000
+
+Vuser 2:...1000
+
+Vuser 8:Orders Done
+
+Vuser 14:Orders Done
+
+Vuser 7:...3000
+
+Vuser 12:Orders Done
+
+Vuser 15:Loading Orders for D=4 W=66
+
+Vuser 3:...3000
+
+Vuser 11:Loading Orders for D=7 W=46
+
+Vuser 16:...2000
+
+Vuser 6:...2000
+
+Vuser 10:...1000
+
+Vuser 4:...1000
+
+Vuser 13:Orders Done
+
+Vuser 8:Loading Orders for D=10 W=31
+
+Vuser 9:...3000
+
+Vuser 5:...3000
+
+Vuser 14:Loading Orders for D=6 W=61
+
+Vuser 17:...2000
+
+Vuser 7:Orders Done
+
+Vuser 2:...2000
+
+Vuser 12:Loading Orders for D=8 W=51
+
+Vuser 3:Orders Done
+
+Vuser 16:...3000
+
+Vuser 6:...3000
+
+Vuser 15:...1000
+
+Vuser 13:Loading Orders for D=6 W=56
+
+Vuser 11:...1000
+
+Vuser 10:...2000
+
+Vuser 9:Orders Done
+
+Vuser 4:...2000
+
+Vuser 5:Orders Done
+
+Vuser 7:Loading Orders for D=1 W=27
+
+Vuser 3:Loading Orders for D=1 W=7
+
+Vuser 8:...1000
+
+Vuser 17:...3000
+
+Vuser 16:Orders Done
+
+Vuser 6:Orders Done
+
+Vuser 14:...1000
+
+Vuser 2:...3000
+
+Vuser 9:Loading Orders for D=10 W=36
+
+Vuser 5:Loading Orders for D=1 W=17
+
+Vuser 12:...1000
+
+Vuser 17:Orders Done
+
+Vuser 10:...3000
+
+Vuser 16:Loading Orders for D=4 W=71
+
+Vuser 15:...2000
+
+Vuser 13:...1000
+
+Vuser 11:...2000
+
+Vuser 4:...3000
+
+Vuser 7:...1000
+
+Vuser 6:Loading Orders for D=1 W=22
+
+Vuser 3:...1000
+
+Vuser 8:...2000
+
+Vuser 2:Orders Done
+
+Vuser 17:Loading Orders for D=3 W=76
+
+Vuser 10:Orders Done
+
+Vuser 14:...2000
+
+Vuser 9:...1000
+
+Vuser 5:...1000
+
+Vuser 15:...3000
+
+Vuser 12:...2000
+
+Vuser 16:...1000
+
+Vuser 4:Orders Done
+
+Vuser 13:...2000
+
+Vuser 2:Loading Orders for D=3 W=2
+
+Vuser 11:...3000
+
+Vuser 8:...3000
+
+Vuser 10:Loading Orders for D=10 W=41
+
+Vuser 7:...2000
+
+Vuser 6:...1000
+
+Vuser 3:...2000
+
+Vuser 15:Orders Done
+
+Vuser 17:...1000
+
+Vuser 14:...3000
+
+Vuser 5:...2000
+
+Vuser 9:...2000
+
+Vuser 12:...3000
+
+Vuser 4:Loading Orders for D=1 W=12
+
+Vuser 16:...2000
+
+Vuser 13:...3000
+
+Vuser 11:Orders Done
+
+Vuser 8:Orders Done
+
+Vuser 2:...1000
+
+Vuser 7:...3000
+
+Vuser 15:Loading Orders for D=5 W=66
+
+Vuser 10:...1000
+
+Vuser 3:...3000
+
+Vuser 6:...2000
+
+Vuser 14:Orders Done
+
+Vuser 12:Orders Done
+
+Vuser 13:Orders Done
+
+Vuser 11:Loading Orders for D=8 W=46
+
+Vuser 17:...2000
+
+Vuser 8:Loading Orders for D=1 W=32
+
+Vuser 5:...3000
+
+Vuser 9:...3000
+
+Vuser 16:...3000
+
+Vuser 4:...1000
+
+Vuser 7:Orders Done
+
+Vuser 2:...2000
+
+Vuser 3:Orders Done
+
+Vuser 14:Loading Orders for D=7 W=61
+
+Vuser 12:Loading Orders for D=9 W=51
+
+Vuser 13:Loading Orders for D=7 W=56
+
+Vuser 5:Orders Done
+
+Vuser 6:...3000
+
+Vuser 15:...1000
+
+Vuser 10:...2000
+
+Vuser 17:...3000
+
+Vuser 9:Orders Done
+
+Vuser 16:Orders Done
+
+Vuser 7:Loading Orders for D=2 W=27
+
+Vuser 11:...1000
+
+Vuser 3:Loading Orders for D=2 W=7
+
+Vuser 8:...1000
+
+Vuser 2:...3000
+
+Vuser 4:...2000
+
+Vuser 12:...1000
+
+Vuser 14:...1000
+
+Vuser 5:Loading Orders for D=2 W=17
+
+Vuser 6:Orders Done
+
+Vuser 13:...1000
+
+Vuser 10:...3000
+
+Vuser 15:...2000
+
+Vuser 17:Orders Done
+
+Vuser 9:Loading Orders for D=1 W=37
+
+Vuser 16:Loading Orders for D=5 W=71
+
+Vuser 2:Orders Done
+
+Vuser 4:...3000
+
+Vuser 7:...1000
+
+Vuser 11:...2000
+
+Vuser 3:...1000
+
+Vuser 8:...2000
+
+Vuser 12:...2000
+
+Vuser 14:...2000
+
+Vuser 6:Loading Orders for D=2 W=22
+
+Vuser 5:...1000
+
+Vuser 10:Orders Done
+
+Vuser 17:Loading Orders for D=4 W=76
+
+Vuser 15:...3000
+
+Vuser 13:...2000
+
+Vuser 2:Loading Orders for D=4 W=2
+
+Vuser 4:Orders Done
+
+Vuser 9:...1000
+
+Vuser 16:...1000
+
+Vuser 11:...3000
+
+Vuser 7:...2000
+
+Vuser 10:Loading Orders for D=1 W=42
+
+Vuser 3:...2000
+
+Vuser 8:...3000
+
+Vuser 12:...3000
+
+Vuser 14:...3000
+
+Vuser 15:Orders Done
+
+Vuser 6:...1000
+
+Vuser 5:...2000
+
+Vuser 4:Loading Orders for D=2 W=12
+
+Vuser 17:...1000
+
+Vuser 11:Orders Done
+
+Vuser 13:...3000
+
+Vuser 7:...3000
+
+Vuser 2:...1000
+
+Vuser 9:...2000
+
+Vuser 16:...2000
+
+Vuser 3:...3000
+
+Vuser 8:Orders Done
+
+Vuser 10:...1000
+
+Vuser 12:Orders Done
+
+Vuser 14:Orders Done
+
+Vuser 15:Loading Orders for D=6 W=66
+
+Vuser 11:Loading Orders for D=9 W=46
+
+Vuser 13:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 5:...3000
+
+Vuser 6:...2000
+
+Vuser 3:Orders Done
+
+Vuser 17:...2000
+
+Vuser 4:...1000
+
+Vuser 8:Loading Orders for D=2 W=32
+
+Vuser 12:Loading Orders for D=10 W=51
+
+Vuser 9:...3000
+
+Vuser 14:Loading Orders for D=8 W=61
+
+Vuser 16:...3000
+
+Vuser 2:...2000
+
+Vuser 13:Loading Orders for D=8 W=56
+
+Vuser 7:Loading Orders for D=3 W=27
+
+Vuser 5:Orders Done
+
+Vuser 10:...2000
+
+Vuser 15:...1000
+
+Vuser 3:Loading Orders for D=3 W=7
+
+Vuser 11:...1000
+
+Vuser 9:Orders Done
+
+Vuser 6:...3000
+
+Vuser 17:...3000
+
+Vuser 4:...2000
+
+Vuser 8:...1000
+
+Vuser 12:...1000
+
+Vuser 16:Orders Done
+
+Vuser 14:...1000
+
+Vuser 2:...3000
+
+Vuser 5:Loading Orders for D=3 W=17
+
+Vuser 9:Loading Orders for D=2 W=37
+
+Vuser 10:...3000
+
+Vuser 13:...1000
+
+Vuser 7:...1000
+
+Vuser 15:...2000
+
+Vuser 3:...1000
+
+Vuser 11:...2000
+
+Vuser 6:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 16:Loading Orders for D=6 W=71
+
+Vuser 4:...3000
+
+Vuser 8:...2000
+
+Vuser 12:...2000
+
+Vuser 2:Orders Done
+
+Vuser 10:Orders Done
+
+Vuser 14:...2000
+
+Vuser 5:...1000
+
+Vuser 9:...1000
+
+Vuser 15:...3000
+
+Vuser 6:Loading Orders for D=3 W=22
+
+Vuser 13:...2000
+
+Vuser 7:...2000
+
+Vuser 17:Loading Orders for D=5 W=76
+
+Vuser 11:...3000
+
+Vuser 4:Orders Done
+
+Vuser 3:...2000
+
+Vuser 2:Loading Orders for D=5 W=2
+
+Vuser 8:...3000
+
+Vuser 16:...1000
+
+Vuser 10:Loading Orders for D=2 W=42
+
+Vuser 12:...3000
+
+Vuser 15:Orders Done
+
+Vuser 14:...3000
+
+Vuser 5:...2000
+
+Vuser 9:...2000
+
+Vuser 13:...3000
+
+Vuser 6:...1000
+
+Vuser 7:...3000
+
+Vuser 11:Orders Done
+
+Vuser 17:...1000
+
+Vuser 4:Loading Orders for D=3 W=12
+
+Vuser 8:Orders Done
+
+Vuser 12:Orders Done
+
+Vuser 15:Loading Orders for D=7 W=66
+
+Vuser 3:...3000
+
+Vuser 14:Orders Done
+
+Vuser 13:Orders Done
+
+Vuser 2:...1000
+
+Vuser 16:...2000
+
+Vuser 10:...1000
+
+Vuser 5:...3000
+
+Vuser 7:Orders Done
+
+Vuser 11:Loading Orders for D=10 W=46
+
+Vuser 9:...3000
+
+Vuser 8:Loading Orders for D=3 W=32
+
+Vuser 6:...2000
+
+Vuser 12:Loading Orders for D=1 W=52
+
+Vuser 17:...2000
+
+Vuser 3:Orders Done
+
+Vuser 14:Loading Orders for D=9 W=61
+
+Vuser 4:...1000
+
+Vuser 13:Loading Orders for D=9 W=56
+
+Vuser 5:Orders Done
+
+Vuser 7:Loading Orders for D=4 W=27
+
+Vuser 9:Orders Done
+
+Vuser 15:...1000
+
+Vuser 16:...3000
+
+Vuser 2:...2000
+
+Vuser 10:...2000
+
+Vuser 11:...1000
+
+Vuser 8:...1000
+
+Vuser 6:...3000
+
+Vuser 17:...3000
+
+Vuser 3:Loading Orders for D=4 W=7
+
+Vuser 12:...1000
+
+Vuser 5:Loading Orders for D=4 W=17
+
+Vuser 14:...1000
+
+Vuser 4:...2000
+
+Vuser 13:...1000
+
+Vuser 7:...1000
+
+Vuser 9:Loading Orders for D=3 W=37
+
+Vuser 15:...2000
+
+Vuser 16:Orders Done
+
+Vuser 2:...3000
+
+Vuser 10:...3000
+
+Vuser 11:...2000
+
+Vuser 6:Orders Done
+
+Vuser 8:...2000
+
+Vuser 17:Orders Done
+
+Vuser 3:...1000
+
+Vuser 12:...2000
+
+Vuser 5:...1000
+
+Vuser 4:...3000
+
+Vuser 14:...2000
+
+Vuser 13:...2000
+
+Vuser 7:...2000
+
+Vuser 9:...1000
+
+Vuser 15:...3000
+
+Vuser 16:Loading Orders for D=7 W=71
+
+Vuser 2:Orders Done
+
+Vuser 10:Orders Done
+
+Vuser 6:Loading Orders for D=4 W=22
+
+Vuser 17:Loading Orders for D=6 W=76
+
+Vuser 11:...3000
+
+Vuser 8:...3000
+
+Vuser 12:...3000
+
+Vuser 3:...2000
+
+Vuser 4:Orders Done
+
+Vuser 5:...2000
+
+Vuser 14:...3000
+
+Vuser 13:...3000
+
+Vuser 7:...3000
+
+Vuser 15:Orders Done
+
+Vuser 2:Loading Orders for D=6 W=2
+
+Vuser 10:Loading Orders for D=3 W=42
+
+Vuser 9:...2000
+
+Vuser 16:...1000
+
+Vuser 11:Orders Done
+
+Vuser 6:...1000
+
+Vuser 8:Orders Done
+
+Vuser 17:...1000
+
+Vuser 12:Orders Done
+
+Vuser 4:Loading Orders for D=4 W=12
+
+Vuser 14:Orders Done
+
+Vuser 13:Orders Done
+
+Vuser 3:...3000
+
+Vuser 7:Orders Done
+
+Vuser 15:Loading Orders for D=8 W=66
+
+Vuser 5:...3000
+
+Vuser 11:Loading Orders for D=1 W=47
+
+Vuser 8:Loading Orders for D=4 W=32
+
+Vuser 12:Loading Orders for D=2 W=52
+
+Vuser 9:...3000
+
+Vuser 2:...1000
+
+Vuser 14:Loading Orders for D=10 W=61
+
+Vuser 10:...1000
+
+Vuser 16:...2000
+
+Vuser 6:...2000
+
+Vuser 17:...2000
+
+Vuser 4:...1000
+
+Vuser 13:Loading Orders for D=10 W=56
+
+Vuser 3:Orders Done
+
+Vuser 7:Loading Orders for D=5 W=27
+
+Vuser 5:Orders Done
+
+Vuser 15:...1000
+
+Vuser 9:Orders Done
+
+Vuser 11:...1000
+
+Vuser 8:...1000
+
+Vuser 16:...3000
+
+Vuser 12:...1000
+
+Vuser 6:...3000
+
+Vuser 17:...3000
+
+Vuser 2:...2000
+
+Vuser 14:...1000
+
+Vuser 10:...2000
+
+Vuser 3:Loading Orders for D=5 W=7
+
+Vuser 4:...2000
+
+Vuser 13:...1000
+
+Vuser 5:Loading Orders for D=5 W=17
+
+Vuser 9:Loading Orders for D=4 W=37
+
+Vuser 7:...1000
+
+Vuser 15:...2000
+
+Vuser 16:Orders Done
+
+Vuser 11:...2000
+
+Vuser 8:...2000
+
+Vuser 6:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 2:...3000
+
+Vuser 12:...2000
+
+Vuser 10:...3000
+
+Vuser 4:...3000
+
+Vuser 14:...2000
+
+Vuser 3:...1000
+
+Vuser 13:...2000
+
+Vuser 5:...1000
+
+Vuser 9:...1000
+
+Vuser 16:Loading Orders for D=8 W=71
+
+Vuser 7:...2000
+
+Vuser 15:...3000
+
+Vuser 11:...3000
+
+Vuser 6:Loading Orders for D=5 W=22
+
+Vuser 8:...3000
+
+Vuser 17:Loading Orders for D=7 W=76
+
+Vuser 2:Orders Done
+
+Vuser 10:Orders Done
+
+Vuser 12:...3000
+
+Vuser 4:Orders Done
+
+Vuser 14:...3000
+
+Vuser 15:Orders Done
+
+Vuser 11:Orders Done
+
+Vuser 13:...3000
+
+Vuser 3:...2000
+
+Vuser 7:...3000
+
+Vuser 5:...2000
+
+Vuser 9:...2000
+
+Vuser 16:...1000
+
+Vuser 8:Orders Done
+
+Vuser 6:...1000
+
+Vuser 2:Loading Orders for D=7 W=2
+
+Vuser 10:Loading Orders for D=4 W=42
+
+Vuser 12:Orders Done
+
+Vuser 4:Loading Orders for D=5 W=12
+
+Vuser 14:Orders Done
+
+Vuser 15:Loading Orders for D=9 W=66
+
+Vuser 11:Loading Orders for D=2 W=47
+
+Vuser 17:...1000
+
+Vuser 13:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 3:...3000
+
+Vuser 5:...3000
+
+Vuser 9:...3000
+
+Vuser 8:Loading Orders for D=5 W=32
+
+Vuser 16:...2000
+
+Vuser 12:Loading Orders for D=3 W=52
+
+Vuser 14:Loading Orders for D=1 W=62
+
+Vuser 6:...2000
+
+Vuser 2:...1000
+
+Vuser 10:...1000
+
+Vuser 13:Loading Orders for D=1 W=57
+
+Vuser 4:...1000
+
+Vuser 15:...1000
+
+Vuser 11:...1000
+
+Vuser 17:...2000
+
+Vuser 7:Loading Orders for D=6 W=27
+
+Vuser 3:Orders Done
+
+Vuser 5:Orders Done
+
+Vuser 9:Orders Done
+
+Vuser 8:...1000
+
+Vuser 16:...3000
+
+Vuser 6:...3000
+
+Vuser 12:...1000
+
+Vuser 14:...1000
+
+Vuser 2:...2000
+
+Vuser 10:...2000
+
+Vuser 13:...1000
+
+Vuser 15:...2000
+
+Vuser 4:...2000
+
+Vuser 11:...2000
+
+Vuser 17:...3000
+
+Vuser 3:Loading Orders for D=6 W=7
+
+Vuser 7:...1000
+
+Vuser 5:Loading Orders for D=6 W=17
+
+Vuser 9:Loading Orders for D=5 W=37
+
+Vuser 16:Orders Done
+
+Vuser 6:Orders Done
+
+Vuser 2:...3000
+
+Vuser 8:...2000
+
+Vuser 10:...3000
+
+Vuser 15:...3000
+
+Vuser 12:...2000
+
+Vuser 4:...3000
+
+Vuser 14:...2000
+
+Vuser 11:...3000
+
+Vuser 17:Orders Done
+
+Vuser 13:...2000
+
+Vuser 16:Loading Orders for D=9 W=71
+
+Vuser 3:...1000
+
+Vuser 7:...2000
+
+Vuser 6:Loading Orders for D=6 W=22
+
+Vuser 2:Orders Done
+
+Vuser 10:Orders Done
+
+Vuser 15:Orders Done
+
+Vuser 4:Orders Done
+
+Vuser 5:...1000
+
+Vuser 11:Orders Done
+
+Vuser 9:...1000
+
+Vuser 17:Loading Orders for D=8 W=76
+
+Vuser 8:...3000
+
+Vuser 12:...3000
+
+Vuser 14:...3000
+
+Vuser 2:Loading Orders for D=8 W=2
+
+Vuser 10:Loading Orders for D=5 W=42
+
+Vuser 13:...3000
+
+Vuser 15:Loading Orders for D=10 W=66
+
+Vuser 7:...3000
+
+Vuser 16:...1000
+
+Vuser 4:Loading Orders for D=6 W=12
+
+Vuser 3:...2000
+
+Vuser 6:...1000
+
+Vuser 11:Loading Orders for D=3 W=47
+
+Vuser 8:Orders Done
+
+Vuser 12:Orders Done
+
+Vuser 14:Orders Done
+
+Vuser 13:Orders Done
+
+Vuser 5:...2000
+
+Vuser 17:...1000
+
+Vuser 9:...2000
+
+Vuser 2:...1000
+
+Vuser 10:...1000
+
+Vuser 7:Orders Done
+
+Vuser 15:...1000
+
+Vuser 16:...2000
+
+Vuser 4:...1000
+
+Vuser 3:...3000
+
+Vuser 6:...2000
+
+Vuser 8:Loading Orders for D=6 W=32
+
+Vuser 11:...1000
+
+Vuser 12:Loading Orders for D=4 W=52
+
+Vuser 14:Loading Orders for D=2 W=62
+
+Vuser 13:Loading Orders for D=2 W=57
+
+Vuser 7:Loading Orders for D=7 W=27
+
+Vuser 5:...3000
+
+Vuser 3:Orders Done
+
+Vuser 9:...3000
+
+Vuser 17:...2000
+
+Vuser 16:...3000
+
+Vuser 2:...2000
+
+Vuser 6:...3000
+
+Vuser 10:...2000
+
+Vuser 15:...2000
+
+Vuser 4:...2000
+
+Vuser 8:...1000
+
+Vuser 5:Orders Done
+
+Vuser 3:Loading Orders for D=7 W=7
+
+Vuser 9:Orders Done
+
+Vuser 16:Orders Done
+
+Vuser 11:...2000
+
+Vuser 12:...1000
+
+Vuser 14:...1000
+
+Vuser 17:...3000
+
+Vuser 13:...1000
+
+Vuser 7:...1000
+
+Vuser 2:...3000
+
+Vuser 6:Orders Done
+
+Vuser 5:Loading Orders for D=7 W=17
+
+Vuser 9:Loading Orders for D=6 W=37
+
+Vuser 10:...3000
+
+Vuser 16:Loading Orders for D=10 W=71
+
+Vuser 15:...3000
+
+Vuser 4:...3000
+
+Vuser 17:Orders Done
+
+Vuser 8:...2000
+
+Vuser 11:...3000
+
+Vuser 3:...1000
+
+Vuser 12:...2000
+
+Vuser 14:...2000
+
+Vuser 2:Orders Done
+
+Vuser 6:Loading Orders for D=7 W=22
+
+Vuser 10:Orders Done
+
+Vuser 15:Orders Done
+
+Vuser 4:Orders Done
+
+Vuser 17:Loading Orders for D=9 W=76
+
+Vuser 13:...2000
+
+Vuser 11:Orders Done
+
+Vuser 7:...2000
+
+Vuser 2:Loading Orders for D=9 W=2
+
+Vuser 5:...1000
+
+Vuser 9:...1000
+
+Vuser 10:Loading Orders for D=6 W=42
+
+Vuser 15:Loading Orders for D=1 W=67
+
+Vuser 8:...3000
+
+Vuser 16:...1000
+
+Vuser 4:Loading Orders for D=7 W=12
+
+Vuser 12:...3000
+
+Vuser 11:Loading Orders for D=4 W=47
+
+Vuser 14:...3000
+
+Vuser 3:...2000
+
+Vuser 13:...3000
+
+Vuser 6:...1000
+
+Vuser 7:...3000
+
+Vuser 17:...1000
+
+Vuser 8:Orders Done
+
+Vuser 2:...1000
+
+Vuser 5:...2000
+
+Vuser 10:...1000
+
+Vuser 9:...2000
+
+Vuser 12:Orders Done
+
+Vuser 14:Orders Done
+
+Vuser 15:...1000
+
+Vuser 13:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 3:...3000
+
+Vuser 16:...2000
+
+Vuser 4:...1000
+
+Vuser 11:...1000
+
+Vuser 8:Loading Orders for D=7 W=32
+
+Vuser 6:...2000
+
+Vuser 17:...2000
+
+Vuser 12:Loading Orders for D=5 W=52
+
+Vuser 14:Loading Orders for D=3 W=62
+
+Vuser 13:Loading Orders for D=3 W=57
+
+Vuser 5:...3000
+
+Vuser 7:Loading Orders for D=8 W=27
+
+Vuser 3:Orders Done
+
+Vuser 2:...2000
+
+Vuser 9:...3000
+
+Vuser 10:...2000
+
+Vuser 16:...3000
+
+Vuser 15:...2000
+
+Vuser 4:...2000
+
+Vuser 11:...2000
+
+Vuser 8:...1000
+
+Vuser 5:Orders Done
+
+Vuser 6:...3000
+
+Vuser 3:Loading Orders for D=8 W=7
+
+Vuser 17:...3000
+
+Vuser 9:Orders Done
+
+Vuser 14:...1000
+
+Vuser 12:...1000
+
+Vuser 2:...3000
+
+Vuser 13:...1000
+
+Vuser 7:...1000
+
+Vuser 16:Orders Done
+
+Vuser 10:...3000
+
+Vuser 5:Loading Orders for D=8 W=17
+
+Vuser 6:Orders Done
+
+Vuser 15:...3000
+
+Vuser 4:...3000
+
+Vuser 11:...3000
+
+Vuser 17:Orders Done
+
+Vuser 9:Loading Orders for D=7 W=37
+
+Vuser 2:Orders Done
+
+Vuser 8:...2000
+
+Vuser 16:Loading Orders for D=1 W=72
+
+Vuser 10:Orders Done
+
+Vuser 3:...1000
+
+Vuser 6:Loading Orders for D=8 W=22
+
+Vuser 15:Orders Done
+
+Vuser 4:Orders Done
+
+Vuser 11:Orders Done
+
+Vuser 17:Loading Orders for D=10 W=76
+
+Vuser 14:...2000
+
+Vuser 2:Loading Orders for D=10 W=2
+
+Vuser 12:...2000
+
+Vuser 13:...2000
+
+Vuser 7:...2000
+
+Vuser 5:...1000
+
+Vuser 10:Loading Orders for D=7 W=42
+
+Vuser 9:...1000
+
+Vuser 15:Loading Orders for D=2 W=67
+
+Vuser 4:Loading Orders for D=8 W=12
+
+Vuser 11:Loading Orders for D=5 W=47
+
+Vuser 8:...3000
+
+Vuser 16:...1000
+
+Vuser 3:...2000
+
+Vuser 14:...3000
+
+Vuser 6:...1000
+
+Vuser 17:...1000
+
+Vuser 2:...1000
+
+Vuser 12:...3000
+
+Vuser 13:...3000
+
+Vuser 7:...3000
+
+Vuser 8:Orders Done
+
+Vuser 5:...2000
+
+Vuser 14:Orders Done
+
+Vuser 10:...1000
+
+Vuser 9:...2000
+
+Vuser 3:...3000
+
+Vuser 15:...1000
+
+Vuser 4:...1000
+
+Vuser 11:...1000
+
+Vuser 12:Orders Done
+
+Vuser 16:...2000
+
+Vuser 6:...2000
+
+Vuser 13:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 8:Loading Orders for D=8 W=32
+
+Vuser 17:...2000
+
+Vuser 14:Loading Orders for D=4 W=62
+
+Vuser 2:...2000
+
+Vuser 3:Orders Done
+
+Vuser 5:...3000
+
+Vuser 9:...3000
+
+Vuser 12:Loading Orders for D=6 W=52
+
+Vuser 10:...2000
+
+Vuser 15:...2000
+
+Vuser 4:...2000
+
+Vuser 11:...2000
+
+Vuser 13:Loading Orders for D=4 W=57
+
+Vuser 7:Loading Orders for D=9 W=27
+
+Vuser 3:Loading Orders for D=9 W=7
+
+Vuser 16:...3000
+
+Vuser 5:Orders Done
+
+Vuser 6:...3000
+
+Vuser 9:Orders Done
+
+Vuser 17:...3000
+
+Vuser 2:...3000
+
+Vuser 8:...1000
+
+Vuser 14:...1000
+
+Vuser 12:...1000
+
+Vuser 16:Orders Done
+
+Vuser 5:Loading Orders for D=9 W=17
+
+Vuser 10:...3000
+
+Vuser 6:Orders Done
+
+Vuser 15:...3000
+
+Vuser 4:...3000
+
+Vuser 11:...3000
+
+Vuser 9:Loading Orders for D=8 W=37
+
+Vuser 17:Orders Done
+
+Vuser 7:...1000
+
+Vuser 13:...1000
+
+Vuser 3:...1000
+
+Vuser 2:Orders Done
+
+Vuser 16:Loading Orders for D=2 W=72
+
+Vuser 10:Orders Done
+
+Vuser 6:Loading Orders for D=9 W=22
+
+Vuser 15:Orders Done
+
+Vuser 4:Orders Done
+
+Vuser 11:Orders Done
+
+Vuser 17:Loading Orders for D=1 W=77
+
+Vuser 8:...2000
+
+Vuser 14:...2000
+
+Vuser 12:...2000
+
+Vuser 5:...1000
+
+Vuser 2:Loading Orders for D=1 W=3
+
+Vuser 9:...1000
+
+Vuser 10:Loading Orders for D=8 W=42
+
+Vuser 7:...2000
+
+Vuser 15:Loading Orders for D=3 W=67
+
+Vuser 4:Loading Orders for D=9 W=12
+
+Vuser 11:Loading Orders for D=6 W=47
+
+Vuser 13:...2000
+
+Vuser 3:...2000
+
+Vuser 16:...1000
+
+Vuser 6:...1000
+
+Vuser 8:...3000
+
+Vuser 14:...3000
+
+Vuser 12:...3000
+
+Vuser 17:...1000
+
+Vuser 5:...2000
+
+Vuser 2:...1000
+
+Vuser 7:...3000
+
+Vuser 9:...2000
+
+Vuser 10:...1000
+
+Vuser 15:...1000
+
+Vuser 4:...1000
+
+Vuser 13:...3000
+
+Vuser 11:...1000
+
+Vuser 8:Orders Done
+
+Vuser 3:...3000
+
+Vuser 14:Orders Done
+
+Vuser 12:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 16:...2000
+
+Vuser 6:...2000
+
+Vuser 5:...3000
+
+Vuser 13:Orders Done
+
+Vuser 17:...2000
+
+Vuser 8:Loading Orders for D=9 W=32
+
+Vuser 3:Orders Done
+
+Vuser 9:...3000
+
+Vuser 2:...2000
+
+Vuser 14:Loading Orders for D=5 W=62
+
+Vuser 12:Loading Orders for D=7 W=52
+
+Vuser 7:Loading Orders for D=10 W=27
+
+Vuser 10:...2000
+
+Vuser 15:...2000
+
+Vuser 4:...2000
+
+Vuser 11:...2000
+
+Vuser 5:Orders Done
+
+Vuser 13:Loading Orders for D=5 W=57
+
+Vuser 16:...3000
+
+Vuser 3:Loading Orders for D=10 W=7
+
+Vuser 9:Orders Done
+
+Vuser 6:...3000
+
+Vuser 17:...3000
+
+Vuser 2:...3000
+
+Vuser 8:...1000
+
+Vuser 5:Loading Orders for D=10 W=17
+
+Vuser 10:...3000
+
+Vuser 15:...3000
+
+Vuser 4:...3000
+
+Vuser 14:...1000
+
+Vuser 11:...3000
+
+Vuser 12:...1000
+
+Vuser 7:...1000
+
+Vuser 16:Orders Done
+
+Vuser 9:Loading Orders for D=9 W=37
+
+Vuser 6:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 2:Orders Done
+
+Vuser 13:...1000
+
+Vuser 3:...1000
+
+Vuser 10:Orders Done
+
+Vuser 15:Orders Done
+
+Vuser 4:Orders Done
+
+Vuser 11:Orders Done
+
+Vuser 16:Loading Orders for D=3 W=72
+
+Vuser 6:Loading Orders for D=10 W=22
+
+Vuser 17:Loading Orders for D=2 W=77
+
+Vuser 5:...1000
+
+Vuser 2:Loading Orders for D=2 W=3
+
+Vuser 8:...2000
+
+Vuser 10:Loading Orders for D=9 W=42
+
+Vuser 15:Loading Orders for D=4 W=67
+
+Vuser 4:Loading Orders for D=10 W=12
+
+Vuser 14:...2000
+
+Vuser 12:...2000
+
+Vuser 7:...2000
+
+Vuser 9:...1000
+
+Vuser 11:Loading Orders for D=7 W=47
+
+Vuser 13:...2000
+
+Vuser 3:...2000
+
+Vuser 16:...1000
+
+Vuser 8:...3000
+
+Vuser 17:...1000
+
+Vuser 6:...1000
+
+Vuser 14:...3000
+
+Vuser 5:...2000
+
+Vuser 2:...1000
+
+Vuser 12:...3000
+
+Vuser 10:...1000
+
+Vuser 7:...3000
+
+Vuser 15:...1000
+
+Vuser 4:...1000
+
+Vuser 9:...2000
+
+Vuser 11:...1000
+
+Vuser 13:...3000
+
+Vuser 3:...3000
+
+Vuser 8:Orders Done
+
+Vuser 14:Orders Done
+
+Vuser 16:...2000
+
+Vuser 12:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 5:...3000
+
+Vuser 17:...2000
+
+Vuser 6:...2000
+
+Vuser 2:...2000
+
+Vuser 10:...2000
+
+Vuser 13:Orders Done
+
+Vuser 3:Orders Done
+
+Vuser 8:Loading Orders for D=10 W=32
+
+Vuser 15:...2000
+
+Vuser 14:Loading Orders for D=6 W=62
+
+Vuser 12:Loading Orders for D=8 W=52
+
+Vuser 7:Loading Orders for D=1 W=28
+
+Vuser 9:...3000
+
+Vuser 5:Orders Done
+
+Vuser 4:...2000
+
+Vuser 16:...3000
+
+Vuser 11:...2000
+
+Vuser 17:...3000
+
+Vuser 13:Loading Orders for D=6 W=57
+
+Vuser 6:...3000
+
+Vuser 3:Loading Orders for D=1 W=8
+
+Vuser 2:...3000
+
+Vuser 9:Orders Done
+
+Vuser 5:Loading Orders for D=1 W=18
+
+Vuser 10:...3000
+
+Vuser 15:...3000
+
+Vuser 8:...1000
+
+Vuser 4:...3000
+
+Vuser 14:...1000
+
+Vuser 16:Orders Done
+
+Vuser 12:...1000
+
+Vuser 7:...1000
+
+Vuser 17:Orders Done
+
+Vuser 6:Orders Done
+
+Vuser 2:Orders Done
+
+Vuser 9:Loading Orders for D=10 W=37
+
+Vuser 11:...3000
+
+Vuser 10:Orders Done
+
+Vuser 15:Orders Done
+
+Vuser 4:Orders Done
+
+Vuser 16:Loading Orders for D=4 W=72
+
+Vuser 13:...1000
+
+Vuser 3:...1000
+
+Vuser 17:Loading Orders for D=3 W=77
+
+Vuser 6:Loading Orders for D=1 W=23
+
+Vuser 5:...1000
+
+Vuser 2:Loading Orders for D=3 W=3
+
+Vuser 11:Orders Done
+
+Vuser 8:...2000
+
+Vuser 10:Loading Orders for D=10 W=42
+
+Vuser 15:Loading Orders for D=5 W=67
+
+Vuser 14:...2000
+
+Vuser 4:Loading Orders for D=1 W=13
+
+Vuser 12:...2000
+
+Vuser 7:...2000
+
+Vuser 11:Loading Orders for D=8 W=47
+
+Vuser 9:...1000
+
+Vuser 16:...1000
+
+Vuser 13:...2000
+
+Vuser 3:...2000
+
+Vuser 17:...1000
+
+Vuser 8:...3000
+
+Vuser 6:...1000
+
+Vuser 5:...2000
+
+Vuser 2:...1000
+
+Vuser 14:...3000
+
+Vuser 10:...1000
+
+Vuser 12:...3000
+
+Vuser 7:...3000
+
+Vuser 15:...1000
+
+Vuser 4:...1000
+
+Vuser 11:...1000
+
+Vuser 9:...2000
+
+Vuser 8:Orders Done
+
+Vuser 16:...2000
+
+Vuser 13:...3000
+
+Vuser 3:...3000
+
+Vuser 17:...2000
+
+Vuser 14:Orders Done
+
+Vuser 6:...2000
+
+Vuser 12:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 5:...3000
+
+Vuser 8:Loading Orders for D=1 W=33
+
+Vuser 2:...2000
+
+Vuser 10:...2000
+
+Vuser 13:Orders Done
+
+Vuser 3:Orders Done
+
+Vuser 9:...3000
+
+Vuser 14:Loading Orders for D=7 W=62
+
+Vuser 15:...2000
+
+Vuser 11:...2000
+
+Vuser 4:...2000
+
+Vuser 12:Loading Orders for D=9 W=52
+
+Vuser 16:...3000
+
+Vuser 17:...3000
+
+Vuser 6:...3000
+
+Vuser 7:Loading Orders for D=2 W=28
+
+Vuser 5:Orders Done
+
+Vuser 13:Loading Orders for D=7 W=57
+
+Vuser 3:Loading Orders for D=2 W=8
+
+Vuser 9:Orders Done
+
+Vuser 2:...3000
+
+Vuser 10:...3000
+
+Vuser 8:...1000
+
+Vuser 15:...3000
+
+Vuser 11:...3000
+
+Vuser 14:...1000
+
+Vuser 16:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 6:Orders Done
+
+Vuser 5:Loading Orders for D=2 W=18
+
+Vuser 4:...3000
+
+Vuser 9:Loading Orders for D=1 W=38
+
+Vuser 2:Orders Done
+
+Vuser 10:Orders Done
+
+Vuser 12:...1000
+
+Vuser 7:...1000
+
+Vuser 15:Orders Done
+
+Vuser 13:...1000
+
+Vuser 3:...1000
+
+Vuser 11:Orders Done
+
+Vuser 16:Loading Orders for D=5 W=72
+
+Vuser 17:Loading Orders for D=4 W=77
+
+Vuser 6:Loading Orders for D=2 W=23
+
+Vuser 4:Orders Done
+
+Vuser 8:...2000
+
+Vuser 2:Loading Orders for D=4 W=3
+
+Vuser 10:Loading Orders for D=1 W=43
+
+Vuser 14:...2000
+
+Vuser 5:...1000
+
+Vuser 15:Loading Orders for D=6 W=67
+
+Vuser 9:...1000
+
+Vuser 12:...2000
+
+Vuser 7:...2000
+
+Vuser 11:Loading Orders for D=9 W=47
+
+Vuser 13:...2000
+
+Vuser 4:Loading Orders for D=2 W=13
+
+Vuser 3:...2000
+
+Vuser 16:...1000
+
+Vuser 17:...1000
+
+Vuser 6:...1000
+
+Vuser 8:...3000
+
+Vuser 14:...3000
+
+Vuser 2:...1000
+
+Vuser 10:...1000
+
+Vuser 12:...3000
+
+Vuser 5:...2000
+
+Vuser 15:...1000
+
+Vuser 7:...3000
+
+Vuser 13:...3000
+
+Vuser 9:...2000
+
+Vuser 8:Orders Done
+
+Vuser 3:...3000
+
+Vuser 11:...1000
+
+Vuser 4:...1000
+
+Vuser 16:...2000
+
+Vuser 17:...2000
+
+Vuser 6:...2000
+
+Vuser 14:Orders Done
+
+Vuser 12:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 13:Orders Done
+
+Vuser 5:...3000
+
+Vuser 2:...2000
+
+Vuser 10:...2000
+
+Vuser 8:Loading Orders for D=2 W=33
+
+Vuser 3:Orders Done
+
+Vuser 15:...2000
+
+Vuser 9:...3000
+
+Vuser 14:Loading Orders for D=8 W=62
+
+Vuser 12:Loading Orders for D=10 W=52
+
+Vuser 7:Loading Orders for D=3 W=28
+
+Vuser 13:Loading Orders for D=8 W=57
+
+Vuser 5:Orders Done
+
+Vuser 16:...3000
+
+Vuser 17:...3000
+
+Vuser 11:...2000
+
+Vuser 6:...3000
+
+Vuser 4:...2000
+
+Vuser 3:Loading Orders for D=3 W=8
+
+Vuser 9:Orders Done
+
+Vuser 2:...3000
+
+Vuser 10:...3000
+
+Vuser 15:...3000
+
+Vuser 8:...1000
+
+Vuser 5:Loading Orders for D=3 W=18
+
+Vuser 14:...1000
+
+Vuser 12:...1000
+
+Vuser 16:Orders Done
+
+Vuser 7:...1000
+
+Vuser 13:...1000
+
+Vuser 17:Orders Done
+
+Vuser 6:Orders Done
+
+Vuser 11:...3000
+
+Vuser 9:Loading Orders for D=2 W=38
+
+Vuser 2:Orders Done
+
+Vuser 10:Orders Done
+
+Vuser 15:Orders Done
+
+Vuser 4:...3000
+
+Vuser 3:...1000
+
+Vuser 16:Loading Orders for D=6 W=72
+
+Vuser 8:...2000
+
+Vuser 5:...1000
+
+Vuser 14:...2000
+
+Vuser 17:Loading Orders for D=5 W=77
+
+Vuser 6:Loading Orders for D=3 W=23
+
+Vuser 12:...2000
+
+Vuser 11:Orders Done
+
+Vuser 2:Loading Orders for D=5 W=3
+
+Vuser 10:Loading Orders for D=2 W=43
+
+Vuser 15:Loading Orders for D=7 W=67
+
+Vuser 7:...2000
+
+Vuser 4:Orders Done
+
+Vuser 13:...2000
+
+Vuser 9:...1000
+
+Vuser 8:...3000
+
+Vuser 14:...3000
+
+Vuser 3:...2000
+
+Vuser 16:...1000
+
+Vuser 11:Loading Orders for D=10 W=47
+
+Vuser 5:...2000
+
+Vuser 17:...1000
+
+Vuser 6:...1000
+
+Vuser 12:...3000
+
+Vuser 4:Loading Orders for D=3 W=13
+
+Vuser 8:Orders Done
+
+Vuser 14:Orders Done
+
+Vuser 7:...3000
+
+Vuser 2:...1000
+
+Vuser 13:...3000
+
+Vuser 10:...1000
+
+Vuser 15:...1000
+
+Vuser 3:...3000
+
+Vuser 9:...2000
+
+Vuser 12:Orders Done
+
+Vuser 5:...3000
+
+Vuser 16:...2000
+
+Vuser 11:...1000
+
+Vuser 8:Loading Orders for D=3 W=33
+
+Vuser 14:Loading Orders for D=9 W=62
+
+Vuser 17:...2000
+
+Vuser 6:...2000
+
+Vuser 7:Orders Done
+
+Vuser 13:Orders Done
+
+Vuser 3:Orders Done
+
+Vuser 4:...1000
+
+Vuser 12:Loading Orders for D=1 W=53
+
+Vuser 5:Orders Done
+
+Vuser 2:...2000
+
+Vuser 9:...3000
+
+Vuser 10:...2000
+
+Vuser 15:...2000
+
+Vuser 16:...3000
+
+Vuser 11:...2000
+
+Vuser 8:...1000
+
+Vuser 14:...1000
+
+Vuser 7:Loading Orders for D=4 W=28
+
+Vuser 13:Loading Orders for D=9 W=57
+
+Vuser 3:Loading Orders for D=4 W=8
+
+Vuser 17:...3000
+
+Vuser 5:Loading Orders for D=4 W=18
+
+Vuser 9:Orders Done
+
+Vuser 6:...3000
+
+Vuser 16:Orders Done
+
+Vuser 2:...3000
+
+Vuser 4:...2000
+
+Vuser 12:...1000
+
+Vuser 10:...3000
+
+Vuser 15:...3000
+
+Vuser 11:...3000
+
+Vuser 8:...2000
+
+Vuser 14:...2000
+
+Vuser 7:...1000
+
+Vuser 13:...1000
+
+Vuser 17:Orders Done
+
+Vuser 9:Loading Orders for D=3 W=38
+
+Vuser 6:Orders Done
+
+Vuser 3:...1000
+
+Vuser 16:Loading Orders for D=7 W=72
+
+Vuser 2:Orders Done
+
+Vuser 5:...1000
+
+Vuser 10:Orders Done
+
+Vuser 15:Orders Done
+
+Vuser 11:Orders Done
+
+Vuser 4:...3000
+
+Vuser 17:Loading Orders for D=6 W=77
+
+Vuser 12:...2000
+
+Vuser 8:...3000
+
+Vuser 14:...3000
+
+Vuser 6:Loading Orders for D=4 W=23
+
+Vuser 2:Loading Orders for D=6 W=3
+
+Vuser 7:...2000
+
+Vuser 13:...2000
+
+Vuser 10:Loading Orders for D=3 W=43
+
+Vuser 9:...1000
+
+Vuser 3:...2000
+
+Vuser 16:...1000
+
+Vuser 15:Loading Orders for D=8 W=67
+
+Vuser 5:...2000
+
+Vuser 11:Loading Orders for D=1 W=48
+
+Vuser 4:Orders Done
+
+Vuser 8:Orders Done
+
+Vuser 14:Orders Done
+
+Vuser 12:...3000
+
+Vuser 17:...1000
+
+Vuser 7:...3000
+
+Vuser 13:...3000
+
+Vuser 6:...1000
+
+Vuser 2:...1000
+
+Vuser 10:...1000
+
+Vuser 9:...2000
+
+Vuser 3:...3000
+
+Vuser 16:...2000
+
+Vuser 15:...1000
+
+Vuser 5:...3000
+
+Vuser 4:Loading Orders for D=4 W=13
+
+Vuser 8:Loading Orders for D=4 W=33
+
+Vuser 14:Loading Orders for D=10 W=62
+
+Vuser 11:...1000
+
+Vuser 12:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 13:Orders Done
+
+Vuser 3:Orders Done
+
+Vuser 5:Orders Done
+
+Vuser 17:...2000
+
+Vuser 9:...3000
+
+Vuser 6:...2000
+
+Vuser 16:...3000
+
+Vuser 2:...2000
+
+Vuser 10:...2000
+
+Vuser 15:...2000
+
+Vuser 4:...1000
+
+Vuser 12:Loading Orders for D=2 W=53
+
+Vuser 7:Loading Orders for D=5 W=28
+
+Vuser 13:Loading Orders for D=10 W=57
+
+Vuser 3:Loading Orders for D=5 W=8
+
+Vuser 8:...1000
+
+Vuser 14:...1000
+
+Vuser 5:Loading Orders for D=5 W=18
+
+Vuser 9:Orders Done
+
+Vuser 11:...2000
+
+Vuser 17:...3000
+
+Vuser 16:Orders Done
+
+Vuser 6:...3000
+
+Vuser 2:...3000
+
+Vuser 10:...3000
+
+Vuser 15:...3000
+
+Vuser 4:...2000
+
+Vuser 12:...1000
+
+Vuser 7:...1000
+
+Vuser 13:...1000
+
+Vuser 8:...2000
+
+Vuser 3:...1000
+
+Vuser 14:...2000
+
+Vuser 9:Loading Orders for D=4 W=38
+
+Vuser 5:...1000
+
+Vuser 17:Orders Done
+
+Vuser 11:...3000
+
+Vuser 16:Loading Orders for D=8 W=72
+
+Vuser 6:Orders Done
+
+Vuser 2:Orders Done
+
+Vuser 10:Orders Done
+
+Vuser 15:Orders Done
+
+Vuser 4:...3000
+
+Vuser 17:Loading Orders for D=7 W=77
+
+Vuser 11:Orders Done
+
+Vuser 8:...3000
+
+Vuser 6:Loading Orders for D=5 W=23
+
+Vuser 2:Loading Orders for D=7 W=3
+
+Vuser 14:...3000
+
+Vuser 12:...2000
+
+Vuser 10:Loading Orders for D=4 W=43
+
+Vuser 7:...2000
+
+Vuser 15:Loading Orders for D=9 W=67
+
+Vuser 13:...2000
+
+Vuser 4:Orders Done
+
+Vuser 3:...2000
+
+Vuser 11:Loading Orders for D=2 W=48
+
+Vuser 9:...1000
+
+Vuser 8:Orders Done
+
+Vuser 5:...2000
+
+Vuser 14:Orders Done
+
+Vuser 16:...1000
+
+Vuser 4:Loading Orders for D=5 W=13
+
+Vuser 17:...1000
+
+Vuser 12:...3000
+
+Vuser 8:Loading Orders for D=5 W=33
+
+Vuser 7:...3000
+
+Vuser 6:...1000
+
+Vuser 2:...1000
+
+Vuser 14:Loading Orders for D=1 W=63
+
+Vuser 13:...3000
+
+Vuser 10:...1000
+
+Vuser 3:...3000
+
+Vuser 15:...1000
+
+Vuser 12:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 5:...3000
+
+Vuser 11:...1000
+
+Vuser 9:...2000
+
+Vuser 13:Orders Done
+
+Vuser 3:Orders Done
+
+Vuser 16:...2000
+
+Vuser 4:...1000
+
+Vuser 17:...2000
+
+Vuser 12:Loading Orders for D=3 W=53
+
+Vuser 7:Loading Orders for D=6 W=28
+
+Vuser 8:...1000
+
+Vuser 5:Orders Done
+
+Vuser 6:...2000
+
+Vuser 2:...2000
+
+Vuser 13:Loading Orders for D=1 W=58
+
+Vuser 14:...1000
+
+Vuser 3:Loading Orders for D=6 W=8
+
+Vuser 10:...2000
+
+Vuser 15:...2000
+
+Vuser 9:...3000
+
+Vuser 5:Loading Orders for D=6 W=18
+
+Vuser 11:...2000
+
+Vuser 16:...3000
+
+Vuser 17:...3000
+
+Vuser 4:...2000
+
+Vuser 9:Orders Done
+
+Vuser 6:...3000
+
+Vuser 12:...1000
+
+Vuser 2:...3000
+
+Vuser 7:...1000
+
+Vuser 8:...2000
+
+Vuser 16:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 9:Loading Orders for D=5 W=38
+
+Vuser 10:...3000
+
+Vuser 15:...3000
+
+Vuser 6:Orders Done
+
+Vuser 13:...1000
+
+Vuser 14:...2000
+
+Vuser 3:...1000
+
+Vuser 2:Orders Done
+
+Vuser 11:...3000
+
+Vuser 16:Loading Orders for D=9 W=72
+
+Vuser 5:...1000
+
+Vuser 4:...3000
+
+Vuser 17:Loading Orders for D=8 W=77
+
+Vuser 10:Orders Done
+
+Vuser 15:Orders Done
+
+Vuser 6:Loading Orders for D=6 W=23
+
+Vuser 8:...3000
+
+Vuser 12:...2000
+
+Vuser 7:...2000
+
+Vuser 2:Loading Orders for D=8 W=3
+
+Vuser 11:Orders Done
+
+Vuser 4:Orders Done
+
+Vuser 9:...1000
+
+Vuser 14:...3000
+
+Vuser 10:Loading Orders for D=5 W=43
+
+Vuser 15:Loading Orders for D=10 W=67
+
+Vuser 8:Orders Done
+
+Vuser 13:...2000
+
+Vuser 3:...2000
+
+Vuser 11:Loading Orders for D=3 W=48
+
+Vuser 4:Loading Orders for D=6 W=13
+
+Vuser 16:...1000
+
+Vuser 5:...2000
+
+Vuser 14:Orders Done
+
+Vuser 17:...1000
+
+Vuser 12:...3000
+
+Vuser 8:Loading Orders for D=6 W=33
+
+Vuser 7:...3000
+
+Vuser 6:...1000
+
+Vuser 2:...1000
+
+Vuser 14:Loading Orders for D=2 W=63
+
+Vuser 9:...2000
+
+Vuser 13:...3000
+
+Vuser 12:Orders Done
+
+Vuser 3:...3000
+
+Vuser 10:...1000
+
+Vuser 15:...1000
+
+Vuser 7:Orders Done
+
+Vuser 5:...3000
+
+Vuser 11:...1000
+
+Vuser 4:...1000
+
+Vuser 13:Orders Done
+
+Vuser 16:...2000
+
+Vuser 12:Loading Orders for D=4 W=53
+
+Vuser 3:Orders Done
+
+Vuser 17:...2000
+
+Vuser 8:...1000
+
+Vuser 7:Loading Orders for D=7 W=28
+
+Vuser 9:...3000
+
+Vuser 5:Orders Done
+
+Vuser 6:...2000
+
+Vuser 13:Loading Orders for D=2 W=58
+
+Vuser 14:...1000
+
+Vuser 2:...2000
+
+Vuser 3:Loading Orders for D=7 W=8
+
+Vuser 9:Orders Done
+
+Vuser 10:...2000
+
+Vuser 5:Loading Orders for D=7 W=18
+
+Vuser 15:...2000
+
+Vuser 16:...3000
+
+Vuser 11:...2000
+
+Vuser 4:...2000
+
+Vuser 17:...3000
+
+Vuser 9:Loading Orders for D=6 W=38
+
+Vuser 12:...1000
+
+Vuser 6:...3000
+
+Vuser 8:...2000
+
+Vuser 16:Orders Done
+
+Vuser 7:...1000
+
+Vuser 2:...3000
+
+Vuser 17:Orders Done
+
+Vuser 13:...1000
+
+Vuser 10:...3000
+
+Vuser 6:Orders Done
+
+Vuser 14:...2000
+
+Vuser 16:Loading Orders for D=10 W=72
+
+Vuser 15:...3000
+
+Vuser 3:...1000
+
+Vuser 11:...3000
+
+Vuser 2:Orders Done
+
+Vuser 17:Loading Orders for D=9 W=77
+
+Vuser 4:...3000
+
+Vuser 5:...1000
+
+Vuser 10:Orders Done
+
+Vuser 6:Loading Orders for D=7 W=23
+
+Vuser 8:...3000
+
+Vuser 15:Orders Done
+
+Vuser 9:...1000
+
+Vuser 12:...2000
+
+Vuser 11:Orders Done
+
+Vuser 2:Loading Orders for D=9 W=3
+
+Vuser 4:Orders Done
+
+Vuser 7:...2000
+
+Vuser 14:...3000
+
+Vuser 10:Loading Orders for D=6 W=43
+
+Vuser 8:Orders Done
+
+Vuser 13:...2000
+
+Vuser 15:Loading Orders for D=1 W=68
+
+Vuser 16:...1000
+
+Vuser 11:Loading Orders for D=4 W=48
+
+Vuser 3:...2000
+
+Vuser 4:Loading Orders for D=7 W=13
+
+Vuser 17:...1000
+
+Vuser 14:Orders Done
+
+Vuser 8:Loading Orders for D=7 W=33
+
+Vuser 5:...2000
+
+Vuser 12:...3000
+
+Vuser 6:...1000
+
+Vuser 9:...2000
+
+Vuser 7:...3000
+
+Vuser 14:Loading Orders for D=3 W=63
+
+Vuser 2:...1000
+
+Vuser 13:...3000
+
+Vuser 12:Orders Done
+
+Vuser 10:...1000
+
+Vuser 3:...3000
+
+Vuser 7:Orders Done
+
+Vuser 15:...1000
+
+Vuser 16:...2000
+
+Vuser 11:...1000
+
+Vuser 13:Orders Done
+
+Vuser 5:...3000
+
+Vuser 12:Loading Orders for D=5 W=53
+
+Vuser 17:...2000
+
+Vuser 4:...1000
+
+Vuser 9:...3000
+
+Vuser 3:Orders Done
+
+Vuser 8:...1000
+
+Vuser 7:Loading Orders for D=8 W=28
+
+Vuser 6:...2000
+
+Vuser 13:Loading Orders for D=3 W=58
+
+Vuser 5:Orders Done
+
+Vuser 14:...1000
+
+Vuser 2:...2000
+
+Vuser 9:Orders Done
+
+Vuser 3:Loading Orders for D=8 W=8
+
+Vuser 16:...3000
+
+Vuser 10:...2000
+
+Vuser 5:Loading Orders for D=8 W=18
+
+Vuser 15:...2000
+
+Vuser 17:...3000
+
+Vuser 11:...2000
+
+Vuser 9:Loading Orders for D=7 W=38
+
+Vuser 12:...1000
+
+Vuser 16:Orders Done
+
+Vuser 6:...3000
+
+Vuser 4:...2000
+
+Vuser 17:Orders Done
+
+Vuser 8:...2000
+
+Vuser 7:...1000
+
+Vuser 2:...3000
+
+Vuser 13:...1000
+
+Vuser 16:Loading Orders for D=1 W=73
+
+Vuser 6:Orders Done
+
+Vuser 14:...2000
+
+Vuser 10:...3000
+
+Vuser 17:Loading Orders for D=10 W=77
+
+Vuser 15:...3000
+
+Vuser 3:...1000
+
+Vuser 11:...3000
+
+Vuser 2:Orders Done
+
+Vuser 5:...1000
+
+Vuser 4:...3000
+
+Vuser 9:...1000
+
+Vuser 8:...3000
+
+Vuser 12:...2000
+
+Vuser 7:...2000
+
+Vuser 6:Loading Orders for D=8 W=23
+
+Vuser 13:...2000
+
+Vuser 10:Orders Done
+
+Vuser 15:Orders Done
+
+Vuser 11:Orders Done
+
+Vuser 2:Loading Orders for D=10 W=3
+
+Vuser 4:Orders Done
+
+Vuser 14:...3000
+
+Vuser 8:Orders Done
+
+Vuser 16:...1000
+
+Vuser 10:Loading Orders for D=7 W=43
+
+Vuser 17:...1000
+
+Vuser 15:Loading Orders for D=2 W=68
+
+Vuser 3:...2000
+
+Vuser 11:Loading Orders for D=5 W=48
+
+Vuser 12:...3000
+
+Vuser 7:...3000
+
+Vuser 4:Loading Orders for D=8 W=13
+
+Vuser 5:...2000
+
+Vuser 14:Orders Done
+
+Vuser 8:Loading Orders for D=8 W=33
+
+Vuser 13:...3000
+
+Vuser 9:...2000
+
+Vuser 6:...1000
+
+Vuser 12:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 2:...1000
+
+Vuser 14:Loading Orders for D=4 W=63
+
+Vuser 3:...3000
+
+Vuser 13:Orders Done
+
+Vuser 16:...2000
+
+Vuser 10:...1000
+
+Vuser 17:...2000
+
+Vuser 15:...1000
+
+Vuser 12:Loading Orders for D=6 W=53
+
+Vuser 7:Loading Orders for D=9 W=28
+
+Vuser 5:...3000
+
+Vuser 11:...1000
+
+Vuser 3:Orders Done
+
+Vuser 13:Loading Orders for D=4 W=58
+
+Vuser 4:...1000
+
+Vuser 9:...3000
+
+Vuser 8:...1000
+
+Vuser 6:...2000
+
+Vuser 5:Orders Done
+
+Vuser 3:Loading Orders for D=9 W=8
+
+Vuser 2:...2000
+
+Vuser 16:...3000
+
+Vuser 14:...1000
+
+Vuser 17:...3000
+
+Vuser 9:Orders Done
+
+Vuser 10:...2000
+
+Vuser 5:Loading Orders for D=9 W=18
+
+Vuser 15:...2000
+
+Vuser 12:...1000
+
+Vuser 7:...1000
+
+Vuser 16:Orders Done
+
+Vuser 11:...2000
+
+Vuser 17:Orders Done
+
+Vuser 9:Loading Orders for D=8 W=38
+
+Vuser 6:...3000
+
+Vuser 13:...1000
+
+Vuser 4:...2000
+
+Vuser 8:...2000
+
+Vuser 2:...3000
+
+Vuser 16:Loading Orders for D=2 W=73
+
+Vuser 3:...1000
+
+Vuser 17:Loading Orders for D=1 W=78
+
+Vuser 10:...3000
+
+Vuser 14:...2000
+
+Vuser 15:...3000
+
+Vuser 6:Orders Done
+
+Vuser 5:...1000
+
+Vuser 11:...3000
+
+Vuser 12:...2000
+
+Vuser 7:...2000
+
+Vuser 2:Orders Done
+
+Vuser 4:...3000
+
+Vuser 10:Orders Done
+
+Vuser 9:...1000
+
+Vuser 13:...2000
+
+Vuser 8:...3000
+
+Vuser 15:Orders Done
+
+Vuser 6:Loading Orders for D=9 W=23
+
+Vuser 11:Orders Done
+
+Vuser 14:...3000
+
+Vuser 16:...1000
+
+Vuser 3:...2000
+
+Vuser 17:...1000
+
+Vuser 2:Loading Orders for D=1 W=4
+
+Vuser 4:Orders Done
+
+Vuser 10:Loading Orders for D=8 W=43
+
+Vuser 12:...3000
+
+Vuser 7:...3000
+
+Vuser 5:...2000
+
+Vuser 8:Orders Done
+
+Vuser 15:Loading Orders for D=3 W=68
+
+Vuser 11:Loading Orders for D=6 W=48
+
+Vuser 14:Orders Done
+
+Vuser 13:...3000
+
+Vuser 4:Loading Orders for D=9 W=13
+
+Vuser 9:...2000
+
+Vuser 12:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 8:Loading Orders for D=9 W=33
+
+Vuser 3:...3000
+
+Vuser 6:...1000
+
+Vuser 14:Loading Orders for D=5 W=63
+
+Vuser 16:...2000
+
+Vuser 13:Orders Done
+
+Vuser 17:...2000
+
+Vuser 2:...1000
+
+Vuser 5:...3000
+
+Vuser 12:Loading Orders for D=7 W=53
+
+Vuser 10:...1000
+
+Vuser 7:Loading Orders for D=10 W=28
+
+Vuser 3:Orders Done
+
+Vuser 15:...1000
+
+Vuser 9:...3000
+
+Vuser 13:Loading Orders for D=5 W=58
+
+Vuser 11:...1000
+
+Vuser 4:...1000
+
+Vuser 5:Orders Done
+
+Vuser 16:...3000
+
+Vuser 8:...1000
+
+Vuser 17:...3000
+
+Vuser 6:...2000
+
+Vuser 3:Loading Orders for D=10 W=8
+
+Vuser 14:...1000
+
+Vuser 9:Orders Done
+
+Vuser 2:...2000
+
+Vuser 5:Loading Orders for D=10 W=18
+
+Vuser 12:...1000
+
+Vuser 16:Orders Done
+
+Vuser 10:...2000
+
+Vuser 17:Orders Done
+
+Vuser 7:...1000
+
+Vuser 15:...2000
+
+Vuser 9:Loading Orders for D=9 W=38
+
+Vuser 13:...1000
+
+Vuser 11:...2000
+
+Vuser 4:...2000
+
+Vuser 6:...3000
+
+Vuser 16:Loading Orders for D=3 W=73
+
+Vuser 8:...2000
+
+Vuser 17:Loading Orders for D=2 W=78
+
+Vuser 2:...3000
+
+Vuser 3:...1000
+
+Vuser 14:...2000
+
+Vuser 10:...3000
+
+Vuser 5:...1000
+
+Vuser 12:...2000
+
+Vuser 6:Orders Done
+
+Vuser 15:...3000
+
+Vuser 2:Orders Done
+
+Vuser 11:...3000
+
+Vuser 4:...3000
+
+Vuser 7:...2000
+
+Vuser 9:...1000
+
+Vuser 10:Orders Done
+
+Vuser 13:...2000
+
+Vuser 8:...3000
+
+Vuser 16:...1000
+
+Vuser 17:...1000
+
+Vuser 14:...3000
+
+Vuser 3:...2000
+
+Vuser 5:...2000
+
+Vuser 12:...3000
+
+Vuser 6:Loading Orders for D=10 W=23
+
+Vuser 15:Orders Done
+
+Vuser 2:Loading Orders for D=2 W=4
+
+Vuser 11:Orders Done
+
+Vuser 4:Orders Done
+
+Vuser 10:Loading Orders for D=9 W=43
+
+Vuser 8:Orders Done
+
+Vuser 14:Orders Done
+
+Vuser 7:...3000
+
+Vuser 13:...3000
+
+Vuser 9:...2000
+
+Vuser 12:Orders Done
+
+Vuser 15:Loading Orders for D=4 W=68
+
+Vuser 3:...3000
+
+Vuser 16:...2000
+
+Vuser 11:Loading Orders for D=7 W=48
+
+Vuser 17:...2000
+
+Vuser 4:Loading Orders for D=10 W=13
+
+Vuser 5:...3000
+
+Vuser 8:Loading Orders for D=10 W=33
+
+Vuser 14:Loading Orders for D=6 W=63
+
+Vuser 7:Orders Done
+
+Vuser 13:Orders Done
+
+Vuser 6:...1000
+
+Vuser 12:Loading Orders for D=8 W=53
+
+Vuser 3:Orders Done
+
+Vuser 2:...1000
+
+Vuser 9:...3000
+
+Vuser 10:...1000
+
+Vuser 5:Orders Done
+
+Vuser 7:Loading Orders for D=1 W=29
+
+Vuser 16:...3000
+
+Vuser 13:Loading Orders for D=6 W=58
+
+Vuser 15:...1000
+
+Vuser 17:...3000
+
+Vuser 3:Loading Orders for D=1 W=9
+
+Vuser 11:...1000
+
+Vuser 9:Orders Done
+
+Vuser 4:...1000
+
+Vuser 5:Loading Orders for D=1 W=19
+
+Vuser 8:...1000
+
+Vuser 14:...1000
+
+Vuser 16:Orders Done
+
+Vuser 6:...2000
+
+Vuser 17:Orders Done
+
+Vuser 12:...1000
+
+Vuser 2:...2000
+
+Vuser 9:Loading Orders for D=10 W=38
+
+Vuser 10:...2000
+
+Vuser 16:Loading Orders for D=4 W=73
+
+Vuser 7:...1000
+
+Vuser 13:...1000
+
+Vuser 17:Loading Orders for D=3 W=78
+
+Vuser 15:...2000
+
+Vuser 3:...1000
+
+Vuser 11:...2000
+
+Vuser 4:...2000
+
+Vuser 5:...1000
+
+Vuser 8:...2000
+
+Vuser 6:...3000
+
+Vuser 14:...2000
+
+Vuser 2:...3000
+
+Vuser 10:...3000
+
+Vuser 12:...2000
+
+Vuser 9:...1000
+
+Vuser 16:...1000
+
+Vuser 7:...2000
+
+Vuser 15:...3000
+
+Vuser 13:...2000
+
+Vuser 6:Orders Done
+
+Vuser 17:...1000
+
+Vuser 2:Orders Done
+
+Vuser 10:Orders Done
+
+Vuser 3:...2000
+
+Vuser 11:...3000
+
+Vuser 4:...3000
+
+Vuser 8:...3000
+
+Vuser 14:...3000
+
+Vuser 5:...2000
+
+Vuser 15:Orders Done
+
+Vuser 12:...3000
+
+Vuser 6:Loading Orders for D=1 W=24
+
+Vuser 2:Loading Orders for D=3 W=4
+
+Vuser 10:Loading Orders for D=10 W=43
+
+Vuser 11:Orders Done
+
+Vuser 9:...2000
+
+Vuser 7:...3000
+
+Vuser 4:Orders Done
+
+Vuser 8:Orders Done
+
+Vuser 13:...3000
+
+Vuser 14:Orders Done
+
+Vuser 15:Loading Orders for D=5 W=68
+
+Vuser 16:...2000
+
+Vuser 12:Orders Done
+
+Vuser 3:...3000
+
+Vuser 17:...2000
+
+Vuser 11:Loading Orders for D=8 W=48
+
+Vuser 7:Orders Done
+
+Vuser 5:...3000
+
+Vuser 4:Loading Orders for D=1 W=14
+
+Vuser 8:Loading Orders for D=1 W=34
+
+Vuser 13:Orders Done
+
+Vuser 14:Loading Orders for D=7 W=63
+
+Vuser 12:Loading Orders for D=9 W=53
+
+Vuser 9:...3000
+
+Vuser 3:Orders Done
+
+Vuser 6:...1000
+
+Vuser 2:...1000
+
+Vuser 7:Loading Orders for D=2 W=29
+
+Vuser 10:...1000
+
+Vuser 5:Orders Done
+
+Vuser 13:Loading Orders for D=7 W=58
+
+Vuser 16:...3000
+
+Vuser 17:...3000
+
+Vuser 15:...1000
+
+Vuser 9:Orders Done
+
+Vuser 3:Loading Orders for D=2 W=9
+
+Vuser 5:Loading Orders for D=2 W=19
+
+Vuser 11:...1000
+
+Vuser 16:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 4:...1000
+
+Vuser 8:...1000
+
+Vuser 14:...1000
+
+Vuser 12:...1000
+
+Vuser 9:Loading Orders for D=1 W=39
+
+Vuser 6:...2000
+
+Vuser 2:...2000
+
+Vuser 16:Loading Orders for D=5 W=73
+
+Vuser 17:Loading Orders for D=4 W=78
+
+Vuser 7:...1000
+
+Vuser 10:...2000
+
+Vuser 13:...1000
+
+Vuser 15:...2000
+
+Vuser 3:...1000
+
+Vuser 5:...1000
+
+Vuser 11:...2000
+
+Vuser 4:...2000
+
+Vuser 6:...3000
+
+Vuser 8:...2000
+
+Vuser 2:...3000
+
+Vuser 14:...2000
+
+Vuser 12:...2000
+
+Vuser 9:...1000
+
+Vuser 10:...3000
+
+Vuser 6:Orders Done
+
+Vuser 16:...1000
+
+Vuser 15:...3000
+
+Vuser 2:Orders Done
+
+Vuser 17:...1000
+
+Vuser 7:...2000
+
+Vuser 13:...2000
+
+Vuser 11:...3000
+
+Vuser 10:Orders Done
+
+Vuser 3:...2000
+
+Vuser 6:Loading Orders for D=2 W=24
+
+Vuser 4:...3000
+
+Vuser 5:...2000
+
+Vuser 8:...3000
+
+Vuser 15:Orders Done
+
+Vuser 2:Loading Orders for D=4 W=4
+
+Vuser 14:...3000
+
+Vuser 12:...3000
+
+Vuser 11:Orders Done
+
+Vuser 10:Loading Orders for D=1 W=44
+
+Vuser 9:...2000
+
+Vuser 7:...3000
+
+Vuser 13:...3000
+
+Vuser 16:...2000
+
+Vuser 17:...2000
+
+Vuser 3:...3000
+
+Vuser 6:...1000
+
+Vuser 4:Orders Done
+
+Vuser 8:Orders Done
+
+Vuser 15:Loading Orders for D=6 W=68
+
+Vuser 14:Orders Done
+
+Vuser 12:Orders Done
+
+Vuser 11:Loading Orders for D=9 W=48
+
+Vuser 5:...3000
+
+Vuser 7:Orders Done
+
+Vuser 13:Orders Done
+
+Vuser 3:Orders Done
+
+Vuser 4:Loading Orders for D=2 W=14
+
+Vuser 8:Loading Orders for D=2 W=34
+
+Vuser 9:...3000
+
+Vuser 2:...1000
+
+Vuser 14:Loading Orders for D=8 W=63
+
+Vuser 12:Loading Orders for D=10 W=53
+
+Vuser 16:...3000
+
+Vuser 17:...3000
+
+Vuser 10:...1000
+
+Vuser 5:Orders Done
+
+Vuser 7:Loading Orders for D=3 W=29
+
+Vuser 13:Loading Orders for D=8 W=58
+
+Vuser 3:Loading Orders for D=3 W=9
+
+Vuser 9:Orders Done
+
+Vuser 6:...2000
+
+Vuser 15:...1000
+
+Vuser 16:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 11:...1000
+
+Vuser 5:Loading Orders for D=3 W=19
+
+Vuser 4:...1000
+
+Vuser 9:Loading Orders for D=2 W=39
+
+Vuser 8:...1000
+
+Vuser 2:...2000
+
+Vuser 16:Loading Orders for D=6 W=73
+
+Vuser 14:...1000
+
+Vuser 17:Loading Orders for D=5 W=78
+
+Vuser 12:...1000
+
+Vuser 10:...2000
+
+Vuser 7:...1000
+
+Vuser 6:...3000
+
+Vuser 13:...1000
+
+Vuser 3:...1000
+
+Vuser 15:...2000
+
+Vuser 11:...2000
+
+Vuser 6:Orders Done
+
+Vuser 2:...3000
+
+Vuser 5:...1000
+
+Vuser 4:...2000
+
+Vuser 9:...1000
+
+Vuser 8:...2000
+
+Vuser 10:...3000
+
+Vuser 16:...1000
+
+Vuser 6:Loading Orders for D=3 W=24
+
+Vuser 17:...1000
+
+Vuser 14:...2000
+
+Vuser 2:Orders Done
+
+Vuser 12:...2000
+
+Vuser 7:...2000
+
+Vuser 10:Orders Done
+
+Vuser 15:...3000
+
+Vuser 13:...2000
+
+Vuser 11:...3000
+
+Vuser 3:...2000
+
+Vuser 4:...3000
+
+Vuser 2:Loading Orders for D=5 W=4
+
+Vuser 8:...3000
+
+Vuser 5:...2000
+
+Vuser 10:Loading Orders for D=2 W=44
+
+Vuser 15:Orders Done
+
+Vuser 9:...2000
+
+Vuser 11:Orders Done
+
+Vuser 16:...2000
+
+Vuser 14:...3000
+
+Vuser 6:...1000
+
+Vuser 4:Orders Done
+
+Vuser 12:...3000
+
+Vuser 7:...3000
+
+Vuser 8:Orders Done
+
+Vuser 17:...2000
+
+Vuser 15:Loading Orders for D=7 W=68
+
+Vuser 13:...3000
+
+Vuser 3:...3000
+
+Vuser 11:Loading Orders for D=10 W=48
+
+Vuser 14:Orders Done
+
+Vuser 4:Loading Orders for D=3 W=14
+
+Vuser 5:...3000
+
+Vuser 12:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 8:Loading Orders for D=3 W=34
+
+Vuser 2:...1000
+
+Vuser 9:...3000
+
+Vuser 10:...1000
+
+Vuser 16:...3000
+
+Vuser 13:Orders Done
+
+Vuser 3:Orders Done
+
+Vuser 14:Loading Orders for D=9 W=63
+
+Vuser 5:Orders Done
+
+Vuser 12:Loading Orders for D=1 W=54
+
+Vuser 17:...3000
+
+Vuser 7:Loading Orders for D=4 W=29
+
+Vuser 6:...2000
+
+Vuser 9:Orders Done
+
+Vuser 16:Orders Done
+
+Vuser 15:...1000
+
+Vuser 13:Loading Orders for D=9 W=58
+
+Vuser 3:Loading Orders for D=4 W=9
+
+Vuser 5:Loading Orders for D=4 W=19
+
+Vuser 11:...1000
+
+Vuser 17:Orders Done
+
+Vuser 4:...1000
+
+Vuser 9:Loading Orders for D=3 W=39
+
+Vuser 16:Loading Orders for D=7 W=73
+
+Vuser 2:...2000
+
+Vuser 8:...1000
+
+Vuser 10:...2000
+
+Vuser 17:Loading Orders for D=6 W=78
+
+Vuser 6:...3000
+
+Vuser 14:...1000
+
+Vuser 12:...1000
+
+Vuser 7:...1000
+
+Vuser 15:...2000
+
+Vuser 13:...1000
+
+Vuser 6:Orders Done
+
+Vuser 3:...1000
+
+Vuser 5:...1000
+
+Vuser 11:...2000
+
+Vuser 2:...3000
+
+Vuser 4:...2000
+
+Vuser 9:...1000
+
+Vuser 10:...3000
+
+Vuser 16:...1000
+
+Vuser 6:Loading Orders for D=4 W=24
+
+Vuser 8:...2000
+
+Vuser 2:Orders Done
+
+Vuser 17:...1000
+
+Vuser 15:...3000
+
+Vuser 10:Orders Done
+
+Vuser 14:...2000
+
+Vuser 12:...2000
+
+Vuser 7:...2000
+
+Vuser 2:Loading Orders for D=6 W=4
+
+Vuser 13:...2000
+
+Vuser 11:...3000
+
+Vuser 15:Orders Done
+
+Vuser 10:Loading Orders for D=3 W=44
+
+Vuser 4:...3000
+
+Vuser 3:...2000
+
+Vuser 5:...2000
+
+Vuser 9:...2000
+
+Vuser 8:...3000
+
+Vuser 11:Orders Done
+
+Vuser 15:Loading Orders for D=8 W=68
+
+Vuser 16:...2000
+
+Vuser 6:...1000
+
+Vuser 4:Orders Done
+
+Vuser 17:...2000
+
+Vuser 14:...3000
+
+Vuser 12:...3000
+
+Vuser 7:...3000
+
+Vuser 8:Orders Done
+
+Vuser 13:...3000
+
+Vuser 11:Loading Orders for D=1 W=49
+
+Vuser 2:...1000
+
+Vuser 4:Loading Orders for D=4 W=14
+
+Vuser 3:...3000
+
+Vuser 14:Orders Done
+
+Vuser 9:...3000
+
+Vuser 5:...3000
+
+Vuser 10:...1000
+
+Vuser 12:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 8:Loading Orders for D=4 W=34
+
+Vuser 13:Orders Done
+
+Vuser 16:...3000
+
+Vuser 17:...3000
+
+Vuser 3:Orders Done
+
+Vuser 15:...1000
+
+Vuser 14:Loading Orders for D=10 W=63
+
+Vuser 9:Orders Done
+
+Vuser 6:...2000
+
+Vuser 5:Orders Done
+
+Vuser 12:Loading Orders for D=2 W=54
+
+Vuser 7:Loading Orders for D=5 W=29
+
+Vuser 13:Loading Orders for D=10 W=58
+
+Vuser 16:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 11:...1000
+
+Vuser 3:Loading Orders for D=5 W=9
+
+Vuser 2:...2000
+
+Vuser 4:...1000
+
+Vuser 9:Loading Orders for D=4 W=39
+
+Vuser 5:Loading Orders for D=5 W=19
+
+Vuser 10:...2000
+
+Vuser 16:Loading Orders for D=8 W=73
+
+Vuser 8:...1000
+
+Vuser 17:Loading Orders for D=7 W=78
+
+Vuser 6:...3000
+
+Vuser 15:...2000
+
+Vuser 14:...1000
+
+Vuser 12:...1000
+
+Vuser 7:...1000
+
+Vuser 2:...3000
+
+Vuser 6:Orders Done
+
+Vuser 13:...1000
+
+Vuser 11:...2000
+
+Vuser 3:...1000
+
+Vuser 2:Orders Done
+
+Vuser 10:...3000
+
+Vuser 6:Loading Orders for D=5 W=24
+
+Vuser 4:...2000
+
+Vuser 9:...1000
+
+Vuser 5:...1000
+
+Vuser 15:...3000
+
+Vuser 16:...1000
+
+Vuser 17:...1000
+
+Vuser 2:Loading Orders for D=7 W=4
+
+Vuser 8:...2000
+
+Vuser 10:Orders Done
+
+Vuser 14:...2000
+
+Vuser 15:Orders Done
+
+Vuser 12:...2000
+
+Vuser 11:...3000
+
+Vuser 7:...2000
+
+Vuser 13:...2000
+
+Vuser 10:Loading Orders for D=4 W=44
+
+Vuser 3:...2000
+
+Vuser 4:...3000
+
+Vuser 15:Loading Orders for D=9 W=68
+
+Vuser 11:Orders Done
+
+Vuser 6:...1000
+
+Vuser 9:...2000
+
+Vuser 5:...2000
+
+Vuser 8:...3000
+
+Vuser 16:...2000
+
+Vuser 4:Orders Done
+
+Vuser 17:...2000
+
+Vuser 14:...3000
+
+Vuser 2:...1000
+
+Vuser 12:...3000
+
+Vuser 11:Loading Orders for D=2 W=49
+
+Vuser 7:...3000
+
+Vuser 13:...3000
+
+Vuser 3:...3000
+
+Vuser 8:Orders Done
+
+Vuser 4:Loading Orders for D=5 W=14
+
+Vuser 10:...1000
+
+Vuser 14:Orders Done
+
+Vuser 9:...3000
+
+Vuser 12:Orders Done
+
+Vuser 5:...3000
+
+Vuser 15:...1000
+
+Vuser 7:Orders Done
+
+Vuser 13:Orders Done
+
+Vuser 6:...2000
+
+Vuser 16:...3000
+
+Vuser 3:Orders Done
+
+Vuser 17:...3000
+
+Vuser 8:Loading Orders for D=5 W=34
+
+Vuser 14:Loading Orders for D=1 W=64
+
+Vuser 9:Orders Done
+
+Vuser 12:Loading Orders for D=3 W=54
+
+Vuser 5:Orders Done
+
+Vuser 2:...2000
+
+Vuser 7:Loading Orders for D=6 W=29
+
+Vuser 13:Loading Orders for D=1 W=59
+
+Vuser 11:...1000
+
+Vuser 16:Orders Done
+
+Vuser 3:Loading Orders for D=6 W=9
+
+Vuser 17:Orders Done
+
+Vuser 4:...1000
+
+Vuser 10:...2000
+
+Vuser 9:Loading Orders for D=5 W=39
+
+Vuser 5:Loading Orders for D=6 W=19
+
+Vuser 6:...3000
+
+Vuser 15:...2000
+
+Vuser 16:Loading Orders for D=9 W=73
+
+Vuser 17:Loading Orders for D=8 W=78
+
+Vuser 2:...3000
+
+Vuser 8:...1000
+
+Vuser 14:...1000
+
+Vuser 6:Orders Done
+
+Vuser 12:...1000
+
+Vuser 7:...1000
+
+Vuser 13:...1000
+
+Vuser 2:Orders Done
+
+Vuser 10:...3000
+
+Vuser 11:...2000
+
+Vuser 6:Loading Orders for D=6 W=24
+
+Vuser 3:...1000
+
+Vuser 15:...3000
+
+Vuser 4:...2000
+
+Vuser 9:...1000
+
+Vuser 5:...1000
+
+Vuser 2:Loading Orders for D=8 W=4
+
+Vuser 10:Orders Done
+
+Vuser 16:...1000
+
+Vuser 17:...1000
+
+Vuser 15:Orders Done
+
+Vuser 8:...2000
+
+Vuser 14:...2000
+
+Vuser 10:Loading Orders for D=5 W=44
+
+Vuser 12:...2000
+
+Vuser 7:...2000
+
+Vuser 11:...3000
+
+Vuser 15:Loading Orders for D=10 W=68
+
+Vuser 13:...2000
+
+Vuser 4:...3000
+
+Vuser 6:...1000
+
+Vuser 3:...2000
+
+Vuser 9:...2000
+
+Vuser 5:...2000
+
+Vuser 8:...3000
+
+Vuser 11:Orders Done
+
+Vuser 2:...1000
+
+Vuser 14:...3000
+
+Vuser 16:...2000
+
+Vuser 17:...2000
+
+Vuser 4:Orders Done
+
+Vuser 12:...3000
+
+Vuser 10:...1000
+
+Vuser 8:Orders Done
+
+Vuser 7:...3000
+
+Vuser 11:Loading Orders for D=3 W=49
+
+Vuser 13:...3000
+
+Vuser 14:Orders Done
+
+Vuser 3:...3000
+
+Vuser 4:Loading Orders for D=6 W=14
+
+Vuser 9:...3000
+
+Vuser 15:...1000
+
+Vuser 5:...3000
+
+Vuser 12:Orders Done
+
+Vuser 8:Loading Orders for D=6 W=34
+
+Vuser 6:...2000
+
+Vuser 7:Orders Done
+
+Vuser 16:...3000
+
+Vuser 17:...3000
+
+Vuser 13:Orders Done
+
+Vuser 14:Loading Orders for D=2 W=64
+
+Vuser 3:Orders Done
+
+Vuser 2:...2000
+
+Vuser 9:Orders Done
+
+Vuser 5:Orders Done
+
+Vuser 12:Loading Orders for D=4 W=54
+
+Vuser 10:...2000
+
+Vuser 7:Loading Orders for D=7 W=29
+
+Vuser 16:Orders Done
+
+Vuser 11:...1000
+
+Vuser 17:Orders Done
+
+Vuser 13:Loading Orders for D=2 W=59
+
+Vuser 3:Loading Orders for D=7 W=9
+
+Vuser 4:...1000
+
+Vuser 9:Loading Orders for D=6 W=39
+
+Vuser 5:Loading Orders for D=7 W=19
+
+Vuser 6:...3000
+
+Vuser 15:...2000
+
+Vuser 16:Loading Orders for D=10 W=73
+
+Vuser 8:...1000
+
+Vuser 17:Loading Orders for D=9 W=78
+
+Vuser 2:...3000
+
+Vuser 14:...1000
+
+Vuser 10:...3000
+
+Vuser 6:Orders Done
+
+Vuser 12:...1000
+
+Vuser 7:...1000
+
+Vuser 2:Orders Done
+
+Vuser 11:...2000
+
+Vuser 10:Orders Done
+
+Vuser 6:Loading Orders for D=7 W=24
+
+Vuser 13:...1000
+
+Vuser 15:...3000
+
+Vuser 3:...1000
+
+Vuser 4:...2000
+
+Vuser 9:...1000
+
+Vuser 2:Loading Orders for D=9 W=4
+
+Vuser 5:...1000
+
+Vuser 10:Loading Orders for D=6 W=44
+
+Vuser 16:...1000
+
+Vuser 8:...2000
+
+Vuser 17:...1000
+
+Vuser 15:Orders Done
+
+Vuser 14:...2000
+
+Vuser 11:...3000
+
+Vuser 12:...2000
+
+Vuser 7:...2000
+
+Vuser 4:...3000
+
+Vuser 6:...1000
+
+Vuser 13:...2000
+
+Vuser 3:...2000
+
+Vuser 9:...2000
+
+Vuser 2:...1000
+
+Vuser 5:...2000
+
+Vuser 10:...1000
+
+Vuser 16:...2000
+
+Vuser 8:...3000
+
+Vuser 15:Loading Orders for D=1 W=69
+
+Vuser 11:Orders Done
+
+Vuser 4:Orders Done
+
+Vuser 14:...3000
+
+Vuser 12:...3000
+
+Vuser 17:...2000
+
+Vuser 7:...3000
+
+Vuser 8:Orders Done
+
+Vuser 13:...3000
+
+Vuser 3:...3000
+
+Vuser 11:Loading Orders for D=4 W=49
+
+Vuser 9:...3000
+
+Vuser 4:Loading Orders for D=7 W=14
+
+Vuser 5:...3000
+
+Vuser 14:Orders Done
+
+Vuser 6:...2000
+
+Vuser 12:Orders Done
+
+Vuser 16:...3000
+
+Vuser 7:Orders Done
+
+Vuser 2:...2000
+
+Vuser 10:...2000
+
+Vuser 8:Loading Orders for D=7 W=34
+
+Vuser 13:Orders Done
+
+Vuser 3:Orders Done
+
+Vuser 17:...3000
+
+Vuser 9:Orders Done
+
+Vuser 15:...1000
+
+Vuser 5:Orders Done
+
+Vuser 14:Loading Orders for D=3 W=64
+
+Vuser 12:Loading Orders for D=5 W=54
+
+Vuser 16:Orders Done
+
+Vuser 7:Loading Orders for D=8 W=29
+
+Vuser 13:Loading Orders for D=3 W=59
+
+Vuser 3:Loading Orders for D=8 W=9
+
+Vuser 6:...3000
+
+Vuser 17:Orders Done
+
+Vuser 11:...1000
+
+Vuser 9:Loading Orders for D=7 W=39
+
+Vuser 4:...1000
+
+Vuser 5:Loading Orders for D=8 W=19
+
+Vuser 2:...3000
+
+Vuser 10:...3000
+
+Vuser 16:Loading Orders for D=1 W=74
+
+Vuser 6:Orders Done
+
+Vuser 17:Loading Orders for D=10 W=78
+
+Vuser 8:...1000
+
+Vuser 2:Orders Done
+
+Vuser 15:...2000
+
+Vuser 10:Orders Done
+
+Vuser 14:...1000
+
+Vuser 6:Loading Orders for D=8 W=24
+
+Vuser 12:...1000
+
+Vuser 7:...1000
+
+Vuser 13:...1000
+
+Vuser 2:Loading Orders for D=10 W=4
+
+Vuser 3:...1000
+
+Vuser 10:Loading Orders for D=7 W=44
+
+Vuser 11:...2000
+
+Vuser 9:...1000
+
+Vuser 4:...2000
+
+Vuser 5:...1000
+
+Vuser 15:...3000
+
+Vuser 16:...1000
+
+Vuser 17:...1000
+
+Vuser 8:...2000
+
+Vuser 14:...2000
+
+Vuser 6:...1000
+
+Vuser 15:Orders Done
+
+Vuser 12:...2000
+
+Vuser 13:...2000
+
+Vuser 7:...2000
+
+Vuser 11:...3000
+
+Vuser 2:...1000
+
+Vuser 4:...3000
+
+Vuser 15:Loading Orders for D=2 W=69
+
+Vuser 3:...2000
+
+Vuser 10:...1000
+
+Vuser 9:...2000
+
+Vuser 5:...2000
+
+Vuser 8:...3000
+
+Vuser 14:...3000
+
+Vuser 11:Orders Done
+
+Vuser 12:...3000
+
+Vuser 17:...2000
+
+Vuser 16:...2000
+
+Vuser 13:...3000
+
+Vuser 4:Orders Done
+
+Vuser 7:...3000
+
+Vuser 6:...2000
+
+Vuser 8:Orders Done
+
+Vuser 14:Orders Done
+
+Vuser 11:Loading Orders for D=5 W=49
+
+Vuser 12:Orders Done
+
+Vuser 3:...3000
+
+Vuser 2:...2000
+
+Vuser 9:...3000
+
+Vuser 13:Orders Done
+
+Vuser 4:Loading Orders for D=8 W=14
+
+Vuser 5:...3000
+
+Vuser 7:Orders Done
+
+Vuser 15:...1000
+
+Vuser 10:...2000
+
+Vuser 8:Loading Orders for D=8 W=34
+
+Vuser 14:Loading Orders for D=4 W=64
+
+Vuser 17:...3000
+
+Vuser 12:Loading Orders for D=6 W=54
+
+Vuser 16:...3000
+
+Vuser 3:Orders Done
+
+Vuser 9:Orders Done
+
+Vuser 13:Loading Orders for D=4 W=59
+
+Vuser 6:...3000
+
+Vuser 5:Orders Done
+
+Vuser 7:Loading Orders for D=9 W=29
+
+Vuser 2:...3000
+
+Vuser 17:Orders Done
+
+Vuser 11:...1000
+
+Vuser 16:Orders Done
+
+Vuser 3:Loading Orders for D=9 W=9
+
+Vuser 9:Loading Orders for D=8 W=39
+
+Vuser 6:Orders Done
+
+Vuser 10:...3000
+
+Vuser 5:Loading Orders for D=9 W=19
+
+Vuser 4:...1000
+
+Vuser 2:Orders Done
+
+Vuser 17:Loading Orders for D=1 W=79
+
+Vuser 15:...2000
+
+Vuser 16:Loading Orders for D=2 W=74
+
+Vuser 8:...1000
+
+Vuser 14:...1000
+
+Vuser 6:Loading Orders for D=9 W=24
+
+Vuser 10:Orders Done
+
+Vuser 12:...1000
+
+Vuser 2:Loading Orders for D=1 W=5
+
+Vuser 13:...1000
+
+Vuser 7:...1000
+
+Vuser 11:...2000
+
+Vuser 10:Loading Orders for D=8 W=44
+
+Vuser 3:...1000
+
+Vuser 9:...1000
+
+Vuser 15:...3000
+
+Vuser 5:...1000
+
+Vuser 4:...2000
+
+Vuser 17:...1000
+
+Vuser 16:...1000
+
+Vuser 8:...2000
+
+Vuser 14:...2000
+
+Vuser 15:Orders Done
+
+Vuser 6:...1000
+
+Vuser 11:...3000
+
+Vuser 12:...2000
+
+Vuser 2:...1000
+
+Vuser 13:...2000
+
+Vuser 7:...2000
+
+Vuser 15:Loading Orders for D=3 W=69
+
+Vuser 11:Orders Done
+
+Vuser 4:...3000
+
+Vuser 10:...1000
+
+Vuser 3:...2000
+
+Vuser 9:...2000
+
+Vuser 8:...3000
+
+Vuser 5:...2000
+
+Vuser 17:...2000
+
+Vuser 14:...3000
+
+Vuser 11:Loading Orders for D=6 W=49
+
+Vuser 16:...2000
+
+Vuser 12:...3000
+
+Vuser 4:Orders Done
+
+Vuser 13:...3000
+
+Vuser 6:...2000
+
+Vuser 7:...3000
+
+Vuser 8:Orders Done
+
+Vuser 2:...2000
+
+Vuser 14:Orders Done
+
+Vuser 3:...3000
+
+Vuser 15:...1000
+
+Vuser 12:Orders Done
+
+Vuser 4:Loading Orders for D=9 W=14
+
+Vuser 9:...3000
+
+Vuser 13:Orders Done
+
+Vuser 17:...3000
+
+Vuser 5:...3000
+
+Vuser 7:Orders Done
+
+Vuser 10:...2000
+
+Vuser 8:Loading Orders for D=9 W=34
+
+Vuser 14:Loading Orders for D=5 W=64
+
+Vuser 3:Orders Done
+
+Vuser 16:...3000
+
+Vuser 12:Loading Orders for D=7 W=54
+
+Vuser 9:Orders Done
+
+Vuser 11:...1000
+
+Vuser 13:Loading Orders for D=5 W=59
+
+Vuser 6:...3000
+
+Vuser 17:Orders Done
+
+Vuser 5:Orders Done
+
+Vuser 7:Loading Orders for D=10 W=29
+
+Vuser 2:...3000
+
+Vuser 3:Loading Orders for D=10 W=9
+
+Vuser 16:Orders Done
+
+Vuser 9:Loading Orders for D=9 W=39
+
+Vuser 15:...2000
+
+Vuser 4:...1000
+
+Vuser 10:...3000
+
+Vuser 6:Orders Done
+
+Vuser 17:Loading Orders for D=2 W=79
+
+Vuser 5:Loading Orders for D=10 W=19
+
+Vuser 2:Orders Done
+
+Vuser 16:Loading Orders for D=3 W=74
+
+Vuser 8:...1000
+
+Vuser 14:...1000
+
+Vuser 12:...1000
+
+Vuser 10:Orders Done
+
+Vuser 6:Loading Orders for D=10 W=24
+
+Vuser 11:...2000
+
+Vuser 13:...1000
+
+Vuser 2:Loading Orders for D=2 W=5
+
+Vuser 15:...3000
+
+Vuser 7:...1000
+
+Vuser 10:Loading Orders for D=9 W=44
+
+Vuser 3:...1000
+
+Vuser 9:...1000
+
+Vuser 4:...2000
+
+Vuser 17:...1000
+
+Vuser 15:Orders Done
+
+Vuser 5:...1000
+
+Vuser 16:...1000
+
+Vuser 8:...2000
+
+Vuser 11:...3000
+
+Vuser 14:...2000
+
+Vuser 12:...2000
+
+Vuser 15:Loading Orders for D=4 W=69
+
+Vuser 6:...1000
+
+Vuser 13:...2000
+
+Vuser 11:Orders Done
+
+Vuser 2:...1000
+
+Vuser 7:...2000
+
+Vuser 4:...3000
+
+Vuser 10:...1000
+
+Vuser 3:...2000
+
+Vuser 9:...2000
+
+Vuser 8:...3000
+
+Vuser 17:...2000
+
+Vuser 11:Loading Orders for D=7 W=49
+
+Vuser 14:...3000
+
+Vuser 5:...2000
+
+Vuser 16:...2000
+
+Vuser 4:Orders Done
+
+Vuser 12:...3000
+
+Vuser 8:Orders Done
+
+Vuser 13:...3000
+
+Vuser 15:...1000
+
+Vuser 14:Orders Done
+
+Vuser 6:...2000
+
+Vuser 7:...3000
+
+Vuser 4:Loading Orders for D=10 W=14
+
+Vuser 12:Orders Done
+
+Vuser 3:...3000
+
+Vuser 8:Loading Orders for D=10 W=34
+
+Vuser 9:...3000
+
+Vuser 2:...2000
+
+Vuser 13:Orders Done
+
+Vuser 17:...3000
+
+Vuser 14:Loading Orders for D=6 W=64
+
+Vuser 10:...2000
+
+Vuser 16:...3000
+
+Vuser 5:...3000
+
+Vuser 7:Orders Done
+
+Vuser 12:Loading Orders for D=8 W=54
+
+Vuser 11:...1000
+
+Vuser 3:Orders Done
+
+Vuser 9:Orders Done
+
+Vuser 6:...3000
+
+Vuser 13:Loading Orders for D=6 W=59
+
+Vuser 17:Orders Done
+
+Vuser 15:...2000
+
+Vuser 16:Orders Done
+
+Vuser 5:Orders Done
+
+Vuser 7:Loading Orders for D=1 W=30
+
+Vuser 4:...1000
+
+Vuser 3:Loading Orders for D=1 W=10
+
+Vuser 2:...3000
+
+Vuser 9:Loading Orders for D=10 W=39
+
+Vuser 6:Orders Done
+
+Vuser 8:...1000
+
+Vuser 10:...3000
+
+Vuser 17:Loading Orders for D=3 W=79
+
+Vuser 16:Loading Orders for D=4 W=74
+
+Vuser 5:Loading Orders for D=1 W=20
+
+Vuser 14:...1000
+
+Vuser 2:Orders Done
+
+Vuser 12:...1000
+
+Vuser 6:Loading Orders for D=1 W=25
+
+Vuser 11:...2000
+
+Vuser 15:...3000
+
+Vuser 10:Orders Done
+
+Vuser 13:...1000
+
+Vuser 2:Loading Orders for D=3 W=5
+
+Vuser 7:...1000
+
+Vuser 4:...2000
+
+Vuser 3:...1000
+
+Vuser 9:...1000
+
+Vuser 15:Orders Done
+
+Vuser 10:Loading Orders for D=10 W=44
+
+Vuser 8:...2000
+
+Vuser 17:...1000
+
+Vuser 16:...1000
+
+Vuser 5:...1000
+
+Vuser 14:...2000
+
+Vuser 15:Loading Orders for D=5 W=69
+
+Vuser 11:...3000
+
+Vuser 12:...2000
+
+Vuser 6:...1000
+
+Vuser 4:...3000
+
+Vuser 13:...2000
+
+Vuser 11:Orders Done
+
+Vuser 2:...1000
+
+Vuser 7:...2000
+
+Vuser 8:...3000
+
+Vuser 4:Orders Done
+
+Vuser 3:...2000
+
+Vuser 9:...2000
+
+Vuser 11:Loading Orders for D=8 W=49
+
+Vuser 10:...1000
+
+Vuser 14:...3000
+
+Vuser 17:...2000
+
+Vuser 8:Orders Done
+
+Vuser 16:...2000
+
+Vuser 4:Loading Orders for D=1 W=15
+
+Vuser 12:...3000
+
+Vuser 5:...2000
+
+Vuser 15:...1000
+
+Vuser 13:...3000
+
+Vuser 6:...2000
+
+Vuser 14:Orders Done
+
+Vuser 8:Loading Orders for D=1 W=35
+
+Vuser 7:...3000
+
+Vuser 12:Orders Done
+
+Vuser 2:...2000
+
+Vuser 3:...3000
+
+Vuser 9:...3000
+
+Vuser 13:Orders Done
+
+Vuser 17:...3000
+
+Vuser 14:Loading Orders for D=7 W=64
+
+Vuser 16:...3000
+
+Vuser 11:...1000
+
+Vuser 7:Orders Done
+
+Vuser 10:...2000
+
+Vuser 12:Loading Orders for D=9 W=54
+
+Vuser 5:...3000
+
+Vuser 3:Orders Done
+
+Vuser 9:Orders Done
+
+Vuser 13:Loading Orders for D=7 W=59
+
+Vuser 6:...3000
+
+Vuser 17:Orders Done
+
+Vuser 4:...1000
+
+Vuser 16:Orders Done
+
+Vuser 15:...2000
+
+Vuser 7:Loading Orders for D=2 W=30
+
+Vuser 2:...3000
+
+Vuser 8:...1000
+
+Vuser 5:Orders Done
+
+Vuser 3:Loading Orders for D=2 W=10
+
+Vuser 9:Loading Orders for D=1 W=40
+
+Vuser 6:Orders Done
+
+Vuser 17:Loading Orders for D=4 W=79
+
+Vuser 10:...3000
+
+Vuser 16:Loading Orders for D=5 W=74
+
+Vuser 14:...1000
+
+Vuser 11:...2000
+
+Vuser 2:Orders Done
+
+Vuser 5:Loading Orders for D=2 W=20
+
+Vuser 12:...1000
+
+Vuser 6:Loading Orders for D=2 W=25
+
+Vuser 13:...1000
+
+Vuser 15:...3000
+
+Vuser 10:Orders Done
+
+Vuser 4:...2000
+
+Vuser 2:Loading Orders for D=4 W=5
+
+Vuser 7:...1000
+
+Vuser 8:...2000
+
+Vuser 15:Orders Done
+
+Vuser 10:Loading Orders for D=1 W=45
+
+Vuser 3:...1000
+
+Vuser 11:...3000
+
+Vuser 9:...1000
+
+Vuser 17:...1000
+
+Vuser 16:...1000
+
+Vuser 14:...2000
+
+Vuser 5:...1000
+
+Vuser 15:Loading Orders for D=6 W=69
+
+Vuser 12:...2000
+
+Vuser 6:...1000
+
+Vuser 13:...2000
+
+Vuser 11:Orders Done
+
+Vuser 4:...3000
+
+Vuser 8:...3000
+
+Vuser 2:...1000
+
+Vuser 7:...2000
+
+Vuser 11:Loading Orders for D=9 W=49
+
+Vuser 4:Orders Done
+
+Vuser 10:...1000
+
+Vuser 8:Orders Done
+
+Vuser 14:...3000
+
+Vuser 3:...2000
+
+Vuser 9:...2000
+
+Vuser 17:...2000
+
+Vuser 4:Loading Orders for D=2 W=15
+
+Vuser 12:...3000
+
+Vuser 16:...2000
+
+Vuser 8:Loading Orders for D=2 W=35
+
+Vuser 5:...2000
+
+Vuser 15:...1000
+
+Vuser 13:...3000
+
+Vuser 14:Orders Done
+
+Vuser 7:...3000
+
+Vuser 6:...2000
+
+Vuser 12:Orders Done
+
+Vuser 2:...2000
+
+Vuser 11:...1000
+
+Vuser 3:...3000
+
+Vuser 17:...3000
+
+Vuser 9:...3000
+
+Vuser 13:Orders Done
+
+Vuser 14:Loading Orders for D=8 W=64
+
+Vuser 10:...2000
+
+Vuser 7:Orders Done
+
+Vuser 16:...3000
+
+Vuser 12:Loading Orders for D=10 W=54
+
+Vuser 5:...3000
+
+Vuser 4:...1000
+
+Vuser 3:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 8:...1000
+
+Vuser 9:Orders Done
+
+Vuser 13:Loading Orders for D=8 W=59
+
+Vuser 15:...2000
+
+Vuser 6:...3000
+
+Vuser 2:...3000
+
+Vuser 7:Loading Orders for D=3 W=30
+
+Vuser 16:Orders Done
+
+Vuser 5:Orders Done
+
+Vuser 3:Loading Orders for D=3 W=10
+
+Vuser 11:...2000
+
+Vuser 17:Loading Orders for D=5 W=79
+
+Vuser 10:...3000
+
+Vuser 9:Loading Orders for D=2 W=40
+
+Vuser 6:Orders Done
+
+Vuser 14:...1000
+
+Vuser 2:Orders Done
+
+Vuser 16:Loading Orders for D=6 W=74
+
+Vuser 5:Loading Orders for D=3 W=20
+
+Vuser 12:...1000
+
+Vuser 4:...2000
+
+Vuser 15:...3000
+
+Vuser 10:Orders Done
+
+Vuser 8:...2000
+
+Vuser 6:Loading Orders for D=3 W=25
+
+Vuser 2:Loading Orders for D=5 W=5
+
+Vuser 13:...1000
+
+Vuser 11:...3000
+
+Vuser 7:...1000
+
+Vuser 15:Orders Done
+
+Vuser 10:Loading Orders for D=2 W=45
+
+Vuser 3:...1000
+
+Vuser 17:...1000
+
+Vuser 9:...1000
+
+Vuser 11:Orders Done
+
+Vuser 4:...3000
+
+Vuser 14:...2000
+
+Vuser 15:Loading Orders for D=7 W=69
+
+Vuser 16:...1000
+
+Vuser 5:...1000
+
+Vuser 8:...3000
+
+Vuser 12:...2000
+
+Vuser 11:Loading Orders for D=10 W=49
+
+Vuser 4:Orders Done
+
+Vuser 6:...1000
+
+Vuser 2:...1000
+
+Vuser 13:...2000
+
+Vuser 8:Orders Done
+
+Vuser 7:...2000
+
+Vuser 10:...1000
+
+Vuser 4:Loading Orders for D=3 W=15
+
+Vuser 3:...2000
+
+Vuser 14:...3000
+
+Vuser 17:...2000
+
+Vuser 9:...2000
+
+Vuser 8:Loading Orders for D=3 W=35
+
+Vuser 12:...3000
+
+Vuser 15:...1000
+
+Vuser 16:...2000
+
+Vuser 5:...2000
+
+Vuser 14:Orders Done
+
+Vuser 11:...1000
+
+Vuser 13:...3000
+
+Vuser 7:...3000
+
+Vuser 12:Orders Done
+
+Vuser 6:...2000
+
+Vuser 2:...2000
+
+Vuser 3:...3000
+
+Vuser 17:...3000
+
+Vuser 14:Loading Orders for D=9 W=64
+
+Vuser 10:...2000
+
+Vuser 4:...1000
+
+Vuser 9:...3000
+
+Vuser 13:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 12:Loading Orders for D=1 W=55
+
+Vuser 16:...3000
+
+Vuser 5:...3000
+
+Vuser 8:...1000
+
+Vuser 3:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 15:...2000
+
+Vuser 9:Orders Done
+
+Vuser 13:Loading Orders for D=9 W=59
+
+Vuser 7:Loading Orders for D=4 W=30
+
+Vuser 11:...2000
+
+Vuser 6:...3000
+
+Vuser 2:...3000
+
+Vuser 16:Orders Done
+
+Vuser 5:Orders Done
+
+Vuser 10:...3000
+
+Vuser 3:Loading Orders for D=4 W=10
+
+Vuser 17:Loading Orders for D=6 W=79
+
+Vuser 9:Loading Orders for D=3 W=40
+
+Vuser 14:...1000
+
+Vuser 4:...2000
+
+Vuser 6:Orders Done
+
+Vuser 2:Orders Done
+
+Vuser 16:Loading Orders for D=7 W=74
+
+Vuser 5:Loading Orders for D=4 W=20
+
+Vuser 12:...1000
+
+Vuser 15:...3000
+
+Vuser 10:Orders Done
+
+Vuser 8:...2000
+
+Vuser 11:...3000
+
+Vuser 6:Loading Orders for D=4 W=25
+
+Vuser 2:Loading Orders for D=6 W=5
+
+Vuser 13:...1000
+
+Vuser 7:...1000
+
+Vuser 15:Orders Done
+
+Vuser 10:Loading Orders for D=3 W=45
+
+Vuser 11:Orders Done
+
+Vuser 3:...1000
+
+Vuser 4:...3000
+
+Vuser 17:...1000
+
+Vuser 9:...1000
+
+Vuser 14:...2000
+
+Vuser 15:Loading Orders for D=8 W=69
+
+Vuser 11:Loading Orders for D=1 W=50
+
+Vuser 8:...3000
+
+Vuser 16:...1000
+
+Vuser 5:...1000
+
+Vuser 12:...2000
+
+Vuser 4:Orders Done
+
+Vuser 6:...1000
+
+Vuser 8:Orders Done
+
+Vuser 2:...1000
+
+Vuser 13:...2000
+
+Vuser 7:...2000
+
+Vuser 4:Loading Orders for D=4 W=15
+
+Vuser 10:...1000
+
+Vuser 14:...3000
+
+Vuser 8:Loading Orders for D=4 W=35
+
+Vuser 3:...2000
+
+Vuser 17:...2000
+
+Vuser 9:...2000
+
+Vuser 15:...1000
+
+Vuser 12:...3000
+
+Vuser 11:...1000
+
+Vuser 14:Orders Done
+
+Vuser 16:...2000
+
+Vuser 5:...2000
+
+Vuser 6:...2000
+
+Vuser 13:...3000
+
+Vuser 7:...3000
+
+Vuser 2:...2000
+
+Vuser 12:Orders Done
+
+Vuser 14:Loading Orders for D=10 W=64
+
+Vuser 3:...3000
+
+Vuser 4:...1000
+
+Vuser 17:...3000
+
+Vuser 10:...2000
+
+Vuser 13:Orders Done
+
+Vuser 9:...3000
+
+Vuser 8:...1000
+
+Vuser 7:Orders Done
+
+Vuser 12:Loading Orders for D=2 W=55
+
+Vuser 3:Orders Done
+
+Vuser 16:...3000
+
+Vuser 15:...2000
+
+Vuser 17:Orders Done
+
+Vuser 5:...3000
+
+Vuser 6:...3000
+
+Vuser 11:...2000
+
+Vuser 13:Loading Orders for D=10 W=59
+
+Vuser 9:Orders Done
+
+Vuser 2:...3000
+
+Vuser 7:Loading Orders for D=5 W=30
+
+Vuser 3:Loading Orders for D=5 W=10
+
+Vuser 16:Orders Done
+
+Vuser 10:...3000
+
+Vuser 14:...1000
+
+Vuser 17:Loading Orders for D=7 W=79
+
+Vuser 5:Orders Done
+
+Vuser 4:...2000
+
+Vuser 6:Orders Done
+
+Vuser 8:...2000
+
+Vuser 9:Loading Orders for D=4 W=40
+
+Vuser 15:...3000
+
+Vuser 2:Orders Done
+
+Vuser 12:...1000
+
+Vuser 16:Loading Orders for D=8 W=74
+
+Vuser 10:Orders Done
+
+Vuser 11:...3000
+
+Vuser 5:Loading Orders for D=5 W=20
+
+Vuser 6:Loading Orders for D=5 W=25
+
+Vuser 13:...1000
+
+Vuser 7:...1000
+
+Vuser 3:...1000
+
+Vuser 4:...3000
+
+Vuser 14:...2000
+
+Vuser 8:...3000
+
+Vuser 17:...1000
+
+Vuser 15:Orders Done
+
+Vuser 2:Loading Orders for D=7 W=5
+
+Vuser 10:Loading Orders for D=4 W=45
+
+Vuser 11:Orders Done
+
+Vuser 4:Orders Done
+
+Vuser 8:Orders Done
+
+Vuser 9:...1000
+
+Vuser 15:Loading Orders for D=9 W=69
+
+Vuser 12:...2000
+
+Vuser 16:...1000
+
+Vuser 5:...1000
+
+Vuser 11:Loading Orders for D=2 W=50
+
+Vuser 14:...3000
+
+Vuser 6:...1000
+
+Vuser 13:...2000
+
+Vuser 7:...2000
+
+Vuser 3:...2000
+
+Vuser 17:...2000
+
+Vuser 4:Loading Orders for D=5 W=15
+
+Vuser 10:...1000
+
+Vuser 2:...1000
+
+Vuser 8:Loading Orders for D=5 W=35
+
+Vuser 14:Orders Done
+
+Vuser 5:...2000
+
+Vuser 9:...2000
+
+Vuser 12:...3000
+
+Vuser 15:...1000
+
+Vuser 16:...2000
+
+Vuser 11:...1000
+
+Vuser 6:...2000
+
+Vuser 13:...3000
+
+Vuser 7:...3000
+
+Vuser 3:...3000
+
+Vuser 17:...3000
+
+Vuser 4:...1000
+
+Vuser 14:Loading Orders for D=1 W=65
+
+Vuser 10:...2000
+
+Vuser 2:...2000
+
+Vuser 8:...1000
+
+Vuser 5:...3000
+
+Vuser 12:Orders Done
+
+Vuser 9:...3000
+
+Vuser 13:Orders Done
+
+Vuser 7:Orders Done
+
+Vuser 3:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 16:...3000
+
+Vuser 6:...3000
+
+Vuser 5:Orders Done
+
+Vuser 12:Loading Orders for D=3 W=55
+
+Vuser 15:...2000
+
+Vuser 9:Orders Done
+
+Vuser 13:Loading Orders for D=1 W=60
+
+Vuser 7:Loading Orders for D=6 W=30
+
+Vuser 11:...2000
+
+Vuser 3:Loading Orders for D=6 W=10
+
+Vuser 17:Loading Orders for D=8 W=79
+
+Vuser 10:...3000
+
+Vuser 16:Orders Done
+
+Vuser 2:...3000
+
+Vuser 6:Orders Done
+
+Vuser 5:Loading Orders for D=6 W=20
+
+Vuser 14:...1000
+
+Vuser 4:...2000
+
+Vuser 9:Loading Orders for D=5 W=40
+
+Vuser 8:...2000
+
+Vuser 10:Orders Done
+
+Vuser 16:Loading Orders for D=9 W=74
+
+Vuser 15:...3000
+
+Vuser 2:Orders Done
+
+Vuser 6:Loading Orders for D=6 W=25
+
+Vuser 12:...1000
+
+Vuser 11:...3000
+
+Vuser 10:Loading Orders for D=5 W=45
+
+Vuser 13:...1000
+
+Vuser 7:...1000
+
+Vuser 15:Orders Done
+
+Vuser 2:Loading Orders for D=8 W=5
+
+Vuser 3:...1000
+
+Vuser 17:...1000
+
+Vuser 11:Orders Done
+
+Vuser 4:...3000
+
+Vuser 8:...3000
+
+Vuser 5:...1000
+
+Vuser 14:...2000
+
+Vuser 15:Loading Orders for D=10 W=69
+
+Vuser 9:...1000
+
+Vuser 11:Loading Orders for D=3 W=50
+
+Vuser 16:...1000
+
+Vuser 4:Orders Done
+
+Vuser 8:Orders Done
+
+Vuser 6:...1000
+
+Vuser 12:...2000
+
+Vuser 10:...1000
+
+Vuser 4:Loading Orders for D=6 W=15
+
+Vuser 13:...2000
+
+Vuser 7:...2000
+
+Vuser 8:Loading Orders for D=6 W=35
+
+Vuser 2:...1000
+
+Vuser 17:...2000
+
+Vuser 3:...2000
+
+Vuser 14:...3000
+
+Vuser 5:...2000
+
+Vuser 9:...2000
+
+Vuser 15:...1000
+
+Vuser 12:...3000
+
+Vuser 11:...1000
+
+Vuser 14:Orders Done
+
+Vuser 16:...2000
+
+Vuser 13:...3000
+
+Vuser 6:...2000
+
+Vuser 12:Orders Done
+
+Vuser 7:...3000
+
+Vuser 10:...2000
+
+Vuser 14:Loading Orders for D=2 W=65
+
+Vuser 4:...1000
+
+Vuser 17:...3000
+
+Vuser 13:Orders Done
+
+Vuser 3:...3000
+
+Vuser 8:...1000
+
+Vuser 12:Loading Orders for D=4 W=55
+
+Vuser 5:...3000
+
+Vuser 9:...3000
+
+Vuser 2:...2000
+
+Vuser 7:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 13:Loading Orders for D=2 W=60
+
+Vuser 16:...3000
+
+Vuser 3:Orders Done
+
+Vuser 15:...2000
+
+Vuser 11:...2000
+
+Vuser 6:...3000
+
+Vuser 5:Orders Done
+
+Vuser 10:...3000
+
+Vuser 9:Orders Done
+
+Vuser 7:Loading Orders for D=7 W=30
+
+Vuser 17:Loading Orders for D=9 W=79
+
+Vuser 14:...1000
+
+Vuser 16:Orders Done
+
+Vuser 4:...2000
+
+Vuser 3:Loading Orders for D=7 W=10
+
+Vuser 2:...3000
+
+Vuser 6:Orders Done
+
+Vuser 5:Loading Orders for D=7 W=20
+
+Vuser 8:...2000
+
+Vuser 10:Orders Done
+
+Vuser 9:Loading Orders for D=6 W=40
+
+Vuser 12:...1000
+
+Vuser 15:...3000
+
+Vuser 16:Loading Orders for D=10 W=74
+
+Vuser 11:...3000
+
+Vuser 13:...1000
+
+Vuser 2:Orders Done
+
+Vuser 6:Loading Orders for D=7 W=25
+
+Vuser 10:Loading Orders for D=6 W=45
+
+Vuser 4:...3000
+
+Vuser 15:Orders Done
+
+Vuser 7:...1000
+
+Vuser 17:...1000
+
+Vuser 11:Orders Done
+
+Vuser 14:...2000
+
+Vuser 2:Loading Orders for D=9 W=5
+
+Vuser 8:...3000
+
+Vuser 3:...1000
+
+Vuser 4:Orders Done
+
+Vuser 5:...1000
+
+Vuser 15:Loading Orders for D=1 W=70
+
+Vuser 9:...1000
+
+Vuser 11:Loading Orders for D=4 W=50
+
+Vuser 12:...2000
+
+Vuser 16:...1000
+
+Vuser 8:Orders Done
+
+Vuser 13:...2000
+
+Vuser 4:Loading Orders for D=7 W=15
+
+Vuser 6:...1000
+
+Vuser 10:...1000
+
+Vuser 14:...3000
+
+Vuser 7:...2000
+
+Vuser 8:Loading Orders for D=7 W=35
+
+Vuser 17:...2000
+
+Vuser 2:...1000
+
+Vuser 14:Orders Done
+
+Vuser 3:...2000
+
+Vuser 12:...3000
+
+Vuser 5:...2000
+
+Vuser 15:...1000
+
+Vuser 9:...2000
+
+Vuser 11:...1000
+
+Vuser 14:Loading Orders for D=3 W=65
+
+Vuser 13:...3000
+
+Vuser 16:...2000
+
+Vuser 12:Orders Done
+
+Vuser 7:...3000
+
+Vuser 4:...1000
+
+Vuser 17:...3000
+
+Vuser 6:...2000
+
+Vuser 10:...2000
+
+Vuser 3:...3000
+
+Vuser 8:...1000
+
+Vuser 13:Orders Done
+
+Vuser 5:...3000
+
+Vuser 12:Loading Orders for D=5 W=55
+
+Vuser 2:...2000
+
+Vuser 9:...3000
+
+Vuser 7:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 15:...2000
+
+Vuser 16:...3000
+
+Vuser 3:Orders Done
+
+Vuser 13:Loading Orders for D=3 W=60
+
+Vuser 11:...2000
+
+Vuser 5:Orders Done
+
+Vuser 14:...1000
+
+Vuser 9:Orders Done
+
+Vuser 7:Loading Orders for D=8 W=30
+
+Vuser 17:Loading Orders for D=10 W=79
+
+Vuser 6:...3000
+
+Vuser 10:...3000
+
+Vuser 4:...2000
+
+Vuser 16:Orders Done
+
+Vuser 3:Loading Orders for D=8 W=10
+
+Vuser 5:Loading Orders for D=8 W=20
+
+Vuser 2:...3000
+
+Vuser 9:Loading Orders for D=7 W=40
+
+Vuser 8:...2000
+
+Vuser 15:...3000
+
+Vuser 12:...1000
+
+Vuser 6:Orders Done
+
+Vuser 10:Orders Done
+
+Vuser 16:Loading Orders for D=1 W=75
+
+Vuser 11:...3000
+
+Vuser 2:Orders Done
+
+Vuser 13:...1000
+
+Vuser 15:Orders Done
+
+Vuser 14:...2000
+
+Vuser 6:Loading Orders for D=8 W=25
+
+Vuser 4:...3000
+
+Vuser 10:Loading Orders for D=7 W=45
+
+Vuser 7:...1000
+
+Vuser 17:...1000
+
+Vuser 11:Orders Done
+
+Vuser 2:Loading Orders for D=10 W=5
+
+Vuser 8:...3000
+
+Vuser 15:Loading Orders for D=2 W=70
+
+Vuser 3:...1000
+
+Vuser 5:...1000
+
+Vuser 9:...1000
+
+Vuser 4:Orders Done
+
+Vuser 12:...2000
+
+Vuser 11:Loading Orders for D=5 W=50
+
+Vuser 8:Orders Done
+
+Vuser 14:...3000
+
+Vuser 16:...1000
+
+Vuser 13:...2000
+
+Vuser 4:Loading Orders for D=8 W=15
+
+Vuser 6:...1000
+
+Vuser 8:Loading Orders for D=8 W=35
+
+Vuser 10:...1000
+
+Vuser 14:Orders Done
+
+Vuser 7:...2000
+
+Vuser 17:...2000
+
+Vuser 2:...1000
+
+Vuser 15:...1000
+
+Vuser 3:...2000
+
+Vuser 12:...3000
+
+Vuser 5:...2000
+
+Vuser 14:Loading Orders for D=4 W=65
+
+Vuser 9:...2000
+
+Vuser 13:...3000
+
+Vuser 11:...1000
+
+Vuser 12:Orders Done
+
+Vuser 16:...2000
+
+Vuser 7:...3000
+
+Vuser 17:...3000
+
+Vuser 4:...1000
+
+Vuser 6:...2000
+
+Vuser 8:...1000
+
+Vuser 10:...2000
+
+Vuser 3:...3000
+
+Vuser 13:Orders Done
+
+Vuser 2:...2000
+
+Vuser 5:...3000
+
+Vuser 15:...2000
+
+Vuser 9:...3000
+
+Vuser 12:Loading Orders for D=6 W=55
+
+Vuser 7:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 14:...1000
+
+Vuser 3:Orders Done
+
+Vuser 13:Loading Orders for D=4 W=60
+
+Vuser 16:...3000
+
+Vuser 5:Orders Done
+
+Vuser 9:Orders Done
+
+Vuser 11:...2000
+
+Vuser 6:...3000
+
+Vuser 10:...3000
+
+Vuser 7:Loading Orders for D=9 W=30
+
+Vuser 17:Loading Orders for D=1 W=80
+
+Vuser 4:...2000
+
+Vuser 2:...3000
+
+Vuser 3:Loading Orders for D=9 W=10
+
+Vuser 8:...2000
+
+Vuser 15:...3000
+
+Vuser 16:Orders Done
+
+Vuser 5:Loading Orders for D=9 W=20
+
+Vuser 9:Loading Orders for D=8 W=40
+
+Vuser 6:Orders Done
+
+Vuser 10:Orders Done
+
+Vuser 12:...1000
+
+Vuser 2:Orders Done
+
+Vuser 14:...2000
+
+Vuser 15:Orders Done
+
+Vuser 11:...3000
+
+Vuser 16:Loading Orders for D=2 W=75
+
+Vuser 13:...1000
+
+Vuser 6:Loading Orders for D=9 W=25
+
+Vuser 10:Loading Orders for D=8 W=45
+
+Vuser 4:...3000
+
+Vuser 2:End:Thu Jul 16 15:01:59 UTC 2026
+
+Vuser 7:...1000
+
+Vuser 8:...3000
+
+Vuser 15:Loading Orders for D=3 W=70
+
+Vuser 17:...1000
+
+Vuser 11:Orders Done
+
+Vuser 3:...1000
+
+Vuser 4:Orders Done
+
+Vuser 2:FINISHED SUCCESS
+
+Vuser 5:...1000
+
+Vuser 14:...3000
+
+Vuser 9:...1000
+
+Vuser 12:...2000
+
+Vuser 8:Orders Done
+
+Vuser 11:Loading Orders for D=6 W=50
+
+Vuser 16:...1000
+
+Vuser 4:Loading Orders for D=9 W=15
+
+Vuser 13:...2000
+
+Vuser 6:...1000
+
+Vuser 10:...1000
+
+Vuser 14:Orders Done
+
+Vuser 8:Loading Orders for D=9 W=35
+
+Vuser 7:...2000
+
+Vuser 15:...1000
+
+Vuser 17:...2000
+
+Vuser 3:...2000
+
+Vuser 14:Loading Orders for D=5 W=65
+
+Vuser 12:...3000
+
+Vuser 5:...2000
+
+Vuser 13:...3000
+
+Vuser 9:...2000
+
+Vuser 11:...1000
+
+Vuser 16:...2000
+
+Vuser 12:Orders Done
+
+Vuser 4:...1000
+
+Vuser 7:...3000
+
+Vuser 6:...2000
+
+Vuser 13:Orders Done
+
+Vuser 10:...2000
+
+Vuser 17:...3000
+
+Vuser 8:...1000
+
+Vuser 3:...3000
+
+Vuser 12:Loading Orders for D=7 W=55
+
+Vuser 15:...2000
+
+Vuser 7:Orders Done
+
+Vuser 13:Loading Orders for D=5 W=60
+
+Vuser 5:...3000
+
+Vuser 9:...3000
+
+Vuser 14:...1000
+
+Vuser 17:Orders Done
+
+Vuser 3:Orders Done
+
+Vuser 16:...3000
+
+Vuser 11:...2000
+
+Vuser 6:...3000
+
+Vuser 7:Loading Orders for D=10 W=30
+
+Vuser 10:...3000
+
+Vuser 5:Orders Done
+
+Vuser 4:...2000
+
+Vuser 9:Orders Done
+
+Vuser 17:Loading Orders for D=2 W=80
+
+Vuser 3:Loading Orders for D=10 W=10
+
+Vuser 16:Orders Done
+
+Vuser 15:...3000
+
+Vuser 8:...2000
+
+Vuser 6:Orders Done
+
+Vuser 10:Orders Done
+
+Vuser 5:Loading Orders for D=10 W=20
+
+Vuser 12:...1000
+
+Vuser 9:Loading Orders for D=9 W=40
+
+Vuser 13:...1000
+
+Vuser 16:Loading Orders for D=3 W=75
+
+Vuser 11:...3000
+
+Vuser 15:Orders Done
+
+Vuser 14:...2000
+
+Vuser 6:Loading Orders for D=10 W=25
+
+Vuser 10:Loading Orders for D=9 W=45
+
+Vuser 4:...3000
+
+Vuser 7:...1000
+
+Vuser 11:Orders Done
+
+Vuser 15:Loading Orders for D=4 W=70
+
+Vuser 8:...3000
+
+Vuser 17:...1000
+
+Vuser 3:...1000
+
+Vuser 4:Orders Done
+
+Vuser 5:...1000
+
+Vuser 11:Loading Orders for D=7 W=50
+
+Vuser 14:...3000
+
+Vuser 12:...2000
+
+Vuser 8:Orders Done
+
+Vuser 9:...1000
+
+Vuser 13:...2000
+
+Vuser 16:...1000
+
+Vuser 4:Loading Orders for D=10 W=15
+
+Vuser 6:...1000
+
+Vuser 14:Orders Done
+
+Vuser 10:...1000
+
+Vuser 8:Loading Orders for D=10 W=35
+
+Vuser 7:...2000
+
+Vuser 15:...1000
+
+Vuser 17:...2000
+
+Vuser 14:Loading Orders for D=6 W=65
+
+Vuser 3:...2000
+
+Vuser 12:...3000
+
+Vuser 5:...2000
+
+Vuser 13:...3000
+
+Vuser 11:...1000
+
+Vuser 9:...2000
+
+Vuser 12:Orders Done
+
+Vuser 16:...2000
+
+Vuser 13:Orders Done
+
+Vuser 4:...1000
+
+Vuser 7:...3000
+
+Vuser 6:...2000
+
+Vuser 17:...3000
+
+Vuser 10:...2000
+
+Vuser 12:Loading Orders for D=8 W=55
+
+Vuser 8:...1000
+
+Vuser 13:Loading Orders for D=6 W=60
+
+Vuser 3:...3000
+
+Vuser 15:...2000
+
+Vuser 5:...3000
+
+Vuser 14:...1000
+
+Vuser 7:Orders Done
+
+Vuser 9:...3000
+
+Vuser 17:Orders Done
+
+Vuser 16:...3000
+
+Vuser 11:...2000
+
+Vuser 3:Orders Done
+
+Vuser 5:Orders Done
+
+Vuser 6:...3000
+
+Vuser 7:End:Thu Jul 16 15:02:01 UTC 2026
+
+Vuser 4:...2000
+
+Vuser 9:Orders Done
+
+Vuser 10:...3000
+
+Vuser 17:Loading Orders for D=3 W=80
+
+Vuser 16:Orders Done
+
+Vuser 3:End:Thu Jul 16 15:02:01 UTC 2026
+
+Vuser 15:...3000
+
+Vuser 5:End:Thu Jul 16 15:02:01 UTC 2026
+
+Vuser 12:...1000
+
+Vuser 6:Orders Done
+
+Vuser 8:...2000
+
+Vuser 7:FINISHED SUCCESS
+
+Vuser 13:...1000
+
+Vuser 9:Loading Orders for D=10 W=40
+
+Vuser 10:Orders Done
+
+Vuser 11:...3000
+
+Vuser 16:Loading Orders for D=4 W=75
+
+Vuser 14:...2000
+
+Vuser 3:FINISHED SUCCESS
+
+Vuser 15:Orders Done
+
+Vuser 5:FINISHED SUCCESS
+
+Vuser 6:End:Thu Jul 16 15:02:01 UTC 2026
+
+Vuser 4:...3000
+
+Vuser 10:Loading Orders for D=10 W=45
+
+Vuser 11:Orders Done
+
+Vuser 17:...1000
+
+Vuser 15:Loading Orders for D=5 W=70
+
+Vuser 8:...3000
+
+Vuser 6:FINISHED SUCCESS
+
+Vuser 12:...2000
+
+Vuser 4:Orders Done
+
+Vuser 11:Loading Orders for D=8 W=50
+
+Vuser 14:...3000
+
+Vuser 13:...2000
+
+Vuser 9:...1000
+
+Vuser 8:Orders Done
+
+Vuser 16:...1000
+
+Vuser 4:End:Thu Jul 16 15:02:02 UTC 2026
+
+Vuser 14:Orders Done
+
+Vuser 8:End:Thu Jul 16 15:02:02 UTC 2026
+
+Vuser 10:...1000
+
+Vuser 4:FINISHED SUCCESS
+
+Vuser 14:Loading Orders for D=7 W=65
+
+Vuser 17:...2000
+
+Vuser 8:FINISHED SUCCESS
+
+Vuser 12:...3000
+
+Vuser 15:...1000
+
+Vuser 13:...3000
+
+Vuser 12:Orders Done
+
+Vuser 11:...1000
+
+Vuser 13:Orders Done
+
+Vuser 12:Loading Orders for D=9 W=55
+
+Vuser 9:...2000
+
+Vuser 16:...2000
+
+Vuser 13:Loading Orders for D=7 W=60
+
+Vuser 17:...3000
+
+Vuser 10:...2000
+
+Vuser 17:Orders Done
+
+Vuser 14:...1000
+
+Vuser 17:Loading Orders for D=4 W=80
+
+Vuser 15:...2000
+
+Vuser 9:...3000
+
+Vuser 16:...3000
+
+Vuser 9:Orders Done
+
+Vuser 11:...2000
+
+Vuser 16:Orders Done
+
+Vuser 9:End:Thu Jul 16 15:02:02 UTC 2026
+
+Vuser 12:...1000
+
+Vuser 10:...3000
+
+Vuser 16:Loading Orders for D=5 W=75
+
+Vuser 9:FINISHED SUCCESS
+
+Vuser 13:...1000
+
+Vuser 10:Orders Done
+
+Vuser 15:...3000
+
+Vuser 14:...2000
+
+Vuser 17:...1000
+
+Vuser 10:End:Thu Jul 16 15:02:02 UTC 2026
+
+Vuser 15:Orders Done
+
+Vuser 11:...3000
+
+Vuser 10:FINISHED SUCCESS
+
+Vuser 15:Loading Orders for D=6 W=70
+
+Vuser 11:Orders Done
+
+Vuser 11:Loading Orders for D=9 W=50
+
+Vuser 12:...2000
+
+Vuser 14:...3000
+
+Vuser 16:...1000
+
+Vuser 14:Orders Done
+
+Vuser 13:...2000
+
+Vuser 14:Loading Orders for D=8 W=65
+
+Vuser 17:...2000
+
+Vuser 12:...3000
+
+Vuser 12:Orders Done
+
+Vuser 15:...1000
+
+Vuser 12:Loading Orders for D=10 W=55
+
+Vuser 13:...3000
+
+Vuser 11:...1000
+
+Vuser 13:Orders Done
+
+Vuser 17:...3000
+
+Vuser 16:...2000
+
+Vuser 13:Loading Orders for D=8 W=60
+
+Vuser 17:Orders Done
+
+Vuser 14:...1000
+
+Vuser 17:Loading Orders for D=5 W=80
+
+Vuser 15:...2000
+
+Vuser 16:...3000
+
+Vuser 12:...1000
+
+Vuser 16:Orders Done
+
+Vuser 11:...2000
+
+Vuser 16:Loading Orders for D=6 W=75
+
+Vuser 13:...1000
+
+Vuser 14:...2000
+
+Vuser 17:...1000
+
+Vuser 15:...3000
+
+Vuser 15:Orders Done
+
+Vuser 15:Loading Orders for D=7 W=70
+
+Vuser 11:...3000
+
+Vuser 11:Orders Done
+
+Vuser 11:Loading Orders for D=10 W=50
+
+Vuser 12:...2000
+
+Vuser 14:...3000
+
+Vuser 14:Orders Done
+
+Vuser 16:...1000
+
+Vuser 14:Loading Orders for D=9 W=65
+
+Vuser 13:...2000
+
+Vuser 17:...2000
+
+Vuser 12:...3000
+
+Vuser 15:...1000
+
+Vuser 12:Orders Done
+
+Vuser 12:End:Thu Jul 16 15:02:03 UTC 2026
+
+Vuser 11:...1000
+
+Vuser 12:FINISHED SUCCESS
+
+Vuser 13:...3000
+
+Vuser 17:...3000
+
+Vuser 13:Orders Done
+
+Vuser 16:...2000
+
+Vuser 17:Orders Done
+
+Vuser 14:...1000
+
+Vuser 13:Loading Orders for D=9 W=60
+
+Vuser 17:Loading Orders for D=6 W=80
+
+Vuser 15:...2000
+
+Vuser 16:...3000
+
+Vuser 11:...2000
+
+Vuser 16:Orders Done
+
+Vuser 16:Loading Orders for D=7 W=75
+
+Vuser 15:...3000
+
+Vuser 14:...2000
+
+Vuser 15:Orders Done
+
+Vuser 13:...1000
+
+Vuser 17:...1000
+
+Vuser 15:Loading Orders for D=8 W=70
+
+Vuser 11:...3000
+
+Vuser 11:Orders Done
+
+Vuser 11:End:Thu Jul 16 15:02:03 UTC 2026
+
+Vuser 11:FINISHED SUCCESS
+
+Vuser 14:...3000
+
+Vuser 16:...1000
+
+Vuser 14:Orders Done
+
+Vuser 14:Loading Orders for D=10 W=65
+
+Vuser 13:...2000
+
+Vuser 17:...2000
+
+Vuser 15:...1000
+
+Vuser 16:...2000
+
+Vuser 13:...3000
+
+Vuser 17:...3000
+
+Vuser 14:...1000
+
+Vuser 13:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 13:Loading Orders for D=10 W=60
+
+Vuser 17:Loading Orders for D=7 W=80
+
+Vuser 15:...2000
+
+Vuser 16:...3000
+
+Vuser 16:Orders Done
+
+Vuser 16:Loading Orders for D=8 W=75
+
+Vuser 15:...3000
+
+Vuser 14:...2000
+
+Vuser 13:...1000
+
+Vuser 17:...1000
+
+Vuser 15:Orders Done
+
+Vuser 16:...1000
+
+Vuser 14:...3000
+
+Vuser 13:...2000
+
+Vuser 17:...2000
+
+Vuser 15:Loading Orders for D=9 W=70
+
+Vuser 16:...2000
+
+Vuser 14:Orders Done
+
+Vuser 14:End:Thu Jul 16 15:02:06 UTC 2026
+
+Vuser 14:FINISHED SUCCESS
+
+Vuser 13:...3000
+
+Vuser 17:...3000
+
+Vuser 13:Orders Done
+
+Vuser 17:Orders Done
+
+Vuser 13:End:Thu Jul 16 15:02:06 UTC 2026
+
+Vuser 16:...3000
+
+Vuser 17:Loading Orders for D=8 W=80
+
+Vuser 13:FINISHED SUCCESS
+
+Vuser 16:Orders Done
+
+Vuser 15:...1000
+
+Vuser 16:Loading Orders for D=9 W=75
+
+Vuser 17:...1000
+
+Vuser 15:...2000
+
+Vuser 16:...1000
+
+Vuser 15:...3000
+
+Vuser 15:Orders Done
+
+Vuser 17:...2000
+
+Vuser 15:Loading Orders for D=10 W=70
+
+Vuser 16:...2000
+
+Vuser 17:...3000
+
+Vuser 17:Orders Done
+
+Vuser 17:Loading Orders for D=9 W=80
+
+Vuser 16:...3000
+
+Vuser 16:Orders Done
+
+Vuser 15:...1000
+
+Vuser 16:Loading Orders for D=10 W=75
+
+Vuser 17:...1000
+
+Vuser 15:...2000
+
+Vuser 16:...1000
+
+Vuser 17:...2000
+
+Vuser 15:...3000
+
+Vuser 15:Orders Done
+
+Vuser 15:End:Thu Jul 16 15:02:07 UTC 2026
+
+Vuser 15:FINISHED SUCCESS
+
+Vuser 16:...2000
+
+Vuser 17:...3000
+
+Vuser 17:Orders Done
+
+Vuser 17:Loading Orders for D=10 W=80
+
+Vuser 16:...3000
+
+Vuser 16:Orders Done
+
+Vuser 16:End:Thu Jul 16 15:02:07 UTC 2026
+
+Vuser 16:FINISHED SUCCESS
+
+Vuser 17:...1000
+
+Vuser 17:...2000
+
+Vuser 17:...3000
+
+Vuser 17:Orders Done
+
+Vuser 17:End:Thu Jul 16 15:02:07 UTC 2026
+
+Vuser 17:FINISHED SUCCESS
+
+Vuser 1:Workers: 0 Active 16 Done
+
+Vuser 1:CREATING TPCC INDEXES
+
+Vuser 1:CREATING TPCC STORED PROCEDURES
+
+Vuser 1:GATHERING SCHEMA STATISTICS
+
+Vuser 1:TPCC SCHEMA COMPLETE
+
+Vuser 1:FINISHED SUCCESS
+
+ALL VIRTUAL USERS COMPLETE
+

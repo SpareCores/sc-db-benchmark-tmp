@@ -1,0 +1,12 @@
+{
+  "databases": {
+    "tpcc": {
+      "size_bytes": 16427262479,
+      "size_pretty": "15 GB",
+      "size_gib": 15.2991
+    }
+  },
+  "total_size_bytes": 16427262479,
+  "total_size_pretty": "15.30 GB",
+  "total_size_gib": 15.2991
+}

@@ -1,0 +1,28 @@
+{
+  "run_id": "20260716T124729Z_sc-runner",
+  "hostname": "sc-runner",
+  "ncpus": 16,
+  "mem_gib": 125.8,
+  "pg_image": "postgres:18",
+  "hammerdb_image": "tpcorg/hammerdb:postgres",
+  "wh_per_vu": 5,
+  "vus": [
+    4,
+    8,
+    16,
+    32
+  ],
+  "rampup_min": 2,
+  "duration_min": 5,
+  "policy": {
+    "synchronous_commit": "off",
+    "gucs": "sc-inspector postgres_multi async profile",
+    "wh_sizing": "https://www.hammerdb.com/docs/ch03s07.html (5 warehouses per VU)",
+    "empty_db_each_round": true,
+    "warmup": "2 min HammerDB rampup before measurement"
+  },
+  "started_utc": "2026-07-16T12:47:29.949551+00:00",
+  "finished_utc": "2026-07-16T13:47:30.374638+00:00",
+  "rows": 4,
+  "ok": 4
+}

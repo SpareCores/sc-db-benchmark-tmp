@@ -1,0 +1,19 @@
+{
+  "best": {
+    "name": "H_workmem_16MB",
+    "run_vus": 32,
+    "nopm": 1356244,
+    "tpm": 3120998,
+    "build_seconds": 186.3,
+    "shared_buffers_gb": 16,
+    "tmpfs_gib": 125,
+    "error": "",
+    "delta_nopm_pct": 19.91,
+    "settings": "max_connections=400 max_parallel_workers=32 max_worker_processes=32 synchronous_commit=off wal_buffers=64MB checkpoint_completion_target=0.9 maintenance_work_mem=1GB listen_addresses=* shared_buffers=16GB effective_cache_size=188GB io_method=io_uring random_page_cost=1.0 effective_io_concurrency=1000 jit=off max_wal_size=16GB min_wal_size=2GB wal_compression=lz4 work_mem=16MB max_parallel_workers_per_gather=0",
+    "elapsed_wall_s": 698.5
+  },
+  "baseline_nopm": 1131026,
+  "n_ok": 21,
+  "n_total": 21,
+  "finished_utc": "2026-07-17T01:16:16.614958+00:00"
+}

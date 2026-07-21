@@ -1,0 +1,1 @@
+Run 2, Premium_LRS disks, Postgres on disks

@@ -1,0 +1,75 @@
+{
+  "run_id": "20260716T231721Z_sc-runner",
+  "hostname": "sc-runner",
+  "ncpus": 16,
+  "mem_gib": 125.8,
+  "experiment": "multi_schema_vs_baseline",
+  "vus": 32,
+  "vus_per_schema": 4,
+  "n_schemas": 8,
+  "wh_per_vu": 5,
+  "rampup_min": 2,
+  "duration_min": 5,
+  "pg_tmpfs": true,
+  "pg_tmpfs_size_gib": 62,
+  "pg_image": "postgres:18",
+  "hammerdb_image": "tpcorg/hammerdb:postgres",
+  "policy": {
+    "note": "HammerDB TPROC-C 'schema' == one PostgreSQL database. Multi mode builds N databases and runs N HammerDB clients in parallel (vus_per_schema each). NOPM is summed; TPM is the median of client-reported instance-wide TPM.",
+    "baseline_ref_run2_tmpfs_F16_vu32": {
+      "nopm": 644697,
+      "tpm": 1482628,
+      "source": "RESULTS.md run2-tmpfs Standard_F16ams_v6 vu32"
+    }
+  },
+  "started_utc": "2026-07-16T23:17:21.863528+00:00"
+}
+pulling postgres:18 …
+pulling tpcorg/hammerdb:postgres …
+
+=== BASELINE: 32 VU / 160 WH single tpcc (build_vus=32) ===
+postgres ready shared_buffers=31GB data=tmpfs
+buildschema done in 183s
+BASELINE RESULT nopm=647579 tpm=1491192 (20236.8 NOPM/VU)
+
+=== MULTI: 32 VU across 8 DBs (4 VU / 20 WH each) ===
+postgres ready shared_buffers=31GB max_connections>=400 data=tmpfs
+building tpcc0: 20 WH build_vus=4 …
+  tpcc0 done in 71s
+building tpcc1: 20 WH build_vus=4 …
+  tpcc1 done in 71s
+building tpcc2: 20 WH build_vus=4 …
+  tpcc2 done in 71s
+building tpcc3: 20 WH build_vus=4 …
+  tpcc3 done in 71s
+building tpcc4: 20 WH build_vus=4 …
+  tpcc4 done in 71s
+building tpcc5: 20 WH build_vus=4 …
+  tpcc5 done in 72s
+building tpcc6: 20 WH build_vus=4 …
+  tpcc6 done in 72s
+building tpcc7: 20 WH build_vus=4 …
+  tpcc7 done in 71s
+total schema size: 15.43 GB
+starting 8 parallel timed runs …
+  tpcc3: nopm=85053 tpm=1590852 (440s)
+  tpcc6: nopm=86824 tpm=1591206 (441s)
+  tpcc2: nopm=87084 tpm=1591169 (441s)
+  tpcc0: nopm=86807 tpm=1590579 (442s)
+  tpcc1: nopm=86601 tpm=1591177 (442s)
+  tpcc7: nopm=85576 tpm=1591169 (443s)
+  tpcc4: nopm=86756 tpm=1591007 (443s)
+  tpcc5: nopm=86898 tpm=1590847 (443s)
+MULTI RESULT nopm_sum=691599 tpm_median=1591088 (21612.5 NOPM/VU) per-schema nopm=[86807, 86601, 87084, 85053, 86756, 86898, 86824, 85576]
+
+=== COMPARISON ===
+{
+  "baseline_nopm": 647579,
+  "multi_nopm": 691599,
+  "multi_vs_baseline_pct": 6.8,
+  "archived_f16_tmpfs_vu32_nopm": 644697,
+  "multi_vs_archived_pct": 7.28,
+  "baseline_vs_archived_pct": 0.45
+}
+
+Wrote /bench/multi_schema/vu32_20260716T231721Z/results.csv

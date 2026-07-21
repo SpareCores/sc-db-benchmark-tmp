@@ -1,0 +1,186 @@
+{
+  "run_id": "20260717T183241Z_sc-runner_bb",
+  "hostname": "sc-runner",
+  "ncpus": 32,
+  "mem_gib": 251.7,
+  "pg_image": "postgres:18",
+  "benchbase_image": "benchbase.azurecr.io/benchbase-postgres:latest",
+  "wh_per_vu": 5,
+  "vus": [
+    4,
+    8,
+    16,
+    32,
+    64
+  ],
+  "workloads": [
+    "wikipedia",
+    "ycsb"
+  ],
+  "rampup_min": 2,
+  "duration_min": 5,
+  "pg_tmpfs": true,
+  "pg_tmpfs_size_gib": 125,
+  "pg_tune_host": true,
+  "skip_raw": true,
+  "host_topology": {
+    "logical_cpus": 32,
+    "physical_cpus": 32,
+    "threads_per_core": 1.0,
+    "sockets": 1,
+    "numa_nodes": 1,
+    "mem_gib": 251.7,
+    "hugepages_total": 0,
+    "hugepages_free": 0,
+    "hugepage_size_kib": 2048,
+    "io_uring_sysctl_ok": true,
+    "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+    "hyperthreading": false
+  },
+  "pg_guc_plan": {
+    "settings": [
+      "shared_buffers=24GB",
+      "effective_cache_size=188GB",
+      "work_mem=16MB",
+      "maintenance_work_mem=1GB",
+      "autovacuum_work_mem=1GB",
+      "max_connections=400",
+      "max_worker_processes=41",
+      "max_parallel_workers=32",
+      "max_parallel_workers_per_gather=0",
+      "max_parallel_maintenance_workers=4",
+      "autovacuum_max_workers=5",
+      "io_method=io_uring",
+      "huge_pages=try",
+      "synchronous_commit=off",
+      "wal_buffers=16MB",
+      "wal_compression=lz4",
+      "max_wal_size=16GB",
+      "min_wal_size=2GB",
+      "checkpoint_completion_target=0.9",
+      "checkpoint_timeout=15min",
+      "random_page_cost=1.0",
+      "effective_io_concurrency=1000",
+      "maintenance_io_concurrency=500",
+      "jit=off",
+      "listen_addresses=*"
+    ],
+    "shared_buffers_gb": 24,
+    "effective_cache_size_gb": 188,
+    "topology": {
+      "logical_cpus": 32,
+      "physical_cpus": 32,
+      "threads_per_core": 1.0,
+      "sockets": 1,
+      "numa_nodes": 1,
+      "mem_gib": 251.7,
+      "hugepages_total": 0,
+      "hugepages_free": 0,
+      "hugepage_size_kib": 2048,
+      "io_uring_sysctl_ok": true,
+      "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+      "hyperthreading": false
+    },
+    "rationale": {
+      "workload": "oltp",
+      "storage": "tmpfs",
+      "sources": "f32ams-v6-vu32-tmpfs-sweep; instaclustr-tuning-guide; pgtune-oltp; postgresai-oltp; postgresql-18-aio",
+      "shared_buffers_tmpfs_cap": "capped 25GB \u2192 24GB (tmpfs sweep on F32ams_v6)",
+      "cpu": "logical=32 physical=32 HT=no sockets=1 numa=1",
+      "io_method": "io_uring (F32 sweep: +3\u20134% vs worker; needs privileged container + liburing image)",
+      "storage_io": "tmpfs: random_page_cost=1.0, eic=1000",
+      "memory": "shared_buffers=24GB (10% RAM, tmpfs-cap), effective_cache_size=188GB, work_mem=16MB, maintenance_work_mem=1024MB, wal_buffers=16MB",
+      "parallel": "max_worker_processes=41, max_parallel_workers=32 (physical CPUs), per_gather=0, maintenance=4, autovacuum=5",
+      "empirical": "F32ams_v6 vu32/tmpfs sweep: best +19.9% NOPM (sb\u224816\u201324GB, io_uring, work_mem=16MB, per_gather=0, wal_buffers=16MB, lz4); vu4 verify +4.3\u20134.6% vs published"
+    }
+  },
+  "scale_ladder": {
+    "wikipedia": {
+      "4": {
+        "warehouses_equiv": 20,
+        "scalefactor": 13,
+        "expected_schema_gib": 1.9244
+      },
+      "8": {
+        "warehouses_equiv": 40,
+        "scalefactor": 26,
+        "expected_schema_gib": 3.8488
+      },
+      "16": {
+        "warehouses_equiv": 80,
+        "scalefactor": 51,
+        "expected_schema_gib": 7.5495
+      },
+      "32": {
+        "warehouses_equiv": 160,
+        "scalefactor": 103,
+        "expected_schema_gib": 15.2471
+      },
+      "64": {
+        "warehouses_equiv": 320,
+        "scalefactor": 205,
+        "expected_schema_gib": 30.3461
+      }
+    },
+    "ycsb": {
+      "4": {
+        "warehouses_equiv": 20,
+        "scalefactor": 1676,
+        "expected_schema_gib": 1.9004
+      },
+      "8": {
+        "warehouses_equiv": 40,
+        "scalefactor": 3351,
+        "expected_schema_gib": 3.7998
+      },
+      "16": {
+        "warehouses_equiv": 80,
+        "scalefactor": 6702,
+        "expected_schema_gib": 7.5995
+      },
+      "32": {
+        "warehouses_equiv": 160,
+        "scalefactor": 13405,
+        "expected_schema_gib": 15.2002
+      },
+      "64": {
+        "warehouses_equiv": 320,
+        "scalefactor": 26810,
+        "expected_schema_gib": 30.4004
+      }
+    }
+  },
+  "policy": {
+    "synchronous_commit": "off",
+    "gucs": "host-tuned via pg_tune_gucs.tune_pg_gucs (physical/logical CPUs, NUMA, RAM, PG18 io_workers; fixed across VU points)",
+    "pg_data_storage": "tmpfs 125GiB on /var/lib/postgresql",
+    "working_set": "SF sized to match HammerDB 5 WH/VU schema (WH_SIZE_GIB=0.095, WIKIPEDIA_GIB_PER_SF=0.14803, YCSB_ROW_KIB=1.189)",
+    "terminals": "same as run_vus (HammerDB VU ladder)",
+    "units_per_vu_min": "inspector soft cap is SF//5; this harness does not clamp terminals to that cap",
+    "empty_db_each_round": true,
+    "warmup": "2 min BenchBase <warmup> before measurement",
+    "mix": {
+      "wikipedia": {
+        "weights": "1,1,7,90,1",
+        "txn_types": [
+          "AddWatchList",
+          "RemoveWatchList",
+          "UpdatePage",
+          "GetPageAnonymous",
+          "GetPageAuthenticated"
+        ]
+      },
+      "ycsb": {
+        "weights": "50,50",
+        "txn_types": [
+          "ReadRecord",
+          "UpdateRecord"
+        ]
+      }
+    }
+  },
+  "started_utc": "2026-07-17T18:32:41.477084+00:00",
+  "finished_utc": "2026-07-17T20:05:25.666087+00:00",
+  "rows": 10,
+  "ok": 10
+}

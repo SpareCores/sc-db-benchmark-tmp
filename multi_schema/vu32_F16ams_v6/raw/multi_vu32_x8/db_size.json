@@ -1,0 +1,47 @@
+{
+  "databases": {
+    "tpcc0": {
+      "size_bytes": 2071467711,
+      "size_pretty": "1976 MB",
+      "size_gib": 1.9292
+    },
+    "tpcc1": {
+      "size_bytes": 2072032959,
+      "size_pretty": "1976 MB",
+      "size_gib": 1.9297
+    },
+    "tpcc2": {
+      "size_bytes": 2071590591,
+      "size_pretty": "1976 MB",
+      "size_gib": 1.9293
+    },
+    "tpcc3": {
+      "size_bytes": 2071238335,
+      "size_pretty": "1975 MB",
+      "size_gib": 1.929
+    },
+    "tpcc4": {
+      "size_bytes": 2071107263,
+      "size_pretty": "1975 MB",
+      "size_gib": 1.9289
+    },
+    "tpcc5": {
+      "size_bytes": 2071880207,
+      "size_pretty": "1976 MB",
+      "size_gib": 1.9296
+    },
+    "tpcc6": {
+      "size_bytes": 2071828159,
+      "size_pretty": "1976 MB",
+      "size_gib": 1.9295
+    },
+    "tpcc7": {
+      "size_bytes": 2071740943,
+      "size_pretty": "1976 MB",
+      "size_gib": 1.9295
+    }
+  },
+  "total_size_bytes": 16572886168,
+  "total_size_pretty": "15.43 GB",
+  "total_size_gib": 15.4347
+}
