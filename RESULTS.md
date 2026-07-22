@@ -620,6 +620,102 @@ No regression at low concurrency (≈ +4% vs archived vu4).
 
 On **tmpfs**, avoid oversized `shared_buffers`, prefer **io_uring**, keep OLTP `work_mem` modest, and turn **parallel gather off**. Those settings are what `--pg-tune-host` applies today for `storage=tmpfs` (disk still uses 25% `shared_buffers` + the same OLTP worker/WAL knobs).
 
+## Next: benchmark runtime effects + GCP SKUs
+
+Workload for this follow-up: **BenchBase wikipedia only** (no HammerDB, no YCSB). Harness: [`scripts/run_benchbase_sizing_eval.py`](scripts/run_benchbase_sizing_eval.py); options map to BenchBase’s XML `<works>/<work>` phase (`DBWorkload.java`, `config/postgres/sample_wikipedia_config.xml`).
+
+### Measurement duration
+
+Run3 used **2 min warmup / 5 min measurement**. Follow-up on each GCP SKU asks whether longer windows change mean TPM or only shrink variance.
+
+**Design ([`run4-wikipedia/`](run4-wikipedia/)):** BenchBase wikipedia @ terminals=`nproc`, SF from HammerDB 5 WH/VU sizing, 2 min warmup, measure ∈ {5, 10, 15, 30} min. **5 independent trials per duration**, **interleaved** schedule (rep1×all durations, then rep2×…). GUCs from [pgtune.leopard.in.ua](https://pgtune.leopard.in.ua/) form defaults (`web` / SSD). Postgres `postgres:18 --privileged --network host`. Fresh create+load each trial. Harness: [`scripts/run_wikipedia_duration_eval.py`](scripts/run_wikipedia_duration_eval.py) (`--replicates 5 --schedule interleaved`).
+
+Per-duration stats in each instance tree: `summary.csv` / `summary.json` (mean, stdev, CV%, 95% t-CI, Welch Δ% vs 5 min).
+
+> **Verdict: keep 5 min measurement.** Across all three SKUs, mean TPM at 10/15/30 min stays within ~2% of the 5 min mean; CIs overlap; longer windows do **not** systematically tighten CV (run-to-run noise dominates). Prefer more independent short trials over fewer long ones when budget is fixed.
+
+#### Results — n=5 interleaved
+
+Wall clock ~6.5–7.5 h/host (2026-07-21 17:21Z → ~00:00–01:00Z). Terminals / SF: 16/51, 32/103, 16/51.
+
+**Mean TPM ± 95% t-CI (CV%)**
+
+| Instance | 5 min | 10 min | 15 min | 30 min |
+|----------|------:|-------:|-------:|------:|
+| `t2d-standard-16` | 580 228 ± 3 585 (0.50%) | 578 237 ± 3 503 (0.49%) | 576 567 ± 3 560 (0.50%) | 576 145 ± 3 009 (0.42%) |
+| `t2d-standard-32` | 690 881 ± 7 723 (0.90%) | 691 927 ± 21 263 (2.48%) | 677 111 ± 30 259 (3.60%) | 686 730 ± 19 205 (2.25%) |
+| `e2-highmem-16` | 260 997 ± 7 045 (2.17%) | 261 574 ± 11 845 (3.65%) | 264 425 ± 5 489 (1.67%) | 260 321 ± 12 490 (3.86%) |
+
+**Δ mean % vs 5 min (Welch t)**
+
+| Instance | 10 min | 15 min | 30 min |
+|----------|-------:|------:|------:|
+| `t2d-standard-16` | −0.34% (−1.10) | −0.63% (−2.01) | −0.70% (−2.42) |
+| `t2d-standard-32` | +0.15% (+0.13) | −1.99% (−1.22) | −0.60% (−0.56) |
+| `e2-highmem-16` | +0.22% (+0.12) | +1.31% (+1.07) | −0.26% (−0.13) |
+
+Notes:
+
+- **Bias:** no practical duration bias. Worst mean shift is −1.99% (`t2d-32` @ 15 min), driven partly by one low outlier (rep05 = 636 689); 30 min on the same host is only −0.60%.
+- **Variance:** longer measure does **not** reliably reduce CV. On `t2d-32` and `e2-highmem-16`, 5 min often has the *smallest* CV; 10–30 min CIs are wider because occasional dips hurt a longer average as much as a short one when noise is run-to-run (load/OS/noisy neighbor), not within-run Poisson.
+- **t2d-16:** extremely stable (CV ≈ 0.5%). The 30 vs 5 Welch \|t\| ≈ 2.42 is borderline at α≈0.05, but the effect is only −0.7% — not worth 6× wall time.
+- **e2-highmem-16:** noisier overall (CV ~2–4%); 15 min has slightly tighter CV than 5 min, but mean is within 1.3% and 30 min is *worse* again — no consistent gain from stretching the measure phase.
+
+#### Takeaway
+
+For wikipedia throughput ranking / SKU compare at fixed terminals=nproc on these GCP hosts: **2 min warmup + 5 min measure is enough**. Spend budget on **replicates** (or more SKUs/configs), not on 10–30 min windows. Raw: [`run4-wikipedia/*/summary.csv`](run4-wikipedia/t2d-standard-16/summary.csv), [`results.csv`](run4-wikipedia/t2d-standard-16/results.csv).
+
+### BenchBase wikipedia runtime options we use
+
+Written by `write_config()` for every timed execute (load uses the same XML shape with `terminals=1`, `warmup=0`, `time=10`, `--execute=false`).
+
+| Knob | Where | Our value | Notes |
+|------|-------|-----------|-------|
+| workload | CLI `-b` | `wikipedia` | |
+| `--create` / `--load` / `--execute` | CLI | create+load, then execute-only | fresh DB each rung |
+| `isolation` | XML | `TRANSACTION_READ_COMMITTED` | sample config uses `SERIALIZABLE` |
+| `batchsize` | XML | `128` | same as sample |
+| `reconnectOnConnectionFailure` | XML | `true` | |
+| `scalefactor` | XML | SF ≈ HammerDB `5 WH/VU` schema GiB | `SF = round(VU×5×0.095 / 0.14803)` |
+| `terminals` | XML | = ladder VU (4 / 8 / 16 / 32 / 64) | one terminal ≈ one concurrent client |
+| `<warmup>` | XML work | `--rampup-min` × 60 s (default **120**) | BenchBase WARMUP phase; not counted in TPM |
+| `<time>` | XML work | `--duration-min` × 60 s (default **300**) | MEASURE phase; **varied in this study** |
+| `<rate>` | XML work | `unlimited` | not rate-limited (sample uses `1000`) |
+| `<weights>` | XML work | `1,1,7,90,1` | AddWatchList, RemoveWatchList, UpdatePage, GetPageAnonymous, GetPageAuthenticated |
+| `serial` | XML work | omitted → `false` | random txn mix, not one-shot serial |
+| `@arrival` | XML work attr | omitted → `regular` | not Poisson |
+| `active_terminals` | XML work | omitted → all `terminals` | |
+
+Txn mix (90% anonymous page reads):
+
+| Procedure | Weight |
+|-----------|--------|
+| AddWatchList | 1 |
+| RemoveWatchList | 1 |
+| UpdatePage | 7 |
+| GetPageAnonymous | 90 |
+| GetPageAuthenticated | 1 |
+
+### GCP counterparts (pd-ssd)
+
+Azure run3 SKUs mapped to GCP AMD instances (same zone / disk recipe). Provisioned with sc-runner; boot disk **200 GiB `pd-ssd`** (closest to Azure `Premium_LRS`), Ubuntu 24.04:
+
+```bash
+sc-runner create gcp --zone us-central1-a \
+  --public-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEPMwX6HY8inovVAqUrAKvqY0zabNoWfmN/7UlNsBvZ4 info@sparecores.com" \
+  --instance <INSTANCE> \
+  --disk-size 200 \
+  --bootdisk-init-opts '{"image":"ubuntu-2404-lts-amd64","type":"pd-ssd"}'
+```
+
+| Azure (run3) | GCP instance | Family | vCPU / cores | HT | CPU | RAM | Role |
+|--------------|--------------|--------|--------------|----|-----|-----|------|
+| `Standard_F16ams_v6` | `t2d-standard-16` | t2d | 16 / 16 | no | EPYC 7B13 | 64 GiB | no-HT pair |
+| `Standard_F32ams_v6` | `t2d-standard-32` | t2d | 32 / 32 | no | EPYC 7B13 | 128 GiB | no-HT pair |
+| `Standard_E16as_v6` | `e2-highmem-16` | e2 | 16 / 8 | yes | EPYC 7B12 | 128 GiB | older HT |
+
+Per-instance result trees: `run4-wikipedia/<instance>/` (`t2d-standard-16`, `t2d-standard-32`, `e2-highmem-16`).
+
 ## Notes
 
 - Compare SKUs at the same **VU/vCPU** ratio (and each machine’s peak), not only at the same absolute VU.
@@ -660,4 +756,10 @@ On **tmpfs**, avoid oversized `shared_buffers`, prefer **io_uring**, keep OLTP `
 | [`guc_sweep_f32/sweep.csv`](guc_sweep_f32/sweep.csv) |
 | [`guc_sweep_f32/summary.json`](guc_sweep_f32/summary.json) |
 | [`guc_sweep_f32/vu4_summary.json`](guc_sweep_f32/vu4_summary.json) |
+| [`run4-wikipedia/t2d-standard-16/summary.csv`](run4-wikipedia/t2d-standard-16/summary.csv) |
+| [`run4-wikipedia/t2d-standard-16/results.csv`](run4-wikipedia/t2d-standard-16/results.csv) |
+| [`run4-wikipedia/t2d-standard-32/summary.csv`](run4-wikipedia/t2d-standard-32/summary.csv) |
+| [`run4-wikipedia/t2d-standard-32/results.csv`](run4-wikipedia/t2d-standard-32/results.csv) |
+| [`run4-wikipedia/e2-highmem-16/summary.csv`](run4-wikipedia/e2-highmem-16/summary.csv) |
+| [`run4-wikipedia/e2-highmem-16/results.csv`](run4-wikipedia/e2-highmem-16/results.csv) |
 
