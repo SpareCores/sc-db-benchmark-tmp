@@ -711,6 +711,32 @@ Measured DB size in parentheses (GiB). Efficiency = TPM(n)/(TPM(1)·n).
 
 †Durable SF 27 @ 32 terminals collapsed (see below); ratio is inflated by that cell.
 
+#### P95 latency (ms)
+
+BenchBase records a full latency distribution in each run’s `raw/summary.json` (`Latency Distribution`, values in **microseconds**). The harness CSV columns `latency_p50/p95/p99/avg_ms` were empty for this matrix (parser looked for `*(millisecond)*` keys); numbers below are from summary JSON ÷ 1000. Parser fixed for later runs.
+
+| Target / SF (DB GiB) | term 1 | term 8 | term 16 | term 32 |
+|----------------------|-------:|-------:|--------:|--------:|
+| 0.25 GiB / SF 2 (0.44) | 1.93 | 2.22 | 2.73 | 3.79 |
+| 0.5 GiB / SF 3 (0.52) | 2.02 | 2.31 | 2.78 | 3.91 |
+| 1 GiB / SF 7 (1.35) | 2.22 | 2.42 | 2.93 | 3.74 |
+| 2 GiB / SF 14 (2.87) | 2.37 | 2.62 | 3.05 | 3.55 |
+| 4 GiB / SF 27 (6.03) | 2.75 | 2.88 | 3.26 | 5.42 |
+
+*synchronous_commit=on (durable)*
+
+| Target / SF (DB GiB) | term 1 | term 8 | term 16 | term 32 |
+|----------------------|-------:|-------:|--------:|--------:|
+| 0.25 GiB / SF 2 (0.37) | 1.36 | 1.51 | 1.77 | 2.61 |
+| 0.5 GiB / SF 3 (0.58) | 1.44 | 1.54 | 1.78 | 2.23 |
+| 1 GiB / SF 7 (1.54) | 1.58 | 1.73 | 2.00 | 2.10 |
+| 2 GiB / SF 14 (2.81) | 1.75 | 1.90 | 2.18 | 2.07 |
+| 4 GiB / SF 27 (5.39) | 2.03 | 2.18 | 2.42 | 3.38 |
+
+*synchronous_commit=off (async)*
+
+Durable cliff cell (SF 27 @ 32): P95 only 5.42 ms vs ~3.6 ms at SF 14, but **P99 36.9 ms** and **avg 4.3 ms** (vs ~6.5 ms / 1.4 ms at SF 14) — the TPM drop shows more in the tail/mean than in P95.
+
 #### Graphs
 
 ##### How schema size (SF) affects TPM
@@ -788,6 +814,44 @@ xychart-beta
 ```
 
 **Schema-size conclusion:** at 1–16 terminals, TPM falls ~steadily with larger SF (~+20–30% for 0.25 GiB vs 1 GiB; ~−15–40% for 2–4 GiB). At **terminals=32**, 0.25–2 GiB sit within ~±10% of 1 GiB (async even flatter), so a **fixed ≤1 GiB** schema is enough for nproc SKU ranking; **4 GiB is not** (durable collapses to 33% of the 1 GiB score).
+
+##### P95 latency vs schema size
+
+Same axes as the TPM-vs-SF charts. P95 rises gently with SF at low/mid concurrency; at `terminals=32` the durable 4 GiB cell is the clear outlier (5.42 ms).
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2"
+---
+xychart-beta
+    title "P95 latency (ms) vs schema size (durable)"
+    x-axis ["0.25 GiB", "0.5 GiB", "1 GiB", "2 GiB", "4 GiB"]
+    y-axis "P95 ms" 0 --> 6
+    line "term1" [1.93, 2.02, 2.22, 2.37, 2.75 "term1"]
+    line "term8" [2.22, 2.31, 2.42, 2.62, 2.88 "term8"]
+    line "term16" [2.73, 2.78, 2.93, 3.05, 3.26 "term16"]
+    line "term32" [3.79, 3.91, 3.74, 3.55, 5.42 "term32"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2"
+---
+xychart-beta
+    title "P95 latency (ms) vs schema size (async)"
+    x-axis ["0.25 GiB", "0.5 GiB", "1 GiB", "2 GiB", "4 GiB"]
+    y-axis "P95 ms" 0 --> 4
+    line "term1" [1.36, 1.44, 1.58, 1.75, 2.03 "term1"]
+    line "term8" [1.51, 1.54, 1.73, 1.90, 2.18 "term8"]
+    line "term16" [1.77, 1.78, 2.00, 2.18, 2.42 "term16"]
+    line "term32" [2.61, 2.23, 2.10, 2.07, 3.38 "term32"]
+```
 
 ##### Other views (concurrency / durability)
 
@@ -910,7 +974,8 @@ xychart-beta
 - **Schema size still moves absolute TPM**, especially at mid concurrency: at 16 terminals, 256 MiB is ~17–24% above 1 GiB and 4 GiB is ~33% below. Use one fixed size for SKU ranking; do not mix sizes.
 - **Concurrency:** scaling efficiency falls toward `nproc` (eff 32 ≈ 46–82% depending on size/durability). Larger schemas often scale *better* until the durable cliff — headline score should keep the full ladder `{1, n/2, n}` (and mid rungs if desired).
 - **Durability:** async is typically **+6–36%** vs durable. Pick one for the live matrix (`tasks.py` durable today) and do not mix.
-- **Cliff:** durable SF 27 @ 32 terminals dropped to 444 k TPM (~⅓ of SF 14) despite DB (~6 GiB) ≪ SB (~31 GiB) — not a buffer-cache miss; likely WAL/lock pressure under `synchronous_commit=on` at high concurrency. Async also slows at 4 GiB/32 but less severely. Avoid oversized fixed schemas for durable `nproc` runs.
+- **Cliff:** durable SF 27 @ 32 terminals dropped to 444 k TPM (~⅓ of SF 14) despite DB (~6 GiB) ≪ SB (~31 GiB) — not a buffer-cache miss; likely WAL/lock pressure under `synchronous_commit=on` at high concurrency. Async also slows at 4 GiB/32 but less severely. Avoid oversized fixed schemas for durable `nproc` runs. Latency: P95 only ~5.4 ms there (vs ~3.6 ms at SF 14), but P99 jumps to ~37 ms and mean to ~4.3 ms — prefer P99/avg alongside P95 if diagnosing cliffs.
+- **Latency (P95):** typically ~1.4–3.9 ms across the matrix (async lower than durable). Grows with concurrency and somewhat with SF; not a second ranking axis for SKU compare unless you care about tail SLOs.
 - **vs inspector RAM-scaled sizing:** on large RAM hosts, ¼ RAM (capped 16 GiB) overshoots what this matrix needs for comparable wikipedia ranking. A **fixed ≤ 1 GiB** (SF ≈ 7) cache-resident set is enough to discriminate concurrency and stays portable to small machines; keep durability fixed.
 
 ### BenchBase wikipedia runtime options we use
