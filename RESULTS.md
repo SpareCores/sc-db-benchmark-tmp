@@ -726,11 +726,11 @@ xychart-beta
     title "wikipedia TPM vs terminals (durable, sync=on)"
     x-axis [term1, term8, term16, term32]
     y-axis "TPM" 0 --> 1600000
-    line "0.25 GiB" [97801, 656991, 1084770, 1454089]
-    line "0.5 GiB" [91212, 623283, 1064425, 1375999]
-    line "1 GiB" [75638, 545790, 923025, 1347667]
-    line "2 GiB" [63183, 457915, 805378, 1359524]
-    line "4 GiB" [46275, 357247, 617316, 443849]
+    line "0.25 GiB" [97801, 656991, 1084770, 1454089 "0.25 GiB"]
+    line "0.5 GiB" [91212, 623283, 1064425, 1375999 "0.5 GiB"]
+    line "1 GiB" [75638, 545790, 923025, 1347667 "1 GiB"]
+    line "2 GiB" [63183, 457915, 805378, 1359524 "2 GiB"]
+    line "4 GiB" [46275, 357247, 617316, 443849 "4 GiB"]
 ```
 
 ```mermaid
@@ -744,11 +744,11 @@ xychart-beta
     title "wikipedia TPM vs terminals (async, sync=off)"
     x-axis [term1, term8, term16, term32]
     y-axis "TPM" 0 --> 2000000
-    line "0.25 GiB" [109002, 797477, 1327725, 1639612]
-    line "0.5 GiB" [99471, 757832, 1303575, 1822428]
-    line "1 GiB" [82630, 610858, 1073597, 1832689]
-    line "2 GiB" [67078, 504461, 929274, 1770196]
-    line "4 GiB" [49567, 381139, 705585, 960683]
+    line "0.25 GiB" [109002, 797477, 1327725, 1639612 "0.25 GiB"]
+    line "0.5 GiB" [99471, 757832, 1303575, 1822428 "0.5 GiB"]
+    line "1 GiB" [82630, 610858, 1073597, 1832689 "1 GiB"]
+    line "2 GiB" [67078, 504461, 929274, 1770196 "2 GiB"]
+    line "4 GiB" [49567, 381139, 705585, 960683 "4 GiB"]
 ```
 
 At `terminals=nproc` (32), 256 MiB–2 GiB cluster; only 4 GiB falls out — hard on durable, softer on async.
@@ -764,8 +764,8 @@ xychart-beta
     title "TPM at terminals=32 by schema size"
     x-axis ["0.25 GiB", "0.5 GiB", "1 GiB", "2 GiB", "4 GiB"]
     y-axis "TPM" 0 --> 2000000
-    bar "durable" [1454089, 1375999, 1347667, 1359524, 443849]
-    bar "async" [1639612, 1822428, 1832689, 1770196, 960683]
+    bar "durable" [1454089, 1375999, 1347667, 1359524, 443849 "durable"]
+    bar "async" [1639612, 1822428, 1832689, 1770196, 960683 "async"]
 ```
 
 Scaling efficiency = TPM(n) / (TPM(1)·n). Ideal = 100%. Larger schemas hold efficiency longer — until the durable cliff.
@@ -781,11 +781,11 @@ xychart-beta
     title "Scaling efficiency vs terminals (durable)"
     x-axis [term8, term16, term32]
     y-axis "eff %" 0 --> 100
-    line "0.25 GiB" [84, 69, 46]
-    line "0.5 GiB" [85, 73, 47]
-    line "1 GiB" [90, 76, 56]
-    line "2 GiB" [91, 80, 67]
-    line "4 GiB" [97, 83, 30]
+    line "0.25 GiB" [84, 69, 46 "0.25 GiB"]
+    line "0.5 GiB" [85, 73, 47 "0.5 GiB"]
+    line "1 GiB" [90, 76, 56 "1 GiB"]
+    line "2 GiB" [91, 80, 67 "2 GiB"]
+    line "4 GiB" [97, 83, 30 "4 GiB"]
 ```
 
 ```mermaid
@@ -799,11 +799,11 @@ xychart-beta
     title "Scaling efficiency vs terminals (async)"
     x-axis [term8, term16, term32]
     y-axis "eff %" 0 --> 100
-    line "0.25 GiB" [91, 76, 47]
-    line "0.5 GiB" [95, 82, 57]
-    line "1 GiB" [92, 81, 69]
-    line "2 GiB" [94, 87, 82]
-    line "4 GiB" [96, 89, 61]
+    line "0.25 GiB" [91, 76, 47 "0.25 GiB"]
+    line "0.5 GiB" [95, 82, 57 "0.5 GiB"]
+    line "1 GiB" [92, 81, 69 "1 GiB"]
+    line "2 GiB" [94, 87, 82 "2 GiB"]
+    line "4 GiB" [96, 89, 61 "4 GiB"]
 ```
 
 Async lift (Δ% off vs on) grows with concurrency; the SF 27 / term 32 spike is the durable cliff, not a real +116% win.
@@ -819,11 +819,11 @@ xychart-beta
     title "Async lift vs durable (Δ%)"
     x-axis [term1, term8, term16, term32]
     y-axis "Δ%" 0 --> 120
-    line "SF2" [11.5, 21.4, 22.4, 12.8]
-    line "SF3" [9.1, 21.6, 22.5, 32.4]
-    line "SF7" [9.2, 11.9, 16.3, 36.0]
-    line "SF14" [6.2, 10.2, 15.4, 30.2]
-    line "SF27" [7.1, 6.7, 14.3, 116]
+    line "SF2" [11.5, 21.4, 22.4, 12.8 "SF2"]
+    line "SF3" [9.1, 21.6, 22.5, 32.4 "SF3"]
+    line "SF7" [9.2, 11.9, 16.3, 36.0 "SF7"]
+    line "SF14" [6.2, 10.2, 15.4, 30.2 "SF14"]
+    line "SF27" [7.1, 6.7, 14.3, 116 "SF27"]
 ```
 
 #### Takeaways
