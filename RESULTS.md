@@ -713,6 +713,84 @@ Measured DB size in parentheses (GiB). Efficiency = TPM(n)/(TPM(1)·n).
 
 #### Graphs
 
+##### How schema size (SF) affects TPM
+
+Flip the axes: **x = schema size**, one line per concurrency. Smaller schemas are faster at low/mid concurrency; at `terminals=nproc` the 0.25–2 GiB band flattens and only **4 GiB** falls out.
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2"
+---
+xychart-beta
+    title "TPM vs schema size (durable) — one line per terminals"
+    x-axis ["0.25 GiB", "0.5 GiB", "1 GiB", "2 GiB", "4 GiB"]
+    y-axis "TPM" 0 --> 1600000
+    line "term1" [97801, 91212, 75638, 63183, 46275 "term1"]
+    line "term8" [656991, 623283, 545790, 457915, 357247 "term8"]
+    line "term16" [1084770, 1064425, 923025, 805378, 617316 "term16"]
+    line "term32" [1454089, 1375999, 1347667, 1359524, 443849 "term32"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2"
+---
+xychart-beta
+    title "TPM vs schema size (async) — one line per terminals"
+    x-axis ["0.25 GiB", "0.5 GiB", "1 GiB", "2 GiB", "4 GiB"]
+    y-axis "TPM" 0 --> 2000000
+    line "term1" [109002, 99471, 82630, 67078, 49567 "term1"]
+    line "term8" [797477, 757832, 610858, 504461, 381139 "term8"]
+    line "term16" [1327725, 1303575, 1073597, 929274, 705585 "term16"]
+    line "term32" [1639612, 1822428, 1832689, 1770196, 960683 "term32"]
+```
+
+Same data as **% of the 1 GiB point** at that concurrency (100% = SF 7). Makes the size effect and the nproc flat band obvious.
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2"
+---
+xychart-beta
+    title "TPM relative to 1 GiB (=100%) — durable"
+    x-axis ["0.25 GiB", "0.5 GiB", "1 GiB", "2 GiB", "4 GiB"]
+    y-axis "% of 1 GiB" 0 --> 140
+    line "term1" [129, 121, 100, 84, 61 "term1"]
+    line "term8" [120, 114, 100, 84, 66 "term8"]
+    line "term16" [118, 115, 100, 87, 67 "term16"]
+    line "term32" [108, 102, 100, 101, 33 "term32"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2"
+---
+xychart-beta
+    title "TPM relative to 1 GiB (=100%) — async"
+    x-axis ["0.25 GiB", "0.5 GiB", "1 GiB", "2 GiB", "4 GiB"]
+    y-axis "% of 1 GiB" 0 --> 140
+    line "term1" [132, 120, 100, 81, 60 "term1"]
+    line "term8" [131, 124, 100, 83, 62 "term8"]
+    line "term16" [124, 121, 100, 87, 66 "term16"]
+    line "term32" [90, 99, 100, 97, 52 "term32"]
+```
+
+**Schema-size conclusion:** at 1–16 terminals, TPM falls ~steadily with larger SF (~+20–30% for 0.25 GiB vs 1 GiB; ~−15–40% for 2–4 GiB). At **terminals=32**, 0.25–2 GiB sit within ~±10% of 1 GiB (async even flatter), so a **fixed ≤1 GiB** schema is enough for nproc SKU ranking; **4 GiB is not** (durable collapses to 33% of the 1 GiB score).
+
+##### Other views (concurrency / durability)
+
 TPM rises with terminals for small/medium schemas; durable **4 GiB @ 32 terminals** is the cliff (drops below the 16-terminal point).
 
 ```mermaid
