@@ -161,6 +161,90 @@ def mermaid_bars(pairs: list[tuple[str, int]], title: str, ylabel: str) -> str:
     )
 
 
+def next_measurements_section() -> list[str]:
+    """Stub for runtime-duration sensitivity + GCP counterpart SKUs (results TBD)."""
+    return [
+        "## Next: benchmark runtime effects + GCP SKUs",
+        "",
+        "Workload for this follow-up: **BenchBase wikipedia only** (no HammerDB, "
+        "no YCSB). Harness: "
+        "[`scripts/run_benchbase_sizing_eval.py`](scripts/run_benchbase_sizing_eval.py); "
+        "options map to BenchBase’s XML `<works>/<work>` phase "
+        "(`DBWorkload.java`, `config/postgres/sample_wikipedia_config.xml`).",
+        "",
+        "### Measurement duration",
+        "",
+        "Run3 used **2 min warmup / 5 min measurement**. Follow-up on each GCP SKU: "
+        "wikipedia @ **terminals = nproc**, warmup 2 min, measurement "
+        "**5 / 10 / 15 / 30** min. Harness: "
+        "[`scripts/run_wikipedia_duration_eval.py`](scripts/run_wikipedia_duration_eval.py). "
+        "Results under [`run4-wikipedia/<instance>/`](run4-wikipedia/).",
+        "",
+        "Postgres: `postgres:18` with `--privileged --network host`. GUCs from "
+        "**[pgtune.leopard.in.ua](https://pgtune.leopard.in.ua/)** form defaults "
+        "(`dbVersion=18`, `osType=linux`, `dbType=web`, `hdType=ssd`, "
+        "`dbSize=mid_ram`, auto connections) with host RAM/CPU — see each run’s "
+        "`pgtune/` ([`pgtune_leopard.py`](scripts/pgtune_leopard.py)).",
+        "",
+        "### BenchBase wikipedia runtime options we use",
+        "",
+        "Written by `write_config()` for every timed execute (load uses the same "
+        "XML shape with `terminals=1`, `warmup=0`, `time=10`, `--execute=false`).",
+        "",
+        "| Knob | Where | Our value | Notes |",
+        "|------|-------|-----------|-------|",
+        "| workload | CLI `-b` | `wikipedia` | |",
+        "| `--create` / `--load` / `--execute` | CLI | create+load, then execute-only | fresh DB each rung |",
+        "| `isolation` | XML | `TRANSACTION_READ_COMMITTED` | sample config uses `SERIALIZABLE` |",
+        "| `batchsize` | XML | `128` | same as sample |",
+        "| `reconnectOnConnectionFailure` | XML | `true` | |",
+        "| `scalefactor` | XML | SF ≈ HammerDB `5 WH/VU` schema GiB | `SF = round(VU×5×0.095 / 0.14803)` |",
+        "| `terminals` | XML | = ladder VU (4 / 8 / 16 / 32 / 64) | one terminal ≈ one concurrent client |",
+        "| `<warmup>` | XML work | `--rampup-min` × 60 s (default **120**) | BenchBase WARMUP phase; not counted in TPM |",
+        "| `<time>` | XML work | `--duration-min` × 60 s (default **300**) | MEASURE phase; **varied in this study** |",
+        "| `<rate>` | XML work | `unlimited` | not rate-limited (sample uses `1000`) |",
+        "| `<weights>` | XML work | `1,1,7,90,1` | AddWatchList, RemoveWatchList, UpdatePage, GetPageAnonymous, GetPageAuthenticated |",
+        "| `serial` | XML work | omitted → `false` | random txn mix, not one-shot serial |",
+        "| `@arrival` | XML work attr | omitted → `regular` | not Poisson |",
+        "| `active_terminals` | XML work | omitted → all `terminals` | |",
+        "",
+        "Txn mix (90% anonymous page reads):",
+        "",
+        "| Procedure | Weight |",
+        "|-----------|--------|",
+        "| AddWatchList | 1 |",
+        "| RemoveWatchList | 1 |",
+        "| UpdatePage | 7 |",
+        "| GetPageAnonymous | 90 |",
+        "| GetPageAuthenticated | 1 |",
+        "",
+        "### GCP counterparts (pd-ssd)",
+        "",
+        "Azure run3 SKUs mapped to GCP AMD instances (same zone / disk recipe). "
+        "Provisioned with sc-runner; boot disk **200 GiB `pd-ssd`** (closest to "
+        "Azure `Premium_LRS`), Ubuntu 24.04:",
+        "",
+        "```bash",
+        "sc-runner create gcp --zone us-central1-a \\",
+        '  --public-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEPMwX6HY8inovVAqUrAKvqY0zabNoWfmN/7UlNsBvZ4 info@sparecores.com" \\',
+        "  --instance <INSTANCE> \\",
+        "  --disk-size 200 \\",
+        """  --bootdisk-init-opts '{"image":"ubuntu-2404-lts-amd64","type":"pd-ssd"}'""",
+        "```",
+        "",
+        "| Azure (run3) | GCP instance | Family | vCPU / cores | HT | CPU | RAM | Role |",
+        "|--------------|--------------|--------|--------------|----|-----|-----|------|",
+        "| `Standard_F16ams_v6` | `t2d-standard-16` | t2d | 16 / 16 | no | EPYC 7B13 | 64 GiB | no-HT pair |",
+        "| `Standard_F32ams_v6` | `t2d-standard-32` | t2d | 32 / 32 | no | EPYC 7B13 | 128 GiB | no-HT pair |",
+        "| `Standard_E16as_v6` | `e2-highmem-16` | e2 | 16 / 8 | yes | EPYC 7B12 | 128 GiB | older HT |",
+        "",
+        "Per-instance result trees: `run4-wikipedia/t2d-standard-16/`, "
+        "`…/t2d-standard-32/`, `…/e2-highmem-16/`. Collect: "
+        "[`scripts/collect_run4_wikipedia.sh`](scripts/collect_run4_wikipedia.sh).",
+        "",
+    ]
+
+
 def sweep_section() -> list[str]:
     """Document the F32 vu32/tmpfs GUC sweep that calibrated pg_tune_gucs."""
     sweep_dir = ROOT / "guc_sweep_f32"
@@ -445,6 +529,9 @@ def main() -> None:
 
     # --- GUC sweep calibration ---
     out.extend(sweep_section())
+
+    # --- Planned / in-progress follow-ups (static stub; results filled later) ---
+    out.extend(next_measurements_section())
 
     # --- Notes ---
     # Derive a couple of headline deltas for the notes section.

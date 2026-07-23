@@ -665,6 +665,176 @@ Notes:
 
 For wikipedia throughput ranking / SKU compare at fixed terminals=nproc on these GCP hosts: **2 min warmup + 5 min measure is enough**. Spend budget on **replicates** (or more SKUs/configs), not on 10–30 min windows. Raw: [`run4-wikipedia/*/summary.csv`](run4-wikipedia/t2d-standard-16/summary.csv), [`results.csv`](run4-wikipedia/t2d-standard-16/results.csv).
 
+### Fixed schema size × concurrency (run5-sf-matrix)
+
+**Question:** can we benchmark the whole `sc-data-all.db` fleet with one **fixed** wikipedia dataset (256 MiB / 512 MiB / 1 GiB) that fits under Postgres `shared_buffers` on every host with ≥ 4 GiB RAM — or does schema size / concurrency change the story enough that RAM-scaled sizing (inspector `benchmark_tiers`: ~¼ RAM ≤ 16 GiB) stays necessary?
+
+**Host:** GCP `t2d-standard-32` (`ubuntu@34.29.63.114`), 32 vCPU / ~126 GiB RAM, disk (pd-ssd boot), Docker as in [`sc-inspector/inspector/user_data.sh`](../sc-inspector/inspector/user_data.sh) via [`scripts/setup_docker_host.sh`](scripts/setup_docker_host.sh).
+
+**Postgres:** `postgres:18`, `--privileged --network host`, [pgtune.leopard.in.ua](https://pgtune.leopard.in.ua/) web/SSD defaults with **`shared_buffers` forced to ¼ RAM** (32200 MB ≈ 31 GiB). BenchBase wikipedia: RC isolation, weights `1,1,7,90,1`, 2 min warmup / 5 min measure.
+
+**Matrix (40 cells, all OK):** `synchronous_commit` ∈ {on, off} × schema targets {0.25, 0.5, 1, 2, 4} GiB → SF {2, 3, 7, 14, 27} × terminals {1, 8, 16, 32}. Load once per (durability, SF), then execute-only across concurrencies. Wall ~5 h (2026-07-22 21:05Z → 23 02:03Z).
+
+Harness: [`scripts/run_wikipedia_sf_concurrency_matrix.py`](scripts/run_wikipedia_sf_concurrency_matrix.py). Raw: [`run5-sf-matrix/t2d-standard-32/`](run5-sf-matrix/t2d-standard-32/).
+
+#### TPM — `synchronous_commit=on` (durable)
+
+Measured DB size in parentheses (GiB). Efficiency = TPM(n)/(TPM(1)·n).
+
+| Target / SF (DB GiB) | term 1 | term 8 | term 16 | term 32 | eff 8 | eff 16 | eff 32 |
+|----------------------|-------:|-------:|--------:|--------:|------:|-------:|-------:|
+| 0.25 GiB / SF 2 (0.44) | 97 801 | 656 991 | 1 084 770 | 1 454 089 | 84% | 69% | 46% |
+| 0.5 GiB / SF 3 (0.52) | 91 212 | 623 283 | 1 064 425 | 1 375 999 | 85% | 73% | 47% |
+| 1 GiB / SF 7 (1.35) | 75 638 | 545 790 | 923 025 | 1 347 667 | 90% | 76% | 56% |
+| 2 GiB / SF 14 (2.87) | 63 183 | 457 915 | 805 378 | 1 359 524 | 91% | 80% | 67% |
+| 4 GiB / SF 27 (6.03) | 46 275 | 357 247 | 617 316 | **443 849** | 97% | 83% | **30%** |
+
+#### TPM — `synchronous_commit=off` (async)
+
+| Target / SF (DB GiB) | term 1 | term 8 | term 16 | term 32 | eff 8 | eff 16 | eff 32 |
+|----------------------|-------:|-------:|--------:|--------:|------:|-------:|-------:|
+| 0.25 GiB / SF 2 (0.37) | 109 002 | 797 477 | 1 327 725 | 1 639 612 | 91% | 76% | 47% |
+| 0.5 GiB / SF 3 (0.58) | 99 471 | 757 832 | 1 303 575 | 1 822 428 | 95% | 82% | 57% |
+| 1 GiB / SF 7 (1.54) | 82 630 | 610 858 | 1 073 597 | 1 832 689 | 92% | 81% | 69% |
+| 2 GiB / SF 14 (2.81) | 67 078 | 504 461 | 929 274 | 1 770 196 | 94% | 87% | 82% |
+| 4 GiB / SF 27 (5.39) | 49 567 | 381 139 | 705 585 | 960 683 | 96% | 89% | 61% |
+
+#### Async vs durable (Δ% of off over on)
+
+| SF | term 1 | term 8 | term 16 | term 32 |
+|----|-------:|-------:|--------:|--------:|
+| 2 | +11.5% | +21.4% | +22.4% | +12.8% |
+| 3 | +9.1% | +21.6% | +22.5% | +32.4% |
+| 7 | +9.2% | +11.9% | +16.3% | +36.0% |
+| 14 | +6.2% | +10.2% | +15.4% | +30.2% |
+| 27 | +7.1% | +6.7% | +14.3% | +116%† |
+
+†Durable SF 27 @ 32 terminals collapsed (see below); ratio is inflated by that cell.
+
+#### Graphs
+
+TPM rises with terminals for small/medium schemas; durable **4 GiB @ 32 terminals** is the cliff (drops below the 16-terminal point).
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2, #59a14f"
+---
+xychart-beta
+    title "wikipedia TPM vs terminals (durable, sync=on)"
+    x-axis [term1, term8, term16, term32]
+    y-axis "TPM" 0 --> 1600000
+    line "0.25 GiB" [97801, 656991, 1084770, 1454089]
+    line "0.5 GiB" [91212, 623283, 1064425, 1375999]
+    line "1 GiB" [75638, 545790, 923025, 1347667]
+    line "2 GiB" [63183, 457915, 805378, 1359524]
+    line "4 GiB" [46275, 357247, 617316, 443849]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2, #59a14f"
+---
+xychart-beta
+    title "wikipedia TPM vs terminals (async, sync=off)"
+    x-axis [term1, term8, term16, term32]
+    y-axis "TPM" 0 --> 2000000
+    line "0.25 GiB" [109002, 797477, 1327725, 1639612]
+    line "0.5 GiB" [99471, 757832, 1303575, 1822428]
+    line "1 GiB" [82630, 610858, 1073597, 1832689]
+    line "2 GiB" [67078, 504461, 929274, 1770196]
+    line "4 GiB" [49567, 381139, 705585, 960683]
+```
+
+At `terminals=nproc` (32), 256 MiB–2 GiB cluster; only 4 GiB falls out — hard on durable, softer on async.
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b"
+---
+xychart-beta
+    title "TPM at terminals=32 by schema size"
+    x-axis ["0.25 GiB", "0.5 GiB", "1 GiB", "2 GiB", "4 GiB"]
+    y-axis "TPM" 0 --> 2000000
+    bar "durable" [1454089, 1375999, 1347667, 1359524, 443849]
+    bar "async" [1639612, 1822428, 1832689, 1770196, 960683]
+```
+
+Scaling efficiency = TPM(n) / (TPM(1)·n). Ideal = 100%. Larger schemas hold efficiency longer — until the durable cliff.
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2, #59a14f"
+---
+xychart-beta
+    title "Scaling efficiency vs terminals (durable)"
+    x-axis [term8, term16, term32]
+    y-axis "eff %" 0 --> 100
+    line "0.25 GiB" [84, 69, 46]
+    line "0.5 GiB" [85, 73, 47]
+    line "1 GiB" [90, 76, 56]
+    line "2 GiB" [91, 80, 67]
+    line "4 GiB" [97, 83, 30]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2, #59a14f"
+---
+xychart-beta
+    title "Scaling efficiency vs terminals (async)"
+    x-axis [term8, term16, term32]
+    y-axis "eff %" 0 --> 100
+    line "0.25 GiB" [91, 76, 47]
+    line "0.5 GiB" [95, 82, 57]
+    line "1 GiB" [92, 81, 69]
+    line "2 GiB" [94, 87, 82]
+    line "4 GiB" [96, 89, 61]
+```
+
+Async lift (Δ% off vs on) grows with concurrency; the SF 27 / term 32 spike is the durable cliff, not a real +116% win.
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2, #59a14f"
+---
+xychart-beta
+    title "Async lift vs durable (Δ%)"
+    x-axis [term1, term8, term16, term32]
+    y-axis "Δ%" 0 --> 120
+    line "SF2" [11.5, 21.4, 22.4, 12.8]
+    line "SF3" [9.1, 21.6, 22.5, 32.4]
+    line "SF7" [9.2, 11.9, 16.3, 36.0]
+    line "SF14" [6.2, 10.2, 15.4, 30.2]
+    line "SF27" [7.1, 6.7, 14.3, 116]
+```
+
+#### Takeaways
+
+- **Fixed ~1 GiB is viable for fleet-wide ranking at `terminals=nproc`.** At 32 terminals, TPM for 256 MiB–2 GiB stays within ~±10% of the 1 GiB point (async: 1.64–1.83 M; durable: 1.35–1.45 M). Same-size compare across SKUs is therefore meaningful without RAM-scaled schemas — as long as the chosen size still fits under SB on the smallest host (≥ 4 GiB → SB≈1 GiB ⇒ prefer **≤ 1 GiB**, e.g. SF 7).
+- **Schema size still moves absolute TPM**, especially at mid concurrency: at 16 terminals, 256 MiB is ~17–24% above 1 GiB and 4 GiB is ~33% below. Use one fixed size for SKU ranking; do not mix sizes.
+- **Concurrency:** scaling efficiency falls toward `nproc` (eff 32 ≈ 46–82% depending on size/durability). Larger schemas often scale *better* until the durable cliff — headline score should keep the full ladder `{1, n/2, n}` (and mid rungs if desired).
+- **Durability:** async is typically **+6–36%** vs durable. Pick one for the live matrix (`tasks.py` durable today) and do not mix.
+- **Cliff:** durable SF 27 @ 32 terminals dropped to 444 k TPM (~⅓ of SF 14) despite DB (~6 GiB) ≪ SB (~31 GiB) — not a buffer-cache miss; likely WAL/lock pressure under `synchronous_commit=on` at high concurrency. Async also slows at 4 GiB/32 but less severely. Avoid oversized fixed schemas for durable `nproc` runs.
+- **vs inspector RAM-scaled sizing:** on large RAM hosts, ¼ RAM (capped 16 GiB) overshoots what this matrix needs for comparable wikipedia ranking. A **fixed ≤ 1 GiB** (SF ≈ 7) cache-resident set is enough to discriminate concurrency and stays portable to small machines; keep durability fixed.
+
 ### BenchBase wikipedia runtime options we use
 
 Written by `write_config()` for every timed execute (load uses the same XML shape with `terminals=1`, `warmup=0`, `time=10`, `--execute=false`).
@@ -762,4 +932,7 @@ Per-instance result trees: `run4-wikipedia/<instance>/` (`t2d-standard-16`, `t2d
 | [`run4-wikipedia/t2d-standard-32/results.csv`](run4-wikipedia/t2d-standard-32/results.csv) |
 | [`run4-wikipedia/e2-highmem-16/summary.csv`](run4-wikipedia/e2-highmem-16/summary.csv) |
 | [`run4-wikipedia/e2-highmem-16/results.csv`](run4-wikipedia/e2-highmem-16/results.csv) |
+| [`run5-sf-matrix/t2d-standard-32/results.csv`](run5-sf-matrix/t2d-standard-32/results.csv) |
+| [`run5-sf-matrix/t2d-standard-32/summary_sync_on.csv`](run5-sf-matrix/t2d-standard-32/summary_sync_on.csv) |
+| [`run5-sf-matrix/t2d-standard-32/summary_sync_off.csv`](run5-sf-matrix/t2d-standard-32/summary_sync_off.csv) |
 
