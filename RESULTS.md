@@ -669,13 +669,21 @@ For wikipedia throughput ranking / SKU compare at fixed terminals=nproc on these
 
 **Question:** can we benchmark the whole `sc-data-all.db` fleet with one **fixed** wikipedia dataset (256 MiB / 512 MiB / 1 GiB) that fits under Postgres `shared_buffers` on every host with ≥ 4 GiB RAM — or does schema size / concurrency change the story enough that RAM-scaled sizing (inspector `benchmark_tiers`: ~¼ RAM ≤ 16 GiB) stays necessary?
 
-**Host:** GCP `t2d-standard-32` (`ubuntu@34.29.63.114`), 32 vCPU / ~126 GiB RAM, disk (pd-ssd boot), Docker as in [`sc-inspector/inspector/user_data.sh`](../sc-inspector/inspector/user_data.sh) via [`scripts/setup_docker_host.sh`](scripts/setup_docker_host.sh).
+**Hosts (GCP t2d, pd-ssd boot, Docker via [`scripts/setup_docker_host.sh`](scripts/setup_docker_host.sh)):**
 
-**Postgres:** `postgres:18`, `--privileged --network host`, [pgtune.leopard.in.ua](https://pgtune.leopard.in.ua/) web/SSD defaults with **`shared_buffers` forced to ¼ RAM** (32200 MB ≈ 31 GiB). BenchBase wikipedia: RC isolation, weights `1,1,7,90,1`, 2 min warmup / 5 min measure.
+| Instance | Role | vCPU / RAM | Terminals | Cells | Raw |
+|----------|------|------------|-----------|------:|-----|
+| `t2d-standard-32` | primary matrix | 32 / ~126 GiB | 1, 8, 16, 32 | 40 | [`run5-sf-matrix/t2d-standard-32/`](run5-sf-matrix/t2d-standard-32/) |
+| `t2d-standard-4` | small validation | 4 / ~16 GiB | 1, 2, 4 | 30 | [`run5-sf-matrix/t2d-standard-4/`](run5-sf-matrix/t2d-standard-4/) |
+| `t2d-standard-60` | large validation | 60 / ~236 GiB | 1, 15, 30, 60 | 40 | [`run5-sf-matrix/t2d-standard-60/`](run5-sf-matrix/t2d-standard-60/) |
 
-**Matrix (40 cells, all OK):** `synchronous_commit` ∈ {on, off} × schema targets {0.25, 0.5, 1, 2, 4} GiB → SF {2, 3, 7, 14, 27} × terminals {1, 8, 16, 32}. Load once per (durability, SF), then execute-only across concurrencies. Wall ~5 h (2026-07-22 21:05Z → 23 02:03Z).
+**Postgres:** `postgres:18`, `--privileged --network host`, [pgtune.leopard.in.ua](https://pgtune.leopard.in.ua/) web/SSD defaults with **`shared_buffers` forced to ¼ RAM**. BenchBase wikipedia: RC isolation, weights `1,1,7,90,1`, 2 min warmup / 5 min measure.
 
-Harness: [`scripts/run_wikipedia_sf_concurrency_matrix.py`](scripts/run_wikipedia_sf_concurrency_matrix.py). Raw: [`run5-sf-matrix/t2d-standard-32/`](run5-sf-matrix/t2d-standard-32/).
+**Matrix:** `synchronous_commit` ∈ {on, off} × schema targets {0.25, 0.5, 1, 2, 4} GiB → SF {2, 3, 7, 14, 27} × host terminal ladder. Load once per (durability, SF), then execute-only. Harness: [`scripts/run_wikipedia_sf_concurrency_matrix.py`](scripts/run_wikipedia_sf_concurrency_matrix.py).
+
+#### Primary host — `t2d-standard-32`
+
+SB 32200 MB ≈ 31 GiB. Wall ~5 h (2026-07-22 21:05Z → 23 02:03Z). 40 cells, all OK.
 
 #### TPM — `synchronous_commit=on` (durable)
 
@@ -968,15 +976,164 @@ xychart-beta
     line "SF27" [7.1, 6.7, 14.3, 116 "SF27"]
 ```
 
+#### Validation hosts — `t2d-standard-4` and `t2d-standard-60`
+
+Same harness / schema ladder / durability matrix as above, re-run after postgres-log archival fixes (`log_file_mode=0644`, per-job rotate+delta copy, `log_lock_waits=on`). Latency columns populated from BenchBase µs→ms. Postgres collector logs archived under each `term*/postgres_logs/` (with `manifest.json`).
+
+| Host | vCPU / RAM | SB (¼ RAM) | Terminals | Cells | Wall (UTC) | Raw |
+|------|------------|------------|-----------|------:|------------|-----|
+| `t2d-standard-4` (`34.173.51.110`) | 4 / ~16 GiB | 3996 MB | 1, 2, 4 | 30 | 09:02 → 12:42 | [`run5-sf-matrix/t2d-standard-4/`](run5-sf-matrix/t2d-standard-4/) |
+| `t2d-standard-60` (`34.29.63.114`) | 60 / ~236 GiB | 60397 MB | 1, 15, 30, 60 | 40 | 09:02 → 14:00 | [`run5-sf-matrix/t2d-standard-60/`](run5-sf-matrix/t2d-standard-60/) |
+
+##### `t2d-standard-4` — TPM durable (`sync=on`)
+
+| Target / SF (DB GiB) | term 1 | term 2 | term 4 | eff 2 | eff 4 |
+|----------------------|-------:|-------:|-------:|------:|------:|
+| 0.25 GiB / SF 2 (0.44) | 85 742 | 171 552 | 361 322 | 100% | 105% |
+| 0.5 GiB / SF 3 (0.67) | 86 892 | 175 116 | 344 991 | 101% | 99% |
+| 1 GiB / SF 7 (1.68) | 73 541 | 148 286 | 306 820 | 101% | 104% |
+| 2 GiB / SF 14 (2.84) | 60 906 | 122 503 | 272 987 | 101% | 112% |
+| 4 GiB / SF 27 (5.91) | 43 987 | 90 106 | 185 821 | 102% | 106% |
+
+##### `t2d-standard-4` — TPM async (`sync=off`)
+
+| Target / SF (DB GiB) | term 1 | term 2 | term 4 | eff 2 | eff 4 |
+|----------------------|-------:|-------:|-------:|------:|------:|
+| 0.25 GiB / SF 2 (0.42) | 97 163 | 184 074 | 397 533 | 95% | 102% |
+| 0.5 GiB / SF 3 (0.54) | 92 589 | 188 466 | 377 674 | 102% | 102% |
+| 1 GiB / SF 7 (1.31) | 72 688 | 140 352 | 340 397 | 97% | 117% |
+| 2 GiB / SF 14 (2.97) | 59 628 | 123 607 | 286 484 | 104% | 120% |
+| 4 GiB / SF 27 (5.51) | 37 499 | 83 372 | 186 756 | 111% | 125% |
+
+##### `t2d-standard-4` — P95 latency (ms)
+
+| Target / SF | term 1 | term 2 | term 4 |
+|-------------|-------:|-------:|-------:|
+| 0.25 GiB / SF 2 | 2.33 | 2.22 | 2.12 |
+| 0.5 GiB / SF 3 | 2.15 | 2.09 | 2.08 |
+| 1 GiB / SF 7 | 2.21 | 2.26 | 2.15 |
+| 2 GiB / SF 14 | 2.44 | 2.42 | 2.25 |
+| 4 GiB / SF 27 | 3.03 | 2.87 | 2.87 |
+
+*durable*
+
+| Target / SF | term 1 | term 2 | term 4 |
+|-------------|-------:|-------:|-------:|
+| 0.25 GiB / SF 2 | 1.61 | 1.72 | 1.61 |
+| 0.5 GiB / SF 3 | 1.61 | 1.57 | 1.57 |
+| 1 GiB / SF 7 | 1.95 | 1.98 | 1.67 |
+| 2 GiB / SF 14 | 2.03 | 2.01 | 1.85 |
+| 4 GiB / SF 27 | 3.15 | 2.91 | 2.50 |
+
+*async*
+
+Near-linear scaling (eff ≈ 100–112%). No durable cliff at 4 GiB@4. At `terminals=nproc`, TPM vs 1 GiB: 0.25 GiB **+18%**, 0.5 GiB **+12%**, 2 GiB **−11%**, 4 GiB **−39%** (durable) — size effect only, same direction as t2d-32 mid-concurrency.
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759"
+---
+xychart-beta
+    title "t2d-4 TPM vs schema size (durable)"
+    x-axis ["0.25 GiB", "0.5 GiB", "1 GiB", "2 GiB", "4 GiB"]
+    y-axis "TPM" 0 --> 400000
+    line "term1" [85742, 86892, 73541, 60906, 43987 "term1"]
+    line "term2" [171552, 175116, 148286, 122503, 90106 "term2"]
+    line "term4" [361322, 344991, 306820, 272987, 185821 "term4"]
+```
+
+##### `t2d-standard-60` — TPM durable (`sync=on`)
+
+| Target / SF (DB GiB) | term 1 | term 15 | term 30 | term 60 | eff 15 | eff 30 | eff 60 |
+|----------------------|-------:|--------:|--------:|--------:|-------:|-------:|-------:|
+| 0.25 GiB / SF 2 (0.35) | 95 010 | 1 118 149 | 1 560 017 | **268 512** | 78% | 55% | **5%** |
+| 0.5 GiB / SF 3 (0.66) | 87 115 | 996 676 | 845 175 | **214 934** | 76% | 32% | **4%** |
+| 1 GiB / SF 7 (1.16) | 73 139 | 870 395 | 1 185 807 | **219 577** | 79% | 54% | **5%** |
+| 2 GiB / SF 14 (2.98) | 60 595 | 738 237 | 1 112 012 | **278 990** | 81% | 61% | **8%** |
+| 4 GiB / SF 27 (5.83) | 44 383 | 595 677 | 488 458 | **135 451** | 89% | 37% | **5%** |
+
+##### `t2d-standard-60` — TPM async (`sync=off`)
+
+| Target / SF (DB GiB) | term 1 | term 15 | term 30 | term 60 | eff 15 | eff 30 | eff 60 |
+|----------------------|-------:|--------:|--------:|--------:|-------:|-------:|-------:|
+| 0.25 GiB / SF 2 (0.55) | 103 805 | 1 293 384 | 1 617 424 | 264 686 | 83% | 52% | 4% |
+| 0.5 GiB / SF 3 (0.65) | 99 679 | 1 213 850 | 1 474 422 | 221 796 | 81% | 49% | 4% |
+| 1 GiB / SF 7 (1.38) | 78 590 | 1 002 211 | 1 341 061 | 241 926 | 85% | 57% | 5% |
+| 2 GiB / SF 14 (2.67) | 60 627 | 858 600 | 1 236 063 | 1 651 270† | 94% | 68% | 45% |
+| 4 GiB / SF 27 (5.66) | 47 244 | 661 774 | 865 830 | 150 141 | 93% | 61% | 5% |
+
+†Outlier: async SF 14 @ 60 terminals kept low latency (P95 4.5 ms) and ~1.65 M TPM while every other SF@60 collapsed; treat as non-replicated anomaly until re-run.
+
+##### `t2d-standard-60` — P95 latency (ms), durable
+
+| Target / SF | term 1 | term 15 | term 30 | term 60 |
+|-------------|-------:|--------:|--------:|--------:|
+| 0.25 GiB / SF 2 | 1.95 | 2.57 | 3.72 | 12.91 |
+| 0.5 GiB / SF 3 | 2.04 | 2.82 | 4.14 | 12.02 |
+| 1 GiB / SF 7 | 2.30 | 2.90 | 4.39 | 15.24 |
+| 2 GiB / SF 14 | 2.40 | 3.09 | 4.40 | 13.73 |
+| 4 GiB / SF 27 | 2.87 | 3.27 | 5.22 | 17.36 |
+
+At `terminals=60`, **every** durable schema collapses (~135–279 k TPM, P95 12–17 ms, P99 46–369 ms) — a **concurrency cliff**, not a schema-size cliff. Peak is around term 15–30. SF 27 already weak at term 30 (488 k).
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2"
+---
+xychart-beta
+    title "t2d-60 TPM vs schema size (durable)"
+    x-axis ["0.25 GiB", "0.5 GiB", "1 GiB", "2 GiB", "4 GiB"]
+    y-axis "TPM" 0 --> 1700000
+    line "term1" [95010, 87115, 73139, 60595, 44383 "term1"]
+    line "term15" [1118149, 996676, 870395, 738237, 595677 "term15"]
+    line "term30" [1560017, 845175, 1185807, 1112012, 488458 "term30"]
+    line "term60" [268512, 214934, 219577, 278990, 135451 "term60"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759"
+---
+xychart-beta
+    title "SF7 durable TPM vs terminals — cross-host"
+    x-axis ["term1", "~n/4-n/2", "n/2-ish", "nproc"]
+    y-axis "TPM" 0 --> 1400000
+    line "t2d-4 1/2/4" [73541, 148286, 306820, 306820 "t2d-4"]
+    line "t2d-32 1/8/16/32" [75638, 545790, 923025, 1347667 "t2d-32"]
+    line "t2d-60 1/15/30/60" [73139, 870395, 1185807, 219577 "t2d-60"]
+```
+
+Cross-host **term 1 SF 7 durable ≈ 73–76 k TPM** (same AMD Milan family baseline).
+
+##### Cross-host fixed-SF conclusion
+
+| Check | t2d-4 | t2d-32 | t2d-60 |
+|-------|-------|--------|--------|
+| Fixed ≤1 GiB vs neighbours at useful concurrency | OK (smooth size effect) | OK at nproc (±10% for 0.25–2 GiB) | OK at term 15–30; **not** at nproc |
+| 4 GiB durable | −39% at nproc (no collapse) | cliff at nproc (33% of 1 GiB) | weak by term 30; worse at 60 |
+| `terminals=nproc` safe for ranking? | Yes | Yes (avoid 4 GiB) | **No** — all sizes collapse |
+
+**Practical:** keep **fixed SF ≈ 7 (≤1 GiB)** for fleet compare; score the concurrency ladder with peak / `n/2`, and treat raw `nproc` on very large hosts as optional / suspect until concurrency is tuned.
+
+
 #### Takeaways
 
-- **Fixed ~1 GiB is viable for fleet-wide ranking at `terminals=nproc`.** At 32 terminals, TPM for 256 MiB–2 GiB stays within ~±10% of the 1 GiB point (async: 1.64–1.83 M; durable: 1.35–1.45 M). Same-size compare across SKUs is therefore meaningful without RAM-scaled schemas — as long as the chosen size still fits under SB on the smallest host (≥ 4 GiB → SB≈1 GiB ⇒ prefer **≤ 1 GiB**, e.g. SF 7).
-- **Schema size still moves absolute TPM**, especially at mid concurrency: at 16 terminals, 256 MiB is ~17–24% above 1 GiB and 4 GiB is ~33% below. Use one fixed size for SKU ranking; do not mix sizes.
-- **Concurrency:** scaling efficiency falls toward `nproc` (eff 32 ≈ 46–82% depending on size/durability). Larger schemas often scale *better* until the durable cliff — headline score should keep the full ladder `{1, n/2, n}` (and mid rungs if desired).
-- **Durability:** async is typically **+6–36%** vs durable. Pick one for the live matrix (`tasks.py` durable today) and do not mix.
-- **Cliff:** durable SF 27 @ 32 terminals dropped to 444 k TPM (~⅓ of SF 14) despite DB (~6 GiB) ≪ SB (~31 GiB) — not a buffer-cache miss; likely WAL/lock pressure under `synchronous_commit=on` at high concurrency. Async also slows at 4 GiB/32 but less severely. Avoid oversized fixed schemas for durable `nproc` runs. Latency: P95 only ~5.4 ms there (vs ~3.6 ms at SF 14), but P99 jumps to ~37 ms and mean to ~4.3 ms — prefer P99/avg alongside P95 if diagnosing cliffs.
-- **Latency (P95):** typically ~1.4–3.9 ms across the matrix (async lower than durable). Grows with concurrency and somewhat with SF; not a second ranking axis for SKU compare unless you care about tail SLOs.
-- **vs inspector RAM-scaled sizing:** on large RAM hosts, ¼ RAM (capped 16 GiB) overshoots what this matrix needs for comparable wikipedia ranking. A **fixed ≤ 1 GiB** (SF ≈ 7) cache-resident set is enough to discriminate concurrency and stays portable to small machines; keep durability fixed.
+- **Fixed ~1 GiB remains the right fleet schema.** Validated on t2d-4 / 32 / 60: at useful concurrency, 0.25–2 GiB sit in a smooth size band around SF 7; prefer **SF ≈ 7 (≤1 GiB)** so the set fits under SB on ≥4 GiB hosts. Do not mix sizes across SKUs.
+- **`terminals=nproc` is not always a safe headline.** t2d-4: linear, fine. t2d-32: fine for ≤2 GiB (4 GiB durable cliffs). **t2d-60: nproc collapses for every schema** (~5% efficiency, P95 12–17 ms) — score peak / `n/2` (here term 15–30) for large hosts; keep the ladder `{1, n/2, n}` but treat raw nproc carefully.
+- **Schema size still moves absolute TPM** at mid concurrency (smaller faster). 4 GiB durable is risky at high concurrency (cliff on 32; early weakness on 60; −39% even on t2d-4 without collapse).
+- **Cross-host baseline:** SF 7 durable term 1 ≈ **73–76 k TPM** on all three t2d sizes — family-comparable single-thread floor.
+- **Durability:** async typically a few–tens of % above durable when both are healthy; pick one for the live matrix (`tasks.py` durable today).
+- **Latency:** P95 ~1.5–5 ms in healthy cells; jumps with nproc cliffs (t2d-60 @60 → 12–17 ms P95, much higher P99). CSV latency columns filled on the validation hosts.
+- **vs inspector RAM-scaled sizing:** ¼ RAM (capped 16 GiB) overshoots what ranking needs. Fixed ≤1 GiB + durable + concurrency ladder is enough; do not RAM-scale wikipedia for SKU compare.
 
 ### BenchBase wikipedia runtime options we use
 
