@@ -1135,6 +1135,204 @@ Cross-host **term 1 SF 7 durable ≈ 73–76 k TPM** (same AMD Milan famil
 - **Latency:** P95 ~1.5–5 ms in healthy cells; jumps with nproc cliffs (t2d-60 @60 → 12–17 ms P95, much higher P99). CSV latency columns filled on the validation hosts.
 - **vs inspector RAM-scaled sizing:** ¼ RAM (capped 16 GiB) overshoots what ranking needs. Fixed ≤1 GiB + durable + concurrency ladder is enough; do not RAM-scale wikipedia for SKU compare.
 
+### pgbench select-only concurrency (run6)
+
+**Question:** with a **fixed ~1 GiB** schema, how does a pure point-select workload (`pgbench -S`) scale with concurrency on small vs large t2d hosts — and how does that compare to BenchBase wikipedia (~90% read mix) at the same size?
+
+**Setup:** `postgres:18` + `pgbench` from the same image (`--network host`). Scale **65** → DB **980 MB** (~0.96 GiB). GUCs from [pgtune.leopard.in.ua](https://pgtune.leopard.in.ua/) with **`shared_buffers` = ¼ RAM** (artifacts under each run’s `pgtune/`). `synchronous_commit=on`. Warmup **2 min** + measure **5 min** (separate `-T` runs; pgbench has no built-in warmup). Protocol `-M prepared`. Latency: summary avg/stddev + sampled `-l` logs (1%) → p50/p95/p99. Host `mpstat`/`iostat`/`vmstat` + `docker stats` for client/server CPU.
+
+Harness: [`scripts/run_pgbench_ro_concurrency_matrix.py`](scripts/run_pgbench_ro_concurrency_matrix.py). Raw: [`run6-pgbench-ro/`](run6-pgbench-ro/).
+
+| Host | vCPU / RAM | SB | Clients | Cells | Wall (UTC) |
+|------|------------|-----|---------|------:|------------|
+| `t2d-standard-4` | 4 / ~16 GiB | 3996 MB | 1, 2, 3, 4 | 4 | 14:19 → 14:48 |
+| `t2d-standard-60` | 60 / ~236 GiB | 60397 MB | 1, 15, 30, 45, 60 | 5 | 14:20 → 14:55 |
+
+#### TPM / latency — `t2d-standard-4`
+
+Efficiency = TPM(c) / (TPM(1)·c).
+
+| Clients | TPS | TPM | eff | lat avg | p50 | p95 | p99 |
+|--------:|----:|----:|----:|--------:|----:|----:|----:|
+| 1 | 14 997 | 899 835 | — | 0.066 | 0.066 | 0.081 | 0.094 |
+| 2 | 29 452 | 1 767 120 | 98% | 0.067 | 0.067 | 0.081 | 0.091 |
+| 3 | 50 029 | 3 001 731 | 111% | 0.059 | 0.056 | 0.075 | 0.087 |
+| 4 | 71 603 | 4 296 174 | 119% | 0.054 | 0.053 | 0.069 | 0.078 |
+
+#### TPM / latency — `t2d-standard-60`
+
+| Clients | TPS | TPM | eff | lat avg | p50 | p95 | p99 |
+|--------:|----:|----:|----:|--------:|----:|----:|----:|
+| 1 | 15 472 | 928 314 | — | 0.064 | 0.064 | 0.076 | 0.085 |
+| 15 | 224 764 | 13 485 823 | 97% | 0.066 | 0.066 | 0.076 | 0.083 |
+| 30 | 355 877 | 21 352 621 | 77% | 0.084 | 0.070 | 0.197 | 0.307 |
+| 45 | 642 787 | 38 567 196 | 92% | 0.069 | 0.058 | 0.101 | 0.252 |
+| 60 | 979 769 | 58 786 146 | 106% | 0.060 | 0.055 | 0.078 | 0.143 |
+
+Near-linear (or better) to `nproc` on **both** hosts. Single-client floor ≈ **0.90–0.93 M TPM** (~15 k TPS) — same family. No nproc collapse (unlike wikipedia on t2d-60).
+
+#### Graphs — small vs large host
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b"
+---
+xychart-beta
+    title "pgbench RO TPM vs clients — t2d-4 vs t2d-60"
+    x-axis ["1", "n/4", "n/2", "3n/4", "nproc"]
+    y-axis "TPM" 0 --> 60000000
+    line "t2d-4" [899835, 1767120, 3001731, 4296174, 4296174 "t2d-4"]
+    line "t2d-60" [928314, 13485823, 21352621, 38567196, 58786146 "t2d-60"]
+```
+
+t2d-4 has no separate 3n/4 rung beyond the ladder `{1,2,3,4}`; last two points both use nproc=4 for axis alignment.
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b"
+---
+xychart-beta
+    title "pgbench RO scaling efficiency vs clients"
+    x-axis ["n/4", "n/2", "3n/4", "nproc"]
+    y-axis "eff %" 0 --> 130
+    line "t2d-4" [98, 111, 119, 119 "t2d-4"]
+    line "t2d-60" [97, 77, 92, 106 "t2d-60"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b"
+---
+xychart-beta
+    title "pgbench RO P95 latency (ms) vs clients"
+    x-axis ["1", "n/4", "n/2", "3n/4", "nproc"]
+    y-axis "P95 ms" 0 --> 0.35
+    line "t2d-4" [0.081, 0.081, 0.075, 0.069, 0.069 "t2d-4"]
+    line "t2d-60" [0.076, 0.076, 0.197, 0.101, 0.078 "t2d-60"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b"
+---
+xychart-beta
+    title "pgbench RO TPM per client vs clients"
+    x-axis ["1", "n/4", "n/2", "3n/4", "nproc"]
+    y-axis "TPM / client" 0 --> 1200000
+    line "t2d-4" [899835, 883560, 1000577, 1074044, 1074044 "t2d-4"]
+    line "t2d-60" [928314, 899055, 711754, 857049, 979769 "t2d-60"]
+```
+
+#### 1 GiB compare — pgbench RO vs BenchBase wikipedia
+
+Same hosts, same pgtune/SB policy, ~1 GiB dataset, 2 min warmup / 5 min measure, durable (`sync=on`).
+
+| | pgbench `-S` | wikipedia (SF 7) |
+|--|--|--|
+| DB size | 980 MB (scale 65) | ~1.2–1.7 GiB (SF 7) |
+| Tx shape | 1 PK `SELECT` on `pgbench_accounts` | Mix weights `1,1,7,90,1` (~90% GetPage + writes) |
+| Working set | Uniform `aid` | Zipf over pages + updates |
+
+##### Absolute TPM
+
+**`t2d-standard-4`**
+
+| Clients | pgbench TPM | wikipedia TPM | pgbench / wiki |
+|--------:|------------:|--------------:|---------------:|
+| 1 | 899 835 | 73 541 | **12.2×** |
+| 2 | 1 767 120 | 148 286 | **11.9×** |
+| 4 | 4 296 174 | 306 820 | **14.0×** |
+
+**`t2d-standard-60`**
+
+| Clients | pgbench TPM | wikipedia TPM | pgbench / wiki |
+|--------:|------------:|--------------:|---------------:|
+| 1 | 928 314 | 73 139 | **12.7×** |
+| 15 | 13 485 823 | 870 395 | **15.5×** |
+| 30 | 21 352 621 | 1 185 807 | **18.0×** |
+| 60 | 58 786 146 | 219 577 | **268×**† |
+
+†Wikipedia durable collapses at `terminals=60`; pgbench does not — ratio is dominated by the wiki cliff, not a fair “workload multiple.”
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2"
+---
+xychart-beta
+    title "1 GiB TPM vs clients — t2d-4 (pgbench vs wikipedia)"
+    x-axis ["term1", "term2", "term4"]
+    y-axis "TPM" 0 --> 4500000
+    line "pgbench" [899835, 1767120, 4296174 "pgbench"]
+    line "wikipedia SF7" [73541, 148286, 306820 "wikipedia"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2"
+---
+xychart-beta
+    title "1 GiB TPM vs clients — t2d-60 (pgbench vs wikipedia)"
+    x-axis ["term1", "term15", "term30", "term60"]
+    y-axis "TPM" 0 --> 60000000
+    line "pgbench" [928314, 13485823, 21352621, 58786146 "pgbench"]
+    line "wikipedia SF7" [73139, 870395, 1185807, 219577 "wikipedia"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2"
+---
+xychart-beta
+    title "1 GiB scaling efficiency — t2d-60"
+    x-axis ["term15", "term30", "term60"]
+    y-axis "eff %" 0 --> 120
+    line "pgbench" [97, 77, 106 "pgbench"]
+    line "wikipedia SF7" [79, 54, 5 "wikipedia"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b"
+---
+xychart-beta
+    title "1 GiB P95 latency (ms) — t2d-60"
+    x-axis ["term1", "term15", "term30", "term60"]
+    y-axis "P95 ms" 0 --> 16
+    line "pgbench" [0.076, 0.076, 0.197, 0.078 "pgbench"]
+    line "wikipedia SF7" [2.30, 2.90, 4.39, 15.24 "wikipedia"]
+```
+
+##### Compare takeaways
+
+- **pgbench RO is ~12–18× higher TPM** than wikipedia at matched healthy concurrency (term 1–30) — expected: one indexed int SELECT vs multi-table GetPage + writes.
+- **Scaling story diverges on large hosts:** pgbench stays ~linear through `nproc=60`; wikipedia durable **falls off a cliff** at 60 (~5% efficiency). RO point-select does **not** reproduce the wiki concurrency failure mode.
+- **Latency:** pgbench P95 stays **<0.2 ms** even at 60 clients; wikipedia P95 is **2–4 ms** healthy and **~15 ms** at the cliff.
+- **Use:** pgbench `-S` is a good CPU/cache/conn **ceiling** and concurrency sanity check; **not** a substitute for wikipedia ranking if product path includes writes / heavier reads. For fleet SKU scores keep wikipedia (or a write-aware mix); use pgbench to flag hosts that cannot even push SELECTs.
+
 ### BenchBase wikipedia runtime options we use
 
 Written by `write_config()` for every timed execute (load uses the same XML shape with `terminals=1`, `warmup=0`, `time=10`, `--execute=false`).
