@@ -1,0 +1,25 @@
+[INFO ] 2026-07-23 01:33:45,484 [main]  com.oltpbenchmark.DBWorkload main - ======================================================================
+
+Benchmark:                       WIKIPEDIA {com.oltpbenchmark.benchmarks.wikipedia.WikipediaBenchmark}
+Configuration:                   /tmp/bb_config.xml
+Type:                            POSTGRES
+Driver:                          org.postgresql.Driver
+URL:                             jdbc:postgresql://127.0.0.1:5432/benchbase?sslmode=disable&ApplicationName=wikipedia&reWriteBatchedInserts=true
+Isolation:                       TRANSACTION_READ_COMMITTED
+Batch Size:                      128
+DDL Path:                        null
+Loader Threads:                  32
+Session Setup File:              null
+Scale Factor:                    27.0
+Terminals:                       1
+New Connection Per Txn:          false
+Reconnect on Connection Failure: true
+
+[INFO ] 2026-07-23 01:33:45,486 [main]  com.oltpbenchmark.DBWorkload main - ======================================================================
+[INFO ] 2026-07-23 01:33:45,506 [main]  com.oltpbenchmark.DBWorkload main - Creating new WIKIPEDIA database...
+[INFO ] 2026-07-23 01:33:45,626 [main]  com.oltpbenchmark.DBWorkload main - Finished creating new WIKIPEDIA database...
+[INFO ] 2026-07-23 01:33:45,748 [main]  com.oltpbenchmark.DBWorkload main - Loading data into WIKIPEDIA database...
+[INFO ] 2026-07-23 01:33:45,751 [main]  com.oltpbenchmark.util.ThreadUtil runLoaderThreads - Creating a Thread Pool with a size of 32 to run 36 Loader Threads.  4 threads will be queued.
+[INFO ] 2026-07-23 01:34:50,481 [main]  com.oltpbenchmark.util.ThreadUtil runLoaderThreads - Finished executing 36 Loader Threads [time=64.73s]
+[INFO ] 2026-07-23 01:34:50,481 [main]  com.oltpbenchmark.DBWorkload main - Finished loading data into WIKIPEDIA database...
+[INFO ] 2026-07-23 01:34:50,481 [main]  com.oltpbenchmark.DBWorkload main - Skipping benchmark workload execution

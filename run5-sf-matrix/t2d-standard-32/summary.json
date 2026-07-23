@@ -1,0 +1,356 @@
+{
+  "metric": "tpm",
+  "by_synchronous_commit": {
+    "on": {
+      "synchronous_commit": "on",
+      "per_scalefactor": {
+        "2": {
+          "scalefactor": 2,
+          "target_schema_gib": 0.25,
+          "db_size_gib": 0.4362,
+          "db_size_pretty": "447 MB",
+          "by_terminals": {
+            "1": {
+              "terminals": 1,
+              "tpm": 97801,
+              "tps": 1630.02
+            },
+            "8": {
+              "terminals": 8,
+              "tpm": 656991,
+              "tps": 10949.85,
+              "tpm_vs_1_pct": 671.8,
+              "efficiency_pct": 84.0
+            },
+            "16": {
+              "terminals": 16,
+              "tpm": 1084770,
+              "tps": 18079.5,
+              "tpm_vs_1_pct": 1109.2,
+              "efficiency_pct": 69.3
+            },
+            "32": {
+              "terminals": 32,
+              "tpm": 1454089,
+              "tps": 24234.81,
+              "tpm_vs_1_pct": 1486.8,
+              "efficiency_pct": 46.5
+            }
+          }
+        },
+        "3": {
+          "scalefactor": 3,
+          "target_schema_gib": 0.5,
+          "db_size_gib": 0.524,
+          "db_size_pretty": "537 MB",
+          "by_terminals": {
+            "1": {
+              "terminals": 1,
+              "tpm": 91212,
+              "tps": 1520.2
+            },
+            "8": {
+              "terminals": 8,
+              "tpm": 623283,
+              "tps": 10388.05,
+              "tpm_vs_1_pct": 683.3,
+              "efficiency_pct": 85.4
+            },
+            "16": {
+              "terminals": 16,
+              "tpm": 1064425,
+              "tps": 17740.41,
+              "tpm_vs_1_pct": 1167.0,
+              "efficiency_pct": 72.9
+            },
+            "32": {
+              "terminals": 32,
+              "tpm": 1375999,
+              "tps": 22933.31,
+              "tpm_vs_1_pct": 1508.6,
+              "efficiency_pct": 47.1
+            }
+          }
+        },
+        "7": {
+          "scalefactor": 7,
+          "target_schema_gib": 1.0,
+          "db_size_gib": 1.3501,
+          "db_size_pretty": "1383 MB",
+          "by_terminals": {
+            "1": {
+              "terminals": 1,
+              "tpm": 75638,
+              "tps": 1260.63
+            },
+            "8": {
+              "terminals": 8,
+              "tpm": 545790,
+              "tps": 9096.5,
+              "tpm_vs_1_pct": 721.6,
+              "efficiency_pct": 90.2
+            },
+            "16": {
+              "terminals": 16,
+              "tpm": 923025,
+              "tps": 15383.75,
+              "tpm_vs_1_pct": 1220.3,
+              "efficiency_pct": 76.3
+            },
+            "32": {
+              "terminals": 32,
+              "tpm": 1347667,
+              "tps": 22461.12,
+              "tpm_vs_1_pct": 1781.7,
+              "efficiency_pct": 55.7
+            }
+          }
+        },
+        "14": {
+          "scalefactor": 14,
+          "target_schema_gib": 2.0,
+          "db_size_gib": 2.8656,
+          "db_size_pretty": "2934 MB",
+          "by_terminals": {
+            "1": {
+              "terminals": 1,
+              "tpm": 63183,
+              "tps": 1053.05
+            },
+            "8": {
+              "terminals": 8,
+              "tpm": 457915,
+              "tps": 7631.91,
+              "tpm_vs_1_pct": 724.7,
+              "efficiency_pct": 90.6
+            },
+            "16": {
+              "terminals": 16,
+              "tpm": 805378,
+              "tps": 13422.96,
+              "tpm_vs_1_pct": 1274.7,
+              "efficiency_pct": 79.7
+            },
+            "32": {
+              "terminals": 32,
+              "tpm": 1359524,
+              "tps": 22658.73,
+              "tpm_vs_1_pct": 2151.7,
+              "efficiency_pct": 67.2
+            }
+          }
+        },
+        "27": {
+          "scalefactor": 27,
+          "target_schema_gib": 4.0,
+          "db_size_gib": 6.0282,
+          "db_size_pretty": "6173 MB",
+          "by_terminals": {
+            "1": {
+              "terminals": 1,
+              "tpm": 46275,
+              "tps": 771.25
+            },
+            "8": {
+              "terminals": 8,
+              "tpm": 357247,
+              "tps": 5954.11,
+              "tpm_vs_1_pct": 772.0,
+              "efficiency_pct": 96.5
+            },
+            "16": {
+              "terminals": 16,
+              "tpm": 617316,
+              "tps": 10288.61,
+              "tpm_vs_1_pct": 1334.0,
+              "efficiency_pct": 83.4
+            },
+            "32": {
+              "terminals": 32,
+              "tpm": 443849,
+              "tps": 7397.48,
+              "tpm_vs_1_pct": 959.2,
+              "efficiency_pct": 30.0
+            }
+          }
+        }
+      }
+    },
+    "off": {
+      "synchronous_commit": "off",
+      "per_scalefactor": {
+        "2": {
+          "scalefactor": 2,
+          "target_schema_gib": 0.25,
+          "db_size_gib": 0.3662,
+          "db_size_pretty": "375 MB",
+          "by_terminals": {
+            "1": {
+              "terminals": 1,
+              "tpm": 109002,
+              "tps": 1816.7
+            },
+            "8": {
+              "terminals": 8,
+              "tpm": 797477,
+              "tps": 13291.28,
+              "tpm_vs_1_pct": 731.6,
+              "efficiency_pct": 91.5
+            },
+            "16": {
+              "terminals": 16,
+              "tpm": 1327725,
+              "tps": 22128.75,
+              "tpm_vs_1_pct": 1218.1,
+              "efficiency_pct": 76.1
+            },
+            "32": {
+              "terminals": 32,
+              "tpm": 1639612,
+              "tps": 27326.87,
+              "tpm_vs_1_pct": 1504.2,
+              "efficiency_pct": 47.0
+            }
+          }
+        },
+        "3": {
+          "scalefactor": 3,
+          "target_schema_gib": 0.5,
+          "db_size_gib": 0.5847,
+          "db_size_pretty": "599 MB",
+          "by_terminals": {
+            "1": {
+              "terminals": 1,
+              "tpm": 99471,
+              "tps": 1657.84
+            },
+            "8": {
+              "terminals": 8,
+              "tpm": 757832,
+              "tps": 12630.53,
+              "tpm_vs_1_pct": 761.9,
+              "efficiency_pct": 95.2
+            },
+            "16": {
+              "terminals": 16,
+              "tpm": 1303575,
+              "tps": 21726.25,
+              "tpm_vs_1_pct": 1310.5,
+              "efficiency_pct": 81.9
+            },
+            "32": {
+              "terminals": 32,
+              "tpm": 1822428,
+              "tps": 30373.81,
+              "tpm_vs_1_pct": 1832.1,
+              "efficiency_pct": 57.3
+            }
+          }
+        },
+        "7": {
+          "scalefactor": 7,
+          "target_schema_gib": 1.0,
+          "db_size_gib": 1.5374,
+          "db_size_pretty": "1574 MB",
+          "by_terminals": {
+            "1": {
+              "terminals": 1,
+              "tpm": 82630,
+              "tps": 1377.17
+            },
+            "8": {
+              "terminals": 8,
+              "tpm": 610858,
+              "tps": 10180.96,
+              "tpm_vs_1_pct": 739.3,
+              "efficiency_pct": 92.4
+            },
+            "16": {
+              "terminals": 16,
+              "tpm": 1073597,
+              "tps": 17893.28,
+              "tpm_vs_1_pct": 1299.3,
+              "efficiency_pct": 81.2
+            },
+            "32": {
+              "terminals": 32,
+              "tpm": 1832689,
+              "tps": 30544.81,
+              "tpm_vs_1_pct": 2217.9,
+              "efficiency_pct": 69.3
+            }
+          }
+        },
+        "14": {
+          "scalefactor": 14,
+          "target_schema_gib": 2.0,
+          "db_size_gib": 2.8109,
+          "db_size_pretty": "2878 MB",
+          "by_terminals": {
+            "1": {
+              "terminals": 1,
+              "tpm": 67078,
+              "tps": 1117.96
+            },
+            "8": {
+              "terminals": 8,
+              "tpm": 504461,
+              "tps": 8407.69,
+              "tpm_vs_1_pct": 752.1,
+              "efficiency_pct": 94.0
+            },
+            "16": {
+              "terminals": 16,
+              "tpm": 929274,
+              "tps": 15487.9,
+              "tpm_vs_1_pct": 1385.4,
+              "efficiency_pct": 86.6
+            },
+            "32": {
+              "terminals": 32,
+              "tpm": 1770196,
+              "tps": 29503.27,
+              "tpm_vs_1_pct": 2639.0,
+              "efficiency_pct": 82.5
+            }
+          }
+        },
+        "27": {
+          "scalefactor": 27,
+          "target_schema_gib": 4.0,
+          "db_size_gib": 5.3912,
+          "db_size_pretty": "5521 MB",
+          "by_terminals": {
+            "1": {
+              "terminals": 1,
+              "tpm": 49567,
+              "tps": 826.12
+            },
+            "8": {
+              "terminals": 8,
+              "tpm": 381139,
+              "tps": 6352.31,
+              "tpm_vs_1_pct": 768.9,
+              "efficiency_pct": 96.1
+            },
+            "16": {
+              "terminals": 16,
+              "tpm": 705585,
+              "tps": 11759.76,
+              "tpm_vs_1_pct": 1423.5,
+              "efficiency_pct": 89.0
+            },
+            "32": {
+              "terminals": 32,
+              "tpm": 960683,
+              "tps": 16011.39,
+              "tpm_vs_1_pct": 1938.2,
+              "efficiency_pct": 60.6
+            }
+          }
+        }
+      }
+    }
+  },
+  "note": "Present as two tables (sync=on durable, sync=off async). efficiency_pct = TPM(n) / (TPM(1)*n)."
+}

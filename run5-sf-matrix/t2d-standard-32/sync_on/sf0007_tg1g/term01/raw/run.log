@@ -1,0 +1,316 @@
+[INFO ] 2026-07-22 22:05:20,733 [main]  com.oltpbenchmark.DBWorkload main - ======================================================================
+
+Benchmark:                       WIKIPEDIA {com.oltpbenchmark.benchmarks.wikipedia.WikipediaBenchmark}
+Configuration:                   /tmp/bb_config.xml
+Type:                            POSTGRES
+Driver:                          org.postgresql.Driver
+URL:                             jdbc:postgresql://127.0.0.1:5432/benchbase?sslmode=disable&ApplicationName=wikipedia&reWriteBatchedInserts=true
+Isolation:                       TRANSACTION_READ_COMMITTED
+Batch Size:                      128
+DDL Path:                        null
+Loader Threads:                  32
+Session Setup File:              null
+Scale Factor:                    7.0
+Terminals:                       1
+New Connection Per Txn:          false
+Reconnect on Connection Failure: true
+
+[INFO ] 2026-07-22 22:05:20,734 [main]  com.oltpbenchmark.DBWorkload main - ======================================================================
+[INFO ] 2026-07-22 22:05:20,940 [main]  com.oltpbenchmark.DBWorkload runWorkload - Creating 1 virtual terminals...
+[INFO ] 2026-07-22 22:05:20,949 [main]  com.oltpbenchmark.DBWorkload runWorkload - Launching the WIKIPEDIA Benchmark with 1 Phase...
+[INFO ] 2026-07-22 22:05:20,952 [main]  com.oltpbenchmark.ThreadBench runRateLimitedMultiPhase - [0;1mPHASE START[0;0m :: [Workload=WIKIPEDIA] [Serial=false] [Time=300] [WarmupTime=120] [Rate=unlimited] [Arrival=REGULAR] [Ratios=[1.0, 1.0, 7.0, 90.0, 1.0]] [ActiveWorkers=1]
+[ERROR] 2026-07-22 22:06:33,649 [WikipediaWorker<000>]  com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker executeWork - Caught SQL Exception in WikipediaWorker for procedurecom.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage:org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[WARN ] 2026-07-22 22:06:33,651 [WikipediaWorker<000>]  com.oltpbenchmark.api.Worker doWork - SQLException occurred during [com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage/03] and will not be retried... sql state [22001], error code [0].
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[ERROR] 2026-07-22 22:07:03,641 [WikipediaWorker<000>]  com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker executeWork - Caught SQL Exception in WikipediaWorker for procedurecom.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage:org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[WARN ] 2026-07-22 22:07:03,641 [WikipediaWorker<000>]  com.oltpbenchmark.api.Worker doWork - SQLException occurred during [com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage/03] and will not be retried... sql state [22001], error code [0].
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[INFO ] 2026-07-22 22:07:20,952 [main]  com.oltpbenchmark.ThreadBench runRateLimitedMultiPhase - [0;1mMEASURE[0;0m :: Warmup complete, starting measurements.
+[ERROR] 2026-07-22 22:08:14,575 [WikipediaWorker<000>]  com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker executeWork - Caught SQL Exception in WikipediaWorker for procedurecom.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage:org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[WARN ] 2026-07-22 22:08:14,575 [WikipediaWorker<000>]  com.oltpbenchmark.api.Worker doWork - SQLException occurred during [com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage/03] and will not be retried... sql state [22001], error code [0].
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[ERROR] 2026-07-22 22:08:37,165 [WikipediaWorker<000>]  com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker executeWork - Caught SQL Exception in WikipediaWorker for procedurecom.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage:org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[WARN ] 2026-07-22 22:08:37,165 [WikipediaWorker<000>]  com.oltpbenchmark.api.Worker doWork - SQLException occurred during [com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage/03] and will not be retried... sql state [22001], error code [0].
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[ERROR] 2026-07-22 22:09:01,928 [WikipediaWorker<000>]  com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker executeWork - Caught SQL Exception in WikipediaWorker for procedurecom.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage:org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[WARN ] 2026-07-22 22:09:01,928 [WikipediaWorker<000>]  com.oltpbenchmark.api.Worker doWork - SQLException occurred during [com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage/03] and will not be retried... sql state [22001], error code [0].
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[ERROR] 2026-07-22 22:10:41,647 [WikipediaWorker<000>]  com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker executeWork - Caught SQL Exception in WikipediaWorker for procedurecom.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage:org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[WARN ] 2026-07-22 22:10:41,647 [WikipediaWorker<000>]  com.oltpbenchmark.api.Worker doWork - SQLException occurred during [com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage/03] and will not be retried... sql state [22001], error code [0].
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[ERROR] 2026-07-22 22:11:17,245 [WikipediaWorker<000>]  com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker executeWork - Caught SQL Exception in WikipediaWorker for procedurecom.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage:org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[WARN ] 2026-07-22 22:11:17,246 [WikipediaWorker<000>]  com.oltpbenchmark.api.Worker doWork - SQLException occurred during [com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage/03] and will not be retried... sql state [22001], error code [0].
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[ERROR] 2026-07-22 22:12:05,873 [WikipediaWorker<000>]  com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker executeWork - Caught SQL Exception in WikipediaWorker for procedurecom.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage:org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[WARN ] 2026-07-22 22:12:05,874 [WikipediaWorker<000>]  com.oltpbenchmark.api.Worker doWork - SQLException occurred during [com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage/03] and will not be retried... sql state [22001], error code [0].
+org.postgresql.util.PSQLException: ERROR: value too long for type character varying(255)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2420)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:517)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:434)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.execute(PgPreparedStatement.java:180)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.execute(UpdatePage.java:323)
+	at com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage.run(UpdatePage.java:234)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.updatePage(WikipediaWorker.java:196)
+	at com.oltpbenchmark.benchmarks.wikipedia.WikipediaWorker.executeWork(WikipediaWorker.java:110)
+	at com.oltpbenchmark.api.Worker.doWork(Worker.java:444)
+	at com.oltpbenchmark.api.Worker.run(Worker.java:292)
+	at java.base/java.lang.Thread.run(Unknown Source)
+[INFO ] 2026-07-22 22:12:21,952 [main]  com.oltpbenchmark.ThreadBench runRateLimitedMultiPhase - [0;1mTERMINATE[0;0m :: Waiting for all terminals to finish ..
+[INFO ] 2026-07-22 22:12:21,953 [Thread-1]  com.oltpbenchmark.ThreadBench run - Starting WatchDogThread
+[INFO ] 2026-07-22 22:12:22,032 [main]  com.oltpbenchmark.DBWorkload runWorkload - ======================================================================
+[INFO ] 2026-07-22 22:12:22,032 [main]  com.oltpbenchmark.DBWorkload runWorkload - Rate limited reqs/s: Results(state=EXIT, nanoSeconds=300999972004, measuredRequests=379451) = 1260.6346687466053 requests/sec (throughput), 1757.8373727987214 requests/sec (goodput)
+[INFO ] 2026-07-22 22:12:22,053 [main]  com.oltpbenchmark.DBWorkload writeOutputs - Output Raw data into file: wikipedia_2026-07-22_22-12-22.raw.csv
+[INFO ] 2026-07-22 22:12:23,108 [main]  com.oltpbenchmark.DBWorkload writeOutputs - Output samples into file: wikipedia_2026-07-22_22-12-22.samples.csv
+[INFO ] 2026-07-22 22:12:23,175 [main]  com.oltpbenchmark.DBWorkload writeOutputs - Output summary data into file: wikipedia_2026-07-22_22-12-22.summary.json
+[INFO ] 2026-07-22 22:12:23,182 [main]  com.oltpbenchmark.DBWorkload writeOutputs - Output DBMS parameters into file: wikipedia_2026-07-22_22-12-22.params.json
+[INFO ] 2026-07-22 22:12:23,188 [main]  com.oltpbenchmark.DBWorkload writeOutputs - Output DBMS metrics into file: wikipedia_2026-07-22_22-12-22.metrics.json
+[INFO ] 2026-07-22 22:12:23,196 [main]  com.oltpbenchmark.DBWorkload writeOutputs - Output benchmark config into file: wikipedia_2026-07-22_22-12-22.config.xml
+[INFO ] 2026-07-22 22:12:23,228 [main]  com.oltpbenchmark.DBWorkload writeOutputs - Output results into file: wikipedia_2026-07-22_22-12-22.results.csv with window size 5
+[INFO ] 2026-07-22 22:12:23,322 [main]  com.oltpbenchmark.DBWorkload writeHistograms - ======================================================================
+[INFO ] 2026-07-22 22:12:23,322 [main]  com.oltpbenchmark.DBWorkload writeHistograms - Workload Histograms:
+
+[0;1mCompleted Transactions:[0;0m
+com.oltpbenchmark.benchmarks.wikipedia.procedures.AddWatchList/01                [  3020] 
+com.oltpbenchmark.benchmarks.wikipedia.procedures.RemoveWatchList/02             [  5395] 
+com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage/03                  [ 37190] ******
+com.oltpbenchmark.benchmarks.wikipedia.procedures.GetPageAnonymous/04            [478217] ********************************************************************************
+com.oltpbenchmark.benchmarks.wikipedia.procedures.GetPageAuthenticated/05        [  5287] 
+
+[0;1mAborted Transactions:[0;0m
+com.oltpbenchmark.benchmarks.wikipedia.procedures.AddWatchList/01                [2373] ********************************************************************************
+
+[0;1mRejected Transactions (Server Retry):[0;0m
+<EMPTY>
+
+[0;1mRejected Transactions (Retry Different):[0;0m
+<EMPTY>
+
+[0;1mUnexpected SQL Errors:[0;0m
+com.oltpbenchmark.benchmarks.wikipedia.procedures.UpdatePage/03                  [   8] ********************************************************************************
+
+[0;1mUnknown Status Transactions:[0;0m
+<EMPTY>
+
+
+[INFO ] 2026-07-22 22:12:23,322 [main]  com.oltpbenchmark.DBWorkload writeHistograms - ======================================================================

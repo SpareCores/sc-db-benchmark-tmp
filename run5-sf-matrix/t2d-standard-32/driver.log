@@ -1,0 +1,156 @@
+
+########## synchronous_commit=on  SB=32200MB ##########
+
+######## sync=on schema=0.25 GiB → SF=2 (expect ~0.30 GiB) ########
+loaded SF=2 sync=on in 8.4s → 447 MB (0.4362 GiB); vs SB 1.4%
+
+--- job 1/40: sync=on SF=2 terminals=1 warmup=2m measure=5m ---
+OK sync=on SF=2 term=1: TPM=97801 TPS=1630.02
+
+--- job 2/40: sync=on SF=2 terminals=8 warmup=2m measure=5m ---
+OK sync=on SF=2 term=8: TPM=656991 TPS=10949.85
+
+--- job 3/40: sync=on SF=2 terminals=16 warmup=2m measure=5m ---
+OK sync=on SF=2 term=16: TPM=1084770 TPS=18079.5
+
+--- job 4/40: sync=on SF=2 terminals=32 warmup=2m measure=5m ---
+OK sync=on SF=2 term=32: TPM=1454089 TPS=24234.81
+
+######## sync=on schema=0.5 GiB → SF=3 (expect ~0.44 GiB) ########
+loaded SF=3 sync=on in 10.1s → 537 MB (0.524 GiB); vs SB 1.7%
+
+--- job 5/40: sync=on SF=3 terminals=1 warmup=2m measure=5m ---
+OK sync=on SF=3 term=1: TPM=91212 TPS=1520.2
+
+--- job 6/40: sync=on SF=3 terminals=8 warmup=2m measure=5m ---
+OK sync=on SF=3 term=8: TPM=623283 TPS=10388.05
+
+--- job 7/40: sync=on SF=3 terminals=16 warmup=2m measure=5m ---
+OK sync=on SF=3 term=16: TPM=1064425 TPS=17740.41
+
+--- job 8/40: sync=on SF=3 terminals=32 warmup=2m measure=5m ---
+OK sync=on SF=3 term=32: TPM=1375999 TPS=22933.31
+
+######## sync=on schema=1 GiB → SF=7 (expect ~1.04 GiB) ########
+loaded SF=7 sync=on in 24.7s → 1383 MB (1.3501 GiB); vs SB 4.3%
+
+--- job 9/40: sync=on SF=7 terminals=1 warmup=2m measure=5m ---
+OK sync=on SF=7 term=1: TPM=75638 TPS=1260.63
+
+--- job 10/40: sync=on SF=7 terminals=8 warmup=2m measure=5m ---
+OK sync=on SF=7 term=8: TPM=545790 TPS=9096.5
+
+--- job 11/40: sync=on SF=7 terminals=16 warmup=2m measure=5m ---
+OK sync=on SF=7 term=16: TPM=923025 TPS=15383.75
+
+--- job 12/40: sync=on SF=7 terminals=32 warmup=2m measure=5m ---
+OK sync=on SF=7 term=32: TPM=1347667 TPS=22461.12
+
+######## sync=on schema=2 GiB → SF=14 (expect ~2.07 GiB) ########
+loaded SF=14 sync=on in 48.1s → 2934 MB (2.8656 GiB); vs SB 9.1%
+
+--- job 13/40: sync=on SF=14 terminals=1 warmup=2m measure=5m ---
+OK sync=on SF=14 term=1: TPM=63183 TPS=1053.05
+
+--- job 14/40: sync=on SF=14 terminals=8 warmup=2m measure=5m ---
+OK sync=on SF=14 term=8: TPM=457915 TPS=7631.91
+
+--- job 15/40: sync=on SF=14 terminals=16 warmup=2m measure=5m ---
+OK sync=on SF=14 term=16: TPM=805378 TPS=13422.96
+
+--- job 16/40: sync=on SF=14 terminals=32 warmup=2m measure=5m ---
+OK sync=on SF=14 term=32: TPM=1359524 TPS=22658.73
+
+######## sync=on schema=4 GiB → SF=27 (expect ~4.00 GiB) ########
+loaded SF=27 sync=on in 95.4s → 6173 MB (6.0282 GiB); vs SB 19.2%
+
+--- job 17/40: sync=on SF=27 terminals=1 warmup=2m measure=5m ---
+OK sync=on SF=27 term=1: TPM=46275 TPS=771.25
+
+--- job 18/40: sync=on SF=27 terminals=8 warmup=2m measure=5m ---
+OK sync=on SF=27 term=8: TPM=357247 TPS=5954.11
+
+--- job 19/40: sync=on SF=27 terminals=16 warmup=2m measure=5m ---
+OK sync=on SF=27 term=16: TPM=617316 TPS=10288.61
+
+--- job 20/40: sync=on SF=27 terminals=32 warmup=2m measure=5m ---
+OK sync=on SF=27 term=32: TPM=443849 TPS=7397.48
+
+########## synchronous_commit=off  SB=32200MB ##########
+
+######## sync=off schema=0.25 GiB → SF=2 (expect ~0.30 GiB) ########
+loaded SF=2 sync=off in 6.4s → 375 MB (0.3662 GiB); vs SB 1.2%
+
+--- job 21/40: sync=off SF=2 terminals=1 warmup=2m measure=5m ---
+OK sync=off SF=2 term=1: TPM=109002 TPS=1816.7
+
+--- job 22/40: sync=off SF=2 terminals=8 warmup=2m measure=5m ---
+OK sync=off SF=2 term=8: TPM=797477 TPS=13291.28
+
+--- job 23/40: sync=off SF=2 terminals=16 warmup=2m measure=5m ---
+OK sync=off SF=2 term=16: TPM=1327725 TPS=22128.75
+
+--- job 24/40: sync=off SF=2 terminals=32 warmup=2m measure=5m ---
+OK sync=off SF=2 term=32: TPM=1639612 TPS=27326.87
+
+######## sync=off schema=0.5 GiB → SF=3 (expect ~0.44 GiB) ########
+loaded SF=3 sync=off in 9.5s → 599 MB (0.5847 GiB); vs SB 1.9%
+
+--- job 25/40: sync=off SF=3 terminals=1 warmup=2m measure=5m ---
+OK sync=off SF=3 term=1: TPM=99471 TPS=1657.84
+
+--- job 26/40: sync=off SF=3 terminals=8 warmup=2m measure=5m ---
+OK sync=off SF=3 term=8: TPM=757832 TPS=12630.53
+
+--- job 27/40: sync=off SF=3 terminals=16 warmup=2m measure=5m ---
+OK sync=off SF=3 term=16: TPM=1303575 TPS=21726.25
+
+--- job 28/40: sync=off SF=3 terminals=32 warmup=2m measure=5m ---
+OK sync=off SF=3 term=32: TPM=1822428 TPS=30373.81
+
+######## sync=off schema=1 GiB → SF=7 (expect ~1.04 GiB) ########
+loaded SF=7 sync=off in 22.8s → 1574 MB (1.5374 GiB); vs SB 4.9%
+
+--- job 29/40: sync=off SF=7 terminals=1 warmup=2m measure=5m ---
+OK sync=off SF=7 term=1: TPM=82630 TPS=1377.17
+
+--- job 30/40: sync=off SF=7 terminals=8 warmup=2m measure=5m ---
+OK sync=off SF=7 term=8: TPM=610858 TPS=10180.96
+
+--- job 31/40: sync=off SF=7 terminals=16 warmup=2m measure=5m ---
+OK sync=off SF=7 term=16: TPM=1073597 TPS=17893.28
+
+--- job 32/40: sync=off SF=7 terminals=32 warmup=2m measure=5m ---
+OK sync=off SF=7 term=32: TPM=1832689 TPS=30544.81
+
+######## sync=off schema=2 GiB → SF=14 (expect ~2.07 GiB) ########
+loaded SF=14 sync=off in 38.0s → 2878 MB (2.8109 GiB); vs SB 8.9%
+
+--- job 33/40: sync=off SF=14 terminals=1 warmup=2m measure=5m ---
+OK sync=off SF=14 term=1: TPM=67078 TPS=1117.96
+
+--- job 34/40: sync=off SF=14 terminals=8 warmup=2m measure=5m ---
+OK sync=off SF=14 term=8: TPM=504461 TPS=8407.69
+
+--- job 35/40: sync=off SF=14 terminals=16 warmup=2m measure=5m ---
+OK sync=off SF=14 term=16: TPM=929274 TPS=15487.9
+
+--- job 36/40: sync=off SF=14 terminals=32 warmup=2m measure=5m ---
+OK sync=off SF=14 term=32: TPM=1770196 TPS=29503.27
+
+######## sync=off schema=4 GiB → SF=27 (expect ~4.00 GiB) ########
+loaded SF=27 sync=off in 71.1s → 5521 MB (5.3912 GiB); vs SB 17.1%
+
+--- job 37/40: sync=off SF=27 terminals=1 warmup=2m measure=5m ---
+OK sync=off SF=27 term=1: TPM=49567 TPS=826.12
+
+--- job 38/40: sync=off SF=27 terminals=8 warmup=2m measure=5m ---
+OK sync=off SF=27 term=8: TPM=381139 TPS=6352.31
+
+--- job 39/40: sync=off SF=27 terminals=16 warmup=2m measure=5m ---
+OK sync=off SF=27 term=16: TPM=705585 TPS=11759.76
+
+--- job 40/40: sync=off SF=27 terminals=32 warmup=2m measure=5m ---
+OK sync=off SF=27 term=32: TPM=960683 TPS=16011.39
+
+ALL DONE

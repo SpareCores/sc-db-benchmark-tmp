@@ -1,0 +1,113 @@
+{
+  "started_utc": "2026-07-22T21:05:53.043244+00:00",
+  "hostname": "t2d-standard-32-c30b8e5",
+  "instance": "t2d-standard-32",
+  "ncpus": 32,
+  "mem_gib": 125.78326416015625,
+  "shared_buffers": "32200MB",
+  "shared_buffers_gib": 31.4453125,
+  "synchronous_commit": [
+    "on",
+    "off"
+  ],
+  "schema_gib_targets": [
+    0.25,
+    0.5,
+    1.0,
+    2.0,
+    4.0
+  ],
+  "terminals": [
+    1,
+    8,
+    16,
+    32
+  ],
+  "rampup_min": 2,
+  "duration_min": 5,
+  "wikipedia_gib_per_sf": 0.14803,
+  "scalefactors": {
+    "0.25": {
+      "sf": 2,
+      "expected_gib": 0.2961
+    },
+    "0.5": {
+      "sf": 3,
+      "expected_gib": 0.4441
+    },
+    "1.0": {
+      "sf": 7,
+      "expected_gib": 1.0362
+    },
+    "2.0": {
+      "sf": 14,
+      "expected_gib": 2.0724
+    },
+    "4.0": {
+      "sf": 27,
+      "expected_gib": 3.9968
+    }
+  },
+  "pgtune": "https://pgtune.leopard.in.ua/ + shared_buffers forced to 1/4 RAM",
+  "pgtune_share_url": "https://pgtune.leopard.in.ua/?dbVersion=18&osType=linux&dbType=web&totalMemory=125&totalMemoryUnit=GB&cpuNum=32&hdType=ssd&dbSize=mid_ram",
+  "gucs_base": {
+    "max_connections": "200",
+    "shared_buffers": "32200MB",
+    "effective_cache_size": "96000MB",
+    "maintenance_work_mem": "8000MB",
+    "checkpoint_completion_target": "0.9",
+    "wal_buffers": "16MB",
+    "default_statistics_target": "100",
+    "random_page_cost": "1.1",
+    "effective_io_concurrency": "200",
+    "work_mem": "141241kB",
+    "huge_pages": "try",
+    "min_wal_size": "1GB",
+    "max_wal_size": "4GB",
+    "max_worker_processes": "32",
+    "max_parallel_workers_per_gather": "4",
+    "max_parallel_workers": "32",
+    "max_parallel_maintenance_workers": "4",
+    "jit": "off",
+    "wal_compression": "lz4",
+    "autovacuum_max_workers": "5",
+    "autovacuum_work_mem": "2GB",
+    "io_method": "io_uring",
+    "listen_addresses": "*",
+    "logging_collector": "on",
+    "log_directory": "/var/log/postgresql",
+    "log_filename": "postgresql-%Y-%m-%d_%H%M%S.log",
+    "log_min_messages": "error"
+  },
+  "postgres_image": "postgres:18",
+  "benchbase_image": "benchbase.azurecr.io/benchbase-postgres:latest",
+  "docker_flags": [
+    "--privileged",
+    "--security-opt",
+    "seccomp=unconfined",
+    "--ulimit",
+    "memlock=-1:-1",
+    "--network",
+    "host"
+  ],
+  "host_topology": {
+    "logical_cpus": 32,
+    "physical_cpus": 32,
+    "threads_per_core": 1.0,
+    "sockets": 1,
+    "numa_nodes": 1,
+    "mem_gib": 125.8,
+    "hugepages_total": 0,
+    "hugepages_free": 0,
+    "hugepage_size_kib": 2048,
+    "io_uring_sysctl_ok": true,
+    "cpu_model": "AMD EPYC 7B13",
+    "hyperthreading": false
+  },
+  "design": {
+    "goal": "Measure wikipedia TPM across fixed schema sizes that fit under shared_buffers (1/4 RAM), concurrency {1, n/4, n/2, n}, and both synchronous_commit=on/off \u2014 to decide if a fleet-wide fixed dataset (256MiB\u20131GiB) is viable.",
+    "schedule": "durability-major then size-major: for each sync_commit, load once per SF, then all terminals ascending",
+    "presentation": "two TPM tables (durable on / async off)"
+  },
+  "finished_utc": "2026-07-23T02:03:45.863251+00:00"
+}
