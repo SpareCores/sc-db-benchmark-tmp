@@ -1381,7 +1381,7 @@ xychart-beta
     title "pgbench RO mean TPM vs measure duration (t2d-60, n=5)"
     x-axis ["5m", "10m", "15m", "30m"]
     y-axis "TPM" 57000000 --> 60000000
-    line "mean" [58070697, 58738095, 58639217, 58366021]
+    line "mean" [58070697, 58738095, 58639217, 58366021 "mean"]
 ```
 
 #### DB size × concurrency
@@ -1407,11 +1407,11 @@ xychart-beta
     title "pgbench RO TPM vs clients by schema size (t2d-60)"
     x-axis ["1", "15", "30", "60"]
     y-axis "TPM" 0 --> 60000000
-    line "0.25 GiB" [953092, 13405004, 23149919, 58154335]
-    line "0.5 GiB" [939258, 13229668, 22606607, 58388704]
-    line "1 GiB" [928904, 13355582, 22947388, 58380103]
-    line "2 GiB" [930402, 12988593, 22462288, 56268417]
-    line "4 GiB" [923331, 13048510, 22354753, 57259736]
+    line "0.25 GiB" [953092, 13405004, 23149919, 58154335 "0.25 GiB"]
+    line "0.5 GiB" [939258, 13229668, 22606607, 58388704 "0.5 GiB"]
+    line "1 GiB" [928904, 13355582, 22947388, 58380103 "1 GiB"]
+    line "2 GiB" [930402, 12988593, 22462288, 56268417 "2 GiB"]
+    line "4 GiB" [923331, 13048510, 22354753, 57259736 "4 GiB"]
 ```
 
 - **Flat across size:** at any fixed client count, TPM differs by only a few percent from 0.25→4 GiB (worst: 2 GiB @60 is ~3.6% below 1 GiB).
@@ -1443,7 +1443,7 @@ xychart-beta
     title "pgbench RO TPM vs clients incl. oversubscribe (t2d-60)"
     x-axis ["1", "15", "30", "45", "60", "75", "90"]
     y-axis "TPM" 0 --> 60000000
-    line "TPM" [935837, 13366301, 23045536, 40099520, 57985292, 58287800, 57919460]
+    line "TPM" [935837, 13366301, 23045536, 40099520, 57985292, 58287800, 57919460 "TPM"]
 ```
 
 ```mermaid
@@ -1457,7 +1457,7 @@ xychart-beta
     title "pgbench RO P95 latency vs clients (t2d-60)"
     x-axis ["1", "15", "30", "45", "60", "75", "90"]
     y-axis "P95 ms" 0 --> 0.2
-    line "P95" [0.074, 0.077, 0.096, 0.094, 0.079, 0.138, 0.173]
+    line "P95" [0.074, 0.077, 0.096, 0.094, 0.079, 0.138, 0.173 "P95"]
 ```
 
 - **Scales through `nproc=60`**, then **flat** at 75/90 (~same TPM as 60).
