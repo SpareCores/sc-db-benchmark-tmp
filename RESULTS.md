@@ -1333,6 +1333,145 @@ xychart-beta
 - **Latency:** pgbench P95 stays **<0.2 ms** even at 60 clients; wikipedia P95 is **2–4 ms** healthy and **~15 ms** at the cliff.
 - **Use:** pgbench `-S` is a good CPU/cache/conn **ceiling** and concurrency sanity check; **not** a substitute for wikipedia ranking if product path includes writes / heavier reads. For fleet SKU scores keep wikipedia (or a write-aware mix); use pgbench to flag hosts that cannot even push SELECTs.
 
+### pgbench RO duration × size × concurrency (run7)
+
+**Host:** GCP `t2d-standard-60` (`35.188.162.255`, `t2d-standard-60-5d2a11d`), 60 vCPU / ~236 GiB, SB = 60397 MB (¼ RAM). Wall **2026-07-23 21:09Z → 2026-07-24 06:08Z** (~9 h).
+
+**Questions:**
+1. **Duration** — at fixed ~1 GiB / `clients=nproc`, does measure window (5 / 10 / 15 / 30 min) change **mean** TPM or only variance? Same stats design as wikipedia run4.
+2. **DB size** — how does TPM scale across ~0.25 / 0.5 / 1 / 2 / 4 GiB schemas × clients `{1, n/4, n/2, n}`?
+3. **Concurrency (oversubscribe)** — at ~1 GiB, clients `{1, n/4, n/2, 3n/4, n, 5n/4, 6n/4}` → 1, 15, 30, 45, 60, **75**, **90**.
+
+**Setup:** same as run6 — `postgres:18`, `--privileged` + `--network host`, pgtune leopard + `shared_buffers` = ¼ RAM, `synchronous_commit=on`, select-only `-S`, `-M prepared`, 2 min warmup. Scale 65 ≈ 980 MB for 1 GiB phases; size targets → scales 17 / 34 / 65 / 136 / 272.
+
+**Duration design (mirrors [`run4-wikipedia/`](run4-wikipedia/)):** measure ∈ {5, 10, 15, 30} min; **5 independent trials per duration**; **interleaved** schedule; **fresh create+load each trial**. Stats: [`duration/summary.csv`](run7-pgbench-ro/t2d-standard-60/duration/summary.csv). Size/concurrency: single 5 min measure per cell.
+
+Harness: [`scripts/run_pgbench_ro_study.py`](scripts/run_pgbench_ro_study.py). Raw: [`run7-pgbench-ro/`](run7-pgbench-ro/).
+
+> **Verdicts:** (1) **keep 5 min measure** — means within ~1% of longer windows; CV smallest at 5 min. (2) **schema size is flat** for pgbench `-S` from 0.25–4 GiB on this host (all ≪ SB). (3) **oversubscribe does not help** — TPM plateaus at `nproc`; P95 rises past 60 clients.
+
+#### Duration — n=5 interleaved @ clients=60, scale 65
+
+**Mean TPM ± 95% t-CI (CV%)**
+
+| 5 min | 10 min | 15 min | 30 min |
+|------:|-------:|-------:|------:|
+| 58 070 697 ± 335 827 (0.47%) | 58 738 095 ± 770 101 (1.06%) | 58 639 217 ± 548 095 (0.75%) | 58 366 021 ± 561 868 (0.78%) |
+
+**Δ mean % vs 5 min (Welch t)**
+
+| 10 min | 15 min | 30 min |
+|-------:|------:|------:|
+| +1.15% (+2.21) | +0.98% (+2.46) | +0.51% (+1.25) |
+
+Notes:
+
+- **Bias:** no practical duration bias. Longest shift is +1.15% at 10 min; 30 min is only +0.51%. All within the ~2% “keep 5 min” band used for wikipedia run4.
+- **Variance:** longer measure does **not** tighten CV. 5 min has the **smallest** CV (0.47%); 10 min is noisiest (1.06%). Same story as wikipedia: run-to-run noise dominates within-run averaging.
+- **Level:** ~58 M TPM @ 60 clients matches run6’s single-shot 58.8 M on the same SKU class.
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7"
+---
+xychart-beta
+    title "pgbench RO mean TPM vs measure duration (t2d-60, n=5)"
+    x-axis ["5m", "10m", "15m", "30m"]
+    y-axis "TPM" 57000000 --> 60000000
+    line "mean" [58070697, 58738095, 58639217, 58366021]
+```
+
+#### DB size × concurrency
+
+Efficiency omitted (single shot). All sizes ≪ `shared_buffers` (~59 GiB).
+
+| Target | Scale | DB | c=1 | c=15 | c=30 | c=60 | P95@60 |
+|-------:|------:|---:|----:|-----:|-----:|-----:|-------:|
+| 0.25 GiB | 17 | 0.26 | 953 092 | 13 405 004 | 23 149 919 | 58 154 335 | 0.079 |
+| 0.5 GiB | 34 | 0.50 | 939 258 | 13 229 668 | 22 606 607 | 58 388 704 | 0.078 |
+| 1 GiB | 65 | 0.96 | 928 904 | 13 355 582 | 22 947 388 | 58 380 103 | 0.080 |
+| 2 GiB | 136 | 1.99 | 930 402 | 12 988 593 | 22 462 288 | 56 268 417 | 0.081 |
+| 4 GiB | 272 | 3.98 | 923 331 | 13 048 510 | 22 354 753 | 57 259 736 | 0.080 |
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #76b7b2, #59a14f"
+---
+xychart-beta
+    title "pgbench RO TPM vs clients by schema size (t2d-60)"
+    x-axis ["1", "15", "30", "60"]
+    y-axis "TPM" 0 --> 60000000
+    line "0.25 GiB" [953092, 13405004, 23149919, 58154335]
+    line "0.5 GiB" [939258, 13229668, 22606607, 58388704]
+    line "1 GiB" [928904, 13355582, 22947388, 58380103]
+    line "2 GiB" [930402, 12988593, 22462288, 56268417]
+    line "4 GiB" [923331, 13048510, 22354753, 57259736]
+```
+
+- **Flat across size:** at any fixed client count, TPM differs by only a few percent from 0.25→4 GiB (worst: 2 GiB @60 is ~3.6% below 1 GiB).
+- **Unlike wikipedia:** no durable cliff / size×concurrency interaction for pure point-select while the working set fits in RAM/SB.
+- **Use:** for pgbench `-S` ranking, any fixed ≤1 GiB schema is enough; growing to 4 GiB buys nothing on large-RAM hosts.
+
+#### Concurrency incl. oversubscribe (~1 GiB)
+
+Efficiency = TPM(c) / (TPM(1)·c).
+
+| Clients | TPS | TPM | eff | lat avg | p95 |
+|--------:|----:|----:|----:|--------:|----:|
+| 1 | 15 597 | 935 837 | — | 0.064 | 0.074 |
+| 15 | 222 772 | 13 366 301 | 95% | 0.067 | 0.077 |
+| 30 | 384 092 | 23 045 536 | 82% | 0.077 | 0.096 |
+| 45 | 668 325 | 40 099 520 | 95% | 0.066 | 0.094 |
+| 60 | 966 422 | 57 985 292 | 103% | 0.061 | 0.079 |
+| **75** | 971 463 | 58 287 800 | 83% | 0.076 | **0.138** |
+| **90** | 965 324 | 57 919 460 | 69% | 0.092 | **0.173** |
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b"
+---
+xychart-beta
+    title "pgbench RO TPM vs clients incl. oversubscribe (t2d-60)"
+    x-axis ["1", "15", "30", "45", "60", "75", "90"]
+    y-axis "TPM" 0 --> 60000000
+    line "TPM" [935837, 13366301, 23045536, 40099520, 57985292, 58287800, 57919460]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#e15759"
+---
+xychart-beta
+    title "pgbench RO P95 latency vs clients (t2d-60)"
+    x-axis ["1", "15", "30", "45", "60", "75", "90"]
+    y-axis "P95 ms" 0 --> 0.2
+    line "P95" [0.074, 0.077, 0.096, 0.094, 0.079, 0.138, 0.173]
+```
+
+- **Scales through `nproc=60`**, then **flat** at 75/90 (~same TPM as 60).
+- **Latency cost of oversubscribe:** P95 ~2× from 60→90 (0.079 → 0.173 ms) with no throughput gain.
+- **Ladder for fleet:** keep `{1, n/4, n/2, 3n/4, n}`; skip `>nproc` for pgbench `-S` ranking.
+
+#### Takeaways
+
+1. **Duration:** same as wikipedia run4 — **2 min warmup + 5 min measure** is enough for pgbench RO on this SKU; spend budget on replicates / SKUs, not 10–30 min windows.
+2. **Size:** pgbench `-S` is insensitive to schema size in the 0.25–4 GiB band on large-RAM t2d; fixed ~1 GiB remains a good fleet default.
+3. **Concurrency:** oversubscribe past `nproc` is a dead end for RO point-select — plateau TPM, worse P95.
+
+Raw: [`results.csv`](run7-pgbench-ro/t2d-standard-60/results.csv), [`duration/summary.csv`](run7-pgbench-ro/t2d-standard-60/duration/summary.csv), [`summary_size.csv`](run7-pgbench-ro/t2d-standard-60/summary_size.csv), [`summary_concurrency.csv`](run7-pgbench-ro/t2d-standard-60/summary_concurrency.csv).
+
 ### BenchBase wikipedia runtime options we use
 
 Written by `write_config()` for every timed execute (load uses the same XML shape with `terminals=1`, `warmup=0`, `time=10`, `--execute=false`).
