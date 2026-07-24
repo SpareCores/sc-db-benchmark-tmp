@@ -1579,6 +1579,104 @@ xychart-beta
 
 Raw: [`results.csv`](run8-pgbench-ro/c3d-highcpu-360/results.csv), [`summary_size.csv`](run8-pgbench-ro/c3d-highcpu-360/summary_size.csv).
 
+### pgbench default TPC-B — size × concurrency × durable/async (run9)
+
+**Host:** GCP `c3d-highcpu-360` (`34.68.233.127`, `c3d-highcpu-360-ad4161e`), 360 vCPU / ~697 GiB, SB = 178338 MB. Wall **2026-07-24 10:37Z → 13:15Z** (~2.6 h).
+
+**Question:** how does pgbench’s **default TPC-B-like** builtin (`tpcb-like`: account+teller+branch UPDATE + history INSERT — `postgres/src/bin/pgbench/pgbench.c`) scale with concurrency at **1 GiB vs 64 GiB**, under **`synchronous_commit=on`** (durable) vs **`off`** (async)?
+
+**Design:** clients `{1, 90, 180, 270, 360}`. Fresh create+load per (sync × size). Warmup 2 min + measure 5 min, `-M prepared`, `-b tpcb-like`. Same Docker recipe as run8 (incl. elevated `nofile`).
+
+Harness: [`scripts/run_pgbench_tpcb_matrix.py`](scripts/run_pgbench_tpcb_matrix.py). Raw: [`run9-pgbench-tpcb/`](run9-pgbench-tpcb/).
+
+> **Verdicts:** (1) **Durable TPC-B tops out by ~90 clients** on 1 GiB (~37 k TPS) — nowhere near `nproc`. (2) **Durable × 64 GiB is a cliff** — ~¼–⅓ of 1 GiB TPM, P95 stuck ~38 ms. (3) **Async is 3–16× durable**; on 64 GiB async actually **beats** 1 GiB at high concurrency. (4) vs run8 RO (~3 M TPS): write path is **~80× slower** even async, **~80–200×** durable.
+
+#### Durable (`synchronous_commit=on`)
+
+| Clients | 1 GiB TPS | 1 GiB TPM | p95 | 64 GiB TPS | 64 GiB TPM | p95 | 64/1 TPM |
+|--------:|----------:|----------:|----:|-----------:|-----------:|----:|---------:|
+| 1 | 1 404 | 84 210 | 0.78 | 1 265 | 75 916 | 0.90 | 90% |
+| 90 | 37 020 | 2 221 222 | 5.08 | 9 665 | 579 872 | 37.7 | **26%** |
+| 180 | 38 144 | 2 288 610 | 12.9 | 11 272 | 676 324 | 38.4 | 30% |
+| 270 | 38 769 | 2 326 154 | 21.8 | 12 796 | 767 753 | 38.7 | 33% |
+| 360 | 38 374 | 2 302 449 | 32.6 | 14 561 | 873 685 | 39.3 | 38% |
+
+DB after ladder: 1 GiB → **4.2 GiB**; 64 GiB → **65.4 GiB** (history growth).
+
+#### Async (`synchronous_commit=off`)
+
+| Clients | 1 GiB TPS | 1 GiB TPM | p95 | 64 GiB TPS | 64 GiB TPM | p95 | 64/1 TPM |
+|--------:|----------:|----------:|----:|-----------:|-----------:|----:|---------:|
+| 1 | 3 930 | 235 792 | 0.27 | 3 337 | 200 237 | 0.33 | 85% |
+| 90 | **141 374** | **8 482 436** | 1.25 | **159 462** | **9 567 739** | 0.68 | **113%** |
+| 180 | 122 661 | 7 359 669 | 4.02 | 156 246 | 9 374 744 | 1.76 | 127% |
+| 270 | 105 726 | 6 343 556 | 7.88 | 142 523 | 8 551 356 | 2.98 | 135% |
+| 360 | 98 958 | 5 937 458 | 11.7 | 150 942 | 9 056 532 | 4.05 | 153% |
+
+DB after ladder: 1 GiB → **10.7 GiB**; 64 GiB → **76.5 GiB**.
+
+#### Graphs
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #59a14f, #e15759"
+---
+xychart-beta
+    title "pgbench TPC-B TPM vs clients (c3d-360)"
+    x-axis ["1", "90", "180", "270", "360"]
+    y-axis "TPM" 0 --> 10000000
+    line "dur 1 GiB" [84210, 2221222, 2288610, 2326154, 2302449 "dur 1 GiB"]
+    line "dur 64 GiB" [75916, 579872, 676324, 767753, 873685 "dur 64 GiB"]
+    line "async 1 GiB" [235792, 8482436, 7359669, 6343556, 5937458 "async 1 GiB"]
+    line "async 64 GiB" [200237, 9567739, 9374744, 8551356, 9056532 "async 64 GiB"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #59a14f, #e15759"
+---
+xychart-beta
+    title "pgbench TPC-B P95 latency vs clients (c3d-360)"
+    x-axis ["1", "90", "180", "270", "360"]
+    y-axis "P95 ms" 0 --> 45
+    line "dur 1 GiB" [0.784, 5.085, 12.880, 21.813, 32.616 "dur 1 GiB"]
+    line "dur 64 GiB" [0.898, 37.653, 38.441, 38.741, 39.253 "dur 64 GiB"]
+    line "async 1 GiB" [0.267, 1.249, 4.019, 7.879, 11.743 "async 1 GiB"]
+    line "async 64 GiB" [0.329, 0.675, 1.760, 2.976, 4.045 "async 64 GiB"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#59a14f, #e15759"
+---
+xychart-beta
+    title "pgbench TPC-B async/durable TPM ratio (c3d-360)"
+    x-axis ["1", "90", "180", "270", "360"]
+    y-axis "async ÷ durable" 0 --> 18
+    line "1 GiB" [2.80, 3.82, 3.22, 2.73, 2.58 "1 GiB"]
+    line "64 GiB" [2.64, 16.50, 13.86, 11.14, 10.37 "64 GiB"]
+```
+
+#### Notes
+
+- **Durable saturates early:** on 1 GiB, TPM is flat from 90→360 (~2.2–2.3 M) while P95 climbs 5→33 ms — WAL fsync bound, not CPU count. Peak concurrency ≪ `nproc` (unlike RO run8).
+- **Durable size cliff:** 64 GiB holds only ~26–38% of 1 GiB TPM once concurrency rises; P95 locked ~38–39 ms from 90 clients. Write amplification / dirty-page / WAL pressure on the larger working set — opposite of RO run8 (flat across size).
+- **Async wins big:** ~2.6–3.8× on 1 GiB; **~10–16× on 64 GiB** at ≥90 clients — removing sync commit almost erases the durable size cliff.
+- **Async peak at n/4, then soft decline** on 1 GiB (8.5 M → 5.9 M TPM); 64 GiB stays high (~9–9.6 M). Extra clients past 90 mostly add queueing.
+- **vs RO (run8, same host):** select-only ~3.1 M TPS @360; TPC-B durable ~38 k, async ~150 k — write txn is the product path that matters for ranking when durability is on.
+- **History growth** is real under load (1 GiB schema → 4–11 GiB after five measure windows); factor into disk headroom.
+
+Raw: [`results.csv`](run9-pgbench-tpcb/c3d-highcpu-360/results.csv), [`summary.csv`](run9-pgbench-tpcb/c3d-highcpu-360/summary.csv).
+
 ### BenchBase wikipedia runtime options we use
 
 Written by `write_config()` for every timed execute (load uses the same XML shape with `terminals=1`, `warmup=0`, `time=10`, `--execute=false`).
