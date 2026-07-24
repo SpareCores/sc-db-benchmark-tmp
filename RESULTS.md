@@ -1540,6 +1540,36 @@ xychart-beta
     line "64 GiB" [0.060, 0.072, 0.125, 0.162, 0.198, 0.388, 0.420 "64 GiB"]
 ```
 
+Δ% = 100 × (64 GiB − 1 GiB) / 1 GiB (negative TPM ⇒ 64 GiB slower; positive P95 ⇒ 64 GiB higher latency).
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#59a14f"
+---
+xychart-beta
+    title "pgbench RO TPM Δ% — 64 GiB vs 1 GiB (c3d-360)"
+    x-axis ["1", "90", "180", "270", "360", "450", "540"]
+    y-axis "Δ% TPM" -25 --> 5
+    line "TPM Δ%" [-20.9, -3.05, -6.32, -4.63, -2.26, -4.12, -4.02 "TPM Δ%"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#e15759"
+---
+xychart-beta
+    title "pgbench RO P95 Δ% — 64 GiB vs 1 GiB (c3d-360)"
+    x-axis ["1", "90", "180", "270", "360", "450", "540"]
+    y-axis "Δ% P95" -10 --> 50
+    line "P95 Δ%" [46.34, 5.88, 5.93, 5.19, -2.46, 38.08, 8.25 "P95 Δ%"]
+```
+
 #### Notes
 
 - **Plateau past `nproc`:** both sizes peak near 360 clients (~185 M / ~181 M TPM); 450/540 are flat while P95 jumps (0.20 → 0.39–0.42 ms).
