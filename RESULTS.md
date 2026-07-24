@@ -1677,6 +1677,132 @@ xychart-beta
 
 Raw: [`results.csv`](run9-pgbench-tpcb/c3d-highcpu-360/results.csv), [`summary.csv`](run9-pgbench-tpcb/c3d-highcpu-360/summary.csv).
 
+### pgbench RO multi-host @ 1 GiB (run10) — stopped early
+
+**Client:** GCP `c3d-highcpu-90` (`34.45.128.5`), 90 vCPU / ~174 GiB. **Server:** GCP `c3d-highcpu-360` (`34.68.233.127` / private `10.128.0.38`), 360 vCPU / ~697 GiB, SB = 178338 MB. Wall **2026-07-24 13:30Z → 14:30Z** (~1 h); stopped manually during c=720 (time constraint). Early-stop (&lt;80% of peak) was **not** reached.
+
+**Design:** networked `pgbench -S` (1 GiB / scale 65) from a **separate** client VM over VPC private IP. Clients `{1, 90, …, 630}` completed (step = server `nproc`/4); c=720 aborted mid-measure. Warmup 2 min + measure 5 min, `-M prepared`, `synchronous_commit=on`. Latency is **client-side** (includes RTT). Same server recipe as run8 (pgtune leopard, elevated `nofile`).
+
+Harness: [`scripts/run_pgbench_ro_remote.py`](scripts/run_pgbench_ro_remote.py). Raw: [`run10-pgbench-ro-remote/`](run10-pgbench-ro-remote/) ([`results.csv`](run10-pgbench-ro-remote/c3d-highcpu-360__from__c3d-highcpu-90/results.csv), [`summary.csv`](run10-pgbench-ro-remote/c3d-highcpu-360__from__c3d-highcpu-90/summary.csv)).
+
+> **Verdicts:** (1) Same-VPC remote RO peaks at **~1.35 M TPS / 81 M TPM @540** — **~43%** of colocated run8 peak on the **same** server class/schema. (2) Latency is **~2.0–3.2×** colocated; \(TPS \approx C/R\) holds on both. (3) Server stays **~80% idle** with pegged `ksoftirqd` — network softirq, not Postgres CPU. (4) Separate 90‑vCPU client is **not** the hard ceiling (~45% idle) but burns **~19% softirq** + sys≫usr; load≫nproc at high C as threads wait on RTT. (5) Explains external “~100 k TPS / ~0.7 ms” style results: larger \(R\) ⇒ lower TPS at fixed C; colocated M‑TPS is real on loopback.
+
+#### Results — remote (run10)
+
+Efficiency = TPM(c) / (TPM(1)·c). Peak = max TPM so far.
+
+| Clients | TPS | TPM | eff | lat avg | p50 | p95 | p99 | vs peak |
+|--------:|----:|----:|----:|--------:|----:|----:|----:|--------:|
+| 1 | 13 390 | 803 382 | — | 0.075 | 0.074 | 0.083 | 0.092 | 100% |
+| 90 | 555 316 | 33 318 988 | 46% | 0.161 | 0.148 | 0.256 | 0.333 | 100% |
+| 180 | 818 349 | 49 100 950 | 34% | 0.218 | 0.179 | 0.435 | 0.759 | 100% |
+| 270 | 1 083 440 | 65 006 376 | 30% | 0.246 | 0.204 | 0.423 | 1.033 | 100% |
+| 360 | 1 218 251 | 73 095 063 | 25% | 0.293 | 0.245 | 0.545 | 0.924 | 100% |
+| 450 | 1 345 891 | 80 753 461 | 22% | 0.330 | 0.284 | 0.554 | 0.965 | 100% |
+| **540** | **1 352 308** | **81 138 503** | **19%** | **0.396** | **0.351** | **0.706** | **0.994** | **100%** (peak) |
+| 630 | 1 338 441 | 80 306 482 | 16% | 0.468 | 0.425 | 0.880 | 1.015 | 99.0% |
+| 720 | — | — | — | — | — | — | — | aborted |
+
+#### Remote vs colocated (run8, same 1 GiB / same server SKU)
+
+| Clients | remote TPS | colo TPS | remote/colo | remote lat | colo lat | lat × | \(TPS{\times}R\) rem | colo |
+|--------:|-----------:|---------:|------------:|-----------:|---------:|------:|---------------------:|-----:|
+| 1 | 13 390 | 26 658 | **50%** | 0.075 | 0.037 | **2.03×** | 1.0 | 1.0 |
+| 90 | 555 316 | 1 717 462 | **32%** | 0.161 | 0.051 | **3.16×** | 89 | 88 |
+| 180 | 818 349 | 2 139 785 | **38%** | 0.218 | 0.081 | **2.69×** | 178 | 173 |
+| 270 | 1 083 440 | 2 622 989 | **41%** | 0.246 | 0.097 | **2.54×** | 267 | 254 |
+| 360 | 1 218 251 | 3 089 473 | **39%** | 0.293 | 0.110 | **2.66×** | 357 | 340 |
+| 450 | 1 345 891 | 3 132 793 | **43%** | 0.330 | 0.137 | **2.41×** | 444 | 429 |
+| 540 | 1 352 308 | 3 151 732 | **43%** | 0.396 | 0.165 | **2.40×** | 536 | 520 |
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b"
+---
+xychart-beta
+    title "pgbench RO TPS — colocated run8 vs remote run10 (1 GiB)"
+    x-axis ["1", "90", "180", "270", "360", "450", "540"]
+    y-axis "TPS" 0 --> 3300000
+    line "colocated" [26658, 1717462, 2139785, 2622989, 3089473, 3132793, 3151732 "colocated"]
+    line "remote" [13390, 555316, 818349, 1083440, 1218251, 1345891, 1352308 "remote"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b"
+---
+xychart-beta
+    title "pgbench RO avg latency — colocated vs remote (1 GiB)"
+    x-axis ["1", "90", "180", "270", "360", "450", "540"]
+    y-axis "ms" 0 --> 0.45
+    line "colocated" [0.037, 0.051, 0.081, 0.097, 0.110, 0.137, 0.165 "colocated"]
+    line "remote" [0.075, 0.161, 0.218, 0.246, 0.293, 0.330, 0.396 "remote"]
+```
+
+#### Analysis — networking / latency
+
+**pgbench latency is client-observed end-to-end** (send → response). On open-loop `-S` with no think time:
+
+\[
+TPS \approx C / R \quad (R \text{ in seconds})
+\]
+
+Both topologies satisfy Little’s Law (\(TPS \times R \approx C\)). The gap is almost entirely **higher \(R\)** on the remote path.
+
+1. **Single-client floor.** Remote 0.075 ms vs colocated 0.037 ms → **+38 µs** same-zone VPC private IP. That alone cuts c=1 TPS in half (13.3 k vs 26.7 k; both ≈ \(1000/R\)). Postgres work on a prepared SELECT is tens of µs; the rest is path (loopback vs virtio NIC + softirq).
+
+2. **Concurrency multiplies the tax.** At c≥90 remote latency is **~2.4–3.2×** colocated, so TPS sits near **~1/latency ratio** (~32–43% of colocated). Queueing on softirq/NIC adds to RTT; colocated avoids that NIC hop entirely.
+
+3. **Saturation shape differs.** Colocated keeps climbing TPM through `nproc=360` then plateaus with rising P95 (run8). Remote **peaks earlier at 450–540** (~1.35 M TPS) while the server is still ~80% idle — saturation is on the **network interrupt path**, not backend CPU. Oversubscribe to 630 already adds latency with flat/slightly down TPM.
+
+4. **To match colocated peak TPS at remote peak latency** you’d need \(C \approx 3.15\text{M} \times 0.396\text{ms} \approx 1250\) clients — far past what this client/path sustains before softirq/queueing dominate. Network does not just “add a constant”; it **raises the concurrency needed** for a given TPS and **lowers the achievable plateau**.
+
+5. **vs high-RTT external (e.g. Aiven ~0.7 ms @c=1 → ~1.4 k TPS).** Same law, larger \(R\): \(0.7/0.037 \approx 19\times\) vs our colocated floor. Our same-VPC remote is a **mild** network case; managed/cross-AZ/TLS paths are much harsher.
+
+#### Analysis — separate client machine
+
+Colocated run8 ran `pgbench` **on the same 360‑vCPU host** as Postgres (`--network host`). Run10 moves the driver to a **90‑vCPU** VM.
+
+| Observation | Implication |
+|-------------|-------------|
+| Client ~**45% idle** even at c=540–720 | Not purely “90 cores aren’t enough” for this TPS; threads wait on I/O |
+| Client **`si` ~18–19%**, sys ~28% ≫ usr ~8% | Driver spends heavily on **network stack / syscalls**, not query CPU |
+| Client load **108 on 90 CPUs** @720 while idle ~45% | Many runnable/blocked threads; load ≠ compute saturation |
+| `pgbench` %CPU **peaks ~47 cores @540**, then **drops ~42 @720** | More time blocked as \(R\) rises — classic latency-bound oversubscribe |
+| Server **~80% idle**, `ksoftirqd` pegged | Bottleneck is **server NIC softirq affinity**, shared with (and worsened by) remote packet rates |
+| Peak remote TPS ~1.35 M with client half-idle | Extra client CPUs would help only if they raise packet rate **and** interrupt load spreads; today softirq cores are already hot |
+
+So two distinct effects stack:
+
+1. **Path latency / softirq** (even a fat colocated-style client on a remote host would still see higher \(R\) than loopback).
+2. **Driver placement** — colocated `pgbench` shares the big CPU pool and avoids a second NIC; remote driver adds client softirq tax and caps practical `-j` by client size, but in *this* run the measured ceiling was still **server softirq + \(R\)**, not client CPU exhaustion.
+
+#### Host CPU snapshots (during measure)
+
+| Host | Clients | Snapshot | Load | Idle | Softirq | usr/sys | Hot procs |
+|------|--------:|----------|-----:|-----:|--------:|--------:|-----------|
+| server | 360 | [`server-top-c360.png`](run10-pgbench-ro-remote/server-top-c360.png) | ~71 | ~83% | ~4.4% | — | `ksoftirqd` @100% |
+| server | 450 | [`server-top-c450.png`](run10-pgbench-ro-remote/server-top-c450.png) | ~67 | ~81% | ~4.5% | — | same |
+| client | 450 | [`client-top-c450.png`](run10-pgbench-ro-remote/client-top-c450.png) | ~77 | ~45% | ~18% | — | `pgbench` ~4584% |
+| server | 540 | [`server-top-c540.txt`](run10-pgbench-ro-remote/server-top-c540.txt) | 70/71/64 | 80.5% | 4.5% | 8.6/6.4 | `ksoftirqd` wall |
+| client | 540 | [`client-top-c540.txt`](run10-pgbench-ro-remote/client-top-c540.txt) | 77/75/60 | 44.9% | 19.0% | 8.4/27.7 | `pgbench` ~4675% |
+| server | 720 | [`server-top-c720.txt`](run10-pgbench-ro-remote/server-top-c720.txt) | 74/73/69 | 78.6% | 4.6% | 10.1/6.7 | `ksoftirqd` @100% |
+| client | 720 | [`client-top-c720.txt`](run10-pgbench-ro-remote/client-top-c720.txt) | 108/83/72 | 45.5% | 18.6% | 8.4/27.5 | `pgbench` ~4200% |
+
+JSON: [`host_cpu_c540.json`](run10-pgbench-ro-remote/host_cpu_c540.json), [`host_cpu_c720.json`](run10-pgbench-ro-remote/host_cpu_c720.json).
+
+#### Notes / caveats
+
+- Stopped before formal early-stop; c=630 already −1% TPM vs peak with rising P95 — soft plateau, not a cliff.
+- Server container `pg-pgbench-r10` left running at stop time; tear down with `--role stop-server` if desired.
+- Not a fair “max Postgres RO on 360 vCPU over the network” without RSS/XPS / interrupt tuning / larger client fleet; it **is** a fair apples-to-apples vs run8 for “what changes when the driver leaves the box.”
+
 ### BenchBase wikipedia runtime options we use
 
 Written by `write_config()` for every timed execute (load uses the same XML shape with `terminals=1`, `warmup=0`, `time=10`, `--execute=false`).
