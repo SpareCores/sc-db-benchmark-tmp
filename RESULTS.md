@@ -1472,6 +1472,83 @@ xychart-beta
 
 Raw: [`results.csv`](run7-pgbench-ro/t2d-standard-60/results.csv), [`duration/summary.csv`](run7-pgbench-ro/t2d-standard-60/duration/summary.csv), [`summary_size.csv`](run7-pgbench-ro/t2d-standard-60/summary_size.csv), [`summary_concurrency.csv`](run7-pgbench-ro/t2d-standard-60/summary_concurrency.csv).
 
+### pgbench RO oversubscribe @ 1 GiB + 64 GiB (run8)
+
+**Host:** GCP `c3d-highcpu-360` (`34.68.233.127`, `c3d-highcpu-360-ad4161e`), 360 vCPU / ~697 GiB, SB = 178338 MB (~174 GiB, ¼ RAM). Wall **2026-07-24 08:20Z → 10:07Z** (~1.8 h; 64 GiB load alone ~8 min).
+
+**Question:** on a much larger host, how do TPM and P95 scale with concurrency including oversubscribe (`1, n/4, n/2, 3n/4, n, 5n/4, 6n/4` → 1, 90, 180, 270, 360, **450**, **540**), at **1 GiB** vs **64 GiB**?
+
+**Setup:** same as run6/run7 — `postgres:18`, `--privileged` + `--network host`, elevated `nofile` (required: Postgres wanted ~59k FDs at `max_connections=590`), pgtune leopard + `shared_buffers` = ¼ RAM, `synchronous_commit=on`, select-only `-S`, `-M prepared`, 2 min warmup + 5 min measure. Scales: **65** → 980 MB; **4347** → 63.5 GiB. Both ≪ SB.
+
+Harness: [`scripts/run_pgbench_ro_study.py`](scripts/run_pgbench_ro_study.py) (`--skip-duration --skip-concurrency --schema-gib 1,64 --size-clients full`). Raw: [`run8-pgbench-ro/`](run8-pgbench-ro/).
+
+> **Verdicts:** (1) **TPM plateaus at `nproc=360`** — 450/540 add &lt;2% TPM while P95 nearly doubles. (2) **1 GiB ≈ 64 GiB** at high concurrency (64 GiB is ~96–98% of 1 GiB TPM for clients ≥90); single-client 64 GiB is ~21% slower. (3) Same oversubscribe story as t2d-60, at ~3× absolute TPM.
+
+#### TPM / latency — 1 GiB (scale 65)
+
+Efficiency = TPM(c) / (TPM(1)·c).
+
+| Clients | TPS | TPM | eff | lat avg | p95 |
+|--------:|----:|----:|----:|--------:|----:|
+| 1 | 26 658 | 1 599 483 | — | 0.037 | 0.041 |
+| 90 | 1 717 462 | 103 047 733 | 72% | 0.051 | 0.068 |
+| 180 | 2 139 785 | 128 387 074 | 45% | 0.081 | 0.118 |
+| 270 | 2 622 989 | 157 379 335 | 36% | 0.097 | 0.154 |
+| 360 | 3 089 473 | 185 368 397 | 32% | 0.110 | 0.203 |
+| **450** | 3 132 793 | 187 967 588 | 26% | 0.137 | **0.281** |
+| **540** | 3 151 732 | 189 103 933 | 22% | 0.165 | **0.388** |
+
+#### TPM / latency — 64 GiB (scale 4347)
+
+| Clients | TPS | TPM | eff | lat avg | p95 | vs 1 GiB |
+|--------:|----:|----:|----:|--------:|----:|---------:|
+| 1 | 21 087 | 1 265 205 | — | 0.047 | 0.060 | 79% |
+| 90 | 1 665 000 | 99 899 956 | 88% | 0.053 | 0.072 | 97% |
+| 180 | 2 004 655 | 120 279 277 | 53% | 0.087 | 0.125 | 94% |
+| 270 | 2 501 571 | 150 094 258 | 44% | 0.103 | 0.162 | 95% |
+| 360 | 3 019 755 | 181 185 300 | 40% | 0.113 | 0.198 | 98% |
+| **450** | 3 003 842 | 180 230 531 | 32% | 0.144 | **0.388** | 96% |
+| **540** | 3 024 922 | 181 495 338 | 27% | 0.173 | **0.420** | 96% |
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b"
+---
+xychart-beta
+    title "pgbench RO TPM vs clients incl. oversubscribe (c3d-360)"
+    x-axis ["1", "90", "180", "270", "360", "450", "540"]
+    y-axis "TPM" 0 --> 200000000
+    line "1 GiB" [1599483, 103047733, 128387074, 157379335, 185368397, 187967588, 189103933 "1 GiB"]
+    line "64 GiB" [1265205, 99899956, 120279277, 150094258, 181185300, 180230531, 181495338 "64 GiB"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b"
+---
+xychart-beta
+    title "pgbench RO P95 latency vs clients (c3d-360)"
+    x-axis ["1", "90", "180", "270", "360", "450", "540"]
+    y-axis "P95 ms" 0 --> 0.45
+    line "1 GiB" [0.041, 0.068, 0.118, 0.154, 0.203, 0.281, 0.388 "1 GiB"]
+    line "64 GiB" [0.060, 0.072, 0.125, 0.162, 0.198, 0.388, 0.420 "64 GiB"]
+```
+
+#### Notes
+
+- **Plateau past `nproc`:** both sizes peak near 360 clients (~185 M / ~181 M TPM); 450/540 are flat while P95 jumps (0.20 → 0.39–0.42 ms).
+- **Size:** once concurrency is nontrivial, 64 GiB tracks 1 GiB within ~4%. Working set still fits in SB (~174 GiB). Single-client is the only clear size penalty (−21%).
+- **vs t2d-60 (run7, 1 GiB @60):** peak ~58 M TPM / P95 0.08 ms → c3d-360 ~185 M / 0.20 ms at `nproc` (**~3.2× TPM for 6× vCPU**). Sublinear; efficiency at `nproc` is only ~32% vs ~103% on t2d-60.
+- **Ladder:** keep `{1, n/4, n/2, 3n/4, n}`; skip oversubscribe for ranking. Fixed ~1 GiB remains enough even on this SKU when SB ≫ schema.
+
+Raw: [`results.csv`](run8-pgbench-ro/c3d-highcpu-360/results.csv), [`summary_size.csv`](run8-pgbench-ro/c3d-highcpu-360/summary_size.csv).
+
 ### BenchBase wikipedia runtime options we use
 
 Written by `write_config()` for every timed execute (load uses the same XML shape with `terminals=1`, `warmup=0`, `time=10`, `--execute=false`).
