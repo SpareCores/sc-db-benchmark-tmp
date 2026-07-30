@@ -51,12 +51,16 @@ PG_NAME = "pg-wh-eval"
 HDB_NAME = "hammerdb-wh-eval"
 
 # Benchmark hosts are not security-hardened: unlock io_uring, huge pages, etc.
+# nofile: large max_connections × max_worker_processes needs tens of thousands of FDs
+# (c3d-highcpu-360: max_connections≈590 → Postgres wants ~59k descriptors).
 DOCKER_PRIV_FLAGS = (
     "--privileged",
     "--security-opt",
     "seccomp=unconfined",
     "--ulimit",
     "memlock=-1:-1",
+    "--ulimit",
+    "nofile=1048576:1048576",
 )
 
 WH_PER_VU = 5  # HammerDB docs: 4–5 WH/VU minimum

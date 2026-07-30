@@ -1,0 +1,393 @@
++ KEY=/home/bra/.ssh/id_spare-cores
++ CLIENT=ubuntu@34.45.193.6
++ CLIENT_IP=10.128.0.46
++ OUT=/home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs
++ IMG=ghcr.io/sparecores/benchmark-pgbench-postgres:main
++ LOG=/home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/latency_sweep.log
++ exec
+++ tee -a /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/latency_sweep.log
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ echo 'START 2026-07-30T13:19:11Z'
+START 2026-07-30T13:19:11Z
++ suite n2-32 ubuntu@34.60.177.253 10.128.0.45
++ local sku=n2-32 server=ubuntu@34.60.177.253 db_ip=10.128.0.45
++ echo '######## SUITE n2-32 ########'
+######## SUITE n2-32 ########
++ netem ubuntu@34.60.177.253 ''
++ local server=ubuntu@34.60.177.253 delay=
++ '[' -z '' ']'
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.60.177.253 'sudo tc qdisc del dev ens4 root 2>/dev/null || true; sudo tc qdisc show dev ens4 | head -1'
+qdisc mq 0: root 
++ ping_pair ubuntu@34.60.177.253 n2-32_native
++ local server=ubuntu@34.60.177.253 tag=n2-32_native
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.60.177.253 'ping -c 20 10.128.0.46'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/ping_n2-32_native.txt
++ tail -3
+--- 10.128.0.46 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19464ms
+rtt min/avg/max/mdev = 0.168/0.234/0.732/0.115 ms
++ pgbench_run n2-32_native_c1 10.128.0.45 1 30
++ local tag=n2-32_native_c1 db_ip=10.128.0.45 clients=1 secs=30
+++ date -u +%H:%M:%SZ
++ echo '=== n2-32_native_c1 13:19:32Z ==='
+=== n2-32_native_c1 13:19:32Z ===
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.45.193.6 'sudo docker run --rm --network host --privileged     --ulimit nofile=1048576:1048576     -v /tmp/pg_cpu_benchmark:/scripts:ro     --entrypoint pgbench -e PGPASSWORD=postgres ghcr.io/sparecores/benchmark-pgbench-postgres:main     -h 10.128.0.45 -U postgres -d bench -n -M prepared     -f /scripts/03_run_benchmark.sql -c 1 -j 1 -T 30'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/n2-32_native_c1.txt
+pgbench (18.4 (Debian 18.4-1.pgdg13+1))
+transaction type: /scripts/03_run_benchmark.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 1
+number of threads: 1
+maximum number of tries: 1
+duration: 30 s
+number of transactions actually processed: 226
+number of failed transactions: 0 (0.000%)
+latency average = 133.007 ms
+initial connection time = 6.085 ms
+tps = 7.518408 (without initial connection time)
++ pgbench_run n2-32_native_warm_c1500 10.128.0.45 1500 30
++ local tag=n2-32_native_warm_c1500 db_ip=10.128.0.45 clients=1500 secs=30
+++ date -u +%H:%M:%SZ
++ echo '=== n2-32_native_warm_c1500 13:20:02Z ==='
+=== n2-32_native_warm_c1500 13:20:02Z ===
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.45.193.6 'sudo docker run --rm --network host --privileged     --ulimit nofile=1048576:1048576     -v /tmp/pg_cpu_benchmark:/scripts:ro     --entrypoint pgbench -e PGPASSWORD=postgres ghcr.io/sparecores/benchmark-pgbench-postgres:main     -h 10.128.0.45 -U postgres -d bench -n -M prepared     -f /scripts/03_run_benchmark.sql -c 1500 -j 1500 -T 30'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/n2-32_native_warm_c1500.txt
+pgbench (18.4 (Debian 18.4-1.pgdg13+1))
+transaction type: /scripts/03_run_benchmark.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 1500
+number of threads: 1500
+maximum number of tries: 1
+duration: 30 s
+number of transactions actually processed: 4905
+number of failed transactions: 0 (0.000%)
+latency average = 10194.523 ms
+initial connection time = 2505.746 ms
+tps = 147.137827 (without initial connection time)
++ pgbench_run n2-32_native_c1500 10.128.0.45 1500 60
++ local tag=n2-32_native_c1500 db_ip=10.128.0.45 clients=1500 secs=60
+++ date -u +%H:%M:%SZ
++ echo '=== n2-32_native_c1500 13:20:39Z ==='
+=== n2-32_native_c1500 13:20:39Z ===
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.45.193.6 'sudo docker run --rm --network host --privileged     --ulimit nofile=1048576:1048576     -v /tmp/pg_cpu_benchmark:/scripts:ro     --entrypoint pgbench -e PGPASSWORD=postgres ghcr.io/sparecores/benchmark-pgbench-postgres:main     -h 10.128.0.45 -U postgres -d bench -n -M prepared     -f /scripts/03_run_benchmark.sql -c 1500 -j 1500 -T 60'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/n2-32_native_c1500.txt
+pgbench (18.4 (Debian 18.4-1.pgdg13+1))
+transaction type: /scripts/03_run_benchmark.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 1500
+number of threads: 1500
+maximum number of tries: 1
+duration: 60 s
+number of transactions actually processed: 9418
+number of failed transactions: 0 (0.000%)
+latency average = 10080.802 ms
+initial connection time = 2527.895 ms
+tps = 148.797684 (without initial connection time)
++ netem ubuntu@34.60.177.253 1.5ms
++ local server=ubuntu@34.60.177.253 delay=1.5ms
++ '[' -z 1.5ms ']'
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.60.177.253 'sudo tc qdisc change dev ens4 root netem delay 1.5ms 2>/dev/null       || sudo tc qdisc add dev ens4 root netem delay 1.5ms; sudo tc qdisc show dev ens4 | head -1'
+qdisc netem 8004: root refcnt 33 limit 1000 delay 1.5ms
++ ping_pair ubuntu@34.60.177.253 n2-32_1.5ms
++ local server=ubuntu@34.60.177.253 tag=n2-32_1.5ms
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/ping_n2-32_1.5ms.txt
++ tail -3
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.60.177.253 'ping -c 20 10.128.0.46'
+--- 10.128.0.46 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19034ms
+rtt min/avg/max/mdev = 1.698/1.762/2.393/0.145 ms
++ pgbench_run n2-32_1.5ms_c1 10.128.0.45 1 30
++ local tag=n2-32_1.5ms_c1 db_ip=10.128.0.45 clients=1 secs=30
+++ date -u +%H:%M:%SZ
++ echo '=== n2-32_1.5ms_c1 13:22:05Z ==='
+=== n2-32_1.5ms_c1 13:22:05Z ===
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.45.193.6 'sudo docker run --rm --network host --privileged     --ulimit nofile=1048576:1048576     -v /tmp/pg_cpu_benchmark:/scripts:ro     --entrypoint pgbench -e PGPASSWORD=postgres ghcr.io/sparecores/benchmark-pgbench-postgres:main     -h 10.128.0.45 -U postgres -d bench -n -M prepared     -f /scripts/03_run_benchmark.sql -c 1 -j 1 -T 30'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/n2-32_1.5ms_c1.txt
+pgbench (18.4 (Debian 18.4-1.pgdg13+1))
+transaction type: /scripts/03_run_benchmark.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 1
+number of threads: 1
+maximum number of tries: 1
+duration: 30 s
+number of transactions actually processed: 213
+number of failed transactions: 0 (0.000%)
+latency average = 141.057 ms
+initial connection time = 14.150 ms
+tps = 7.089350 (without initial connection time)
++ pgbench_run n2-32_1.5ms_c1500 10.128.0.45 1500 60
++ local tag=n2-32_1.5ms_c1500 db_ip=10.128.0.45 clients=1500 secs=60
+++ date -u +%H:%M:%SZ
++ echo '=== n2-32_1.5ms_c1500 13:22:36Z ==='
+=== n2-32_1.5ms_c1500 13:22:36Z ===
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.45.193.6 'sudo docker run --rm --network host --privileged     --ulimit nofile=1048576:1048576     -v /tmp/pg_cpu_benchmark:/scripts:ro     --entrypoint pgbench -e PGPASSWORD=postgres ghcr.io/sparecores/benchmark-pgbench-postgres:main     -h 10.128.0.45 -U postgres -d bench -n -M prepared     -f /scripts/03_run_benchmark.sql -c 1500 -j 1500 -T 60'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/n2-32_1.5ms_c1500.txt
+pgbench (18.4 (Debian 18.4-1.pgdg13+1))
+transaction type: /scripts/03_run_benchmark.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 1500
+number of threads: 1500
+maximum number of tries: 1
+duration: 60 s
+number of transactions actually processed: 9236
+number of failed transactions: 0 (0.000%)
+latency average = 10110.203 ms
+initial connection time = 2571.883 ms
+tps = 148.364980 (without initial connection time)
++ netem ubuntu@34.60.177.253 5ms
++ local server=ubuntu@34.60.177.253 delay=5ms
++ '[' -z 5ms ']'
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.60.177.253 'sudo tc qdisc change dev ens4 root netem delay 5ms 2>/dev/null       || sudo tc qdisc add dev ens4 root netem delay 5ms; sudo tc qdisc show dev ens4 | head -1'
+qdisc netem 8004: root refcnt 33 limit 1000 delay 5ms
++ ping_pair ubuntu@34.60.177.253 n2-32_5ms
++ local server=ubuntu@34.60.177.253 tag=n2-32_5ms
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.60.177.253 'ping -c 20 10.128.0.46'
++ tail -3
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/ping_n2-32_5ms.txt
+--- 10.128.0.46 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19025ms
+rtt min/avg/max/mdev = 5.194/5.265/6.005/0.170 ms
++ pgbench_run n2-32_5ms_c1 10.128.0.45 1 30
++ local tag=n2-32_5ms_c1 db_ip=10.128.0.45 clients=1 secs=30
+++ date -u +%H:%M:%SZ
++ echo '=== n2-32_5ms_c1 13:24:01Z ==='
+=== n2-32_5ms_c1 13:24:01Z ===
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/n2-32_5ms_c1.txt
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.45.193.6 'sudo docker run --rm --network host --privileged     --ulimit nofile=1048576:1048576     -v /tmp/pg_cpu_benchmark:/scripts:ro     --entrypoint pgbench -e PGPASSWORD=postgres ghcr.io/sparecores/benchmark-pgbench-postgres:main     -h 10.128.0.45 -U postgres -d bench -n -M prepared     -f /scripts/03_run_benchmark.sql -c 1 -j 1 -T 30'
+pgbench (18.4 (Debian 18.4-1.pgdg13+1))
+transaction type: /scripts/03_run_benchmark.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 1
+number of threads: 1
+maximum number of tries: 1
+duration: 30 s
+number of transactions actually processed: 193
+number of failed transactions: 0 (0.000%)
+latency average = 155.412 ms
+initial connection time = 31.811 ms
+tps = 6.434530 (without initial connection time)
++ pgbench_run n2-32_5ms_c1500 10.128.0.45 1500 60
++ local tag=n2-32_5ms_c1500 db_ip=10.128.0.45 clients=1500 secs=60
+++ date -u +%H:%M:%SZ
++ echo '=== n2-32_5ms_c1500 13:24:32Z ==='
+=== n2-32_5ms_c1500 13:24:32Z ===
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.45.193.6 'sudo docker run --rm --network host --privileged     --ulimit nofile=1048576:1048576     -v /tmp/pg_cpu_benchmark:/scripts:ro     --entrypoint pgbench -e PGPASSWORD=postgres ghcr.io/sparecores/benchmark-pgbench-postgres:main     -h 10.128.0.45 -U postgres -d bench -n -M prepared     -f /scripts/03_run_benchmark.sql -c 1500 -j 1500 -T 60'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/n2-32_5ms_c1500.txt
+pgbench (18.4 (Debian 18.4-1.pgdg13+1))
+transaction type: /scripts/03_run_benchmark.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 1500
+number of threads: 1500
+maximum number of tries: 1
+duration: 60 s
+number of transactions actually processed: 9208
+number of failed transactions: 0 (0.000%)
+latency average = 10079.806 ms
+initial connection time = 2548.078 ms
+tps = 148.812388 (without initial connection time)
++ netem ubuntu@34.60.177.253 ''
++ local server=ubuntu@34.60.177.253 delay=
++ '[' -z '' ']'
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.60.177.253 'sudo tc qdisc del dev ens4 root 2>/dev/null || true; sudo tc qdisc show dev ens4 | head -1'
+qdisc mq 0: root 
++ echo '######## DONE n2-32 ########'
+######## DONE n2-32 ########
++ suite c2d-32 ubuntu@34.16.70.35 10.128.0.14
++ local sku=c2d-32 server=ubuntu@34.16.70.35 db_ip=10.128.0.14
++ echo '######## SUITE c2d-32 ########'
+######## SUITE c2d-32 ########
++ netem ubuntu@34.16.70.35 ''
++ local server=ubuntu@34.16.70.35 delay=
++ '[' -z '' ']'
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.16.70.35 'sudo tc qdisc del dev ens4 root 2>/dev/null || true; sudo tc qdisc show dev ens4 | head -1'
+qdisc mq 0: root 
++ ping_pair ubuntu@34.16.70.35 c2d-32_native
++ local server=ubuntu@34.16.70.35 tag=c2d-32_native
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.16.70.35 'ping -c 20 10.128.0.46'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/ping_c2d-32_native.txt
++ tail -3
+--- 10.128.0.46 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19452ms
+rtt min/avg/max/mdev = 0.145/0.200/0.664/0.109 ms
++ pgbench_run c2d-32_native_c1 10.128.0.14 1 30
++ local tag=c2d-32_native_c1 db_ip=10.128.0.14 clients=1 secs=30
+++ date -u +%H:%M:%SZ
++ echo '=== c2d-32_native_c1 13:25:58Z ==='
+=== c2d-32_native_c1 13:25:58Z ===
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.45.193.6 'sudo docker run --rm --network host --privileged     --ulimit nofile=1048576:1048576     -v /tmp/pg_cpu_benchmark:/scripts:ro     --entrypoint pgbench -e PGPASSWORD=postgres ghcr.io/sparecores/benchmark-pgbench-postgres:main     -h 10.128.0.14 -U postgres -d bench -n -M prepared     -f /scripts/03_run_benchmark.sql -c 1 -j 1 -T 30'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/c2d-32_native_c1.txt
+pgbench (18.4 (Debian 18.4-1.pgdg13+1))
+transaction type: /scripts/03_run_benchmark.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 1
+number of threads: 1
+maximum number of tries: 1
+duration: 30 s
+number of transactions actually processed: 278
+number of failed transactions: 0 (0.000%)
+latency average = 108.248 ms
+initial connection time = 6.855 ms
+tps = 9.238013 (without initial connection time)
++ pgbench_run c2d-32_native_warm_c1500 10.128.0.14 1500 30
++ local tag=c2d-32_native_warm_c1500 db_ip=10.128.0.14 clients=1500 secs=30
+++ date -u +%H:%M:%SZ
++ echo '=== c2d-32_native_warm_c1500 13:26:28Z ==='
+=== c2d-32_native_warm_c1500 13:26:28Z ===
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.45.193.6 'sudo docker run --rm --network host --privileged     --ulimit nofile=1048576:1048576     -v /tmp/pg_cpu_benchmark:/scripts:ro     --entrypoint pgbench -e PGPASSWORD=postgres ghcr.io/sparecores/benchmark-pgbench-postgres:main     -h 10.128.0.14 -U postgres -d bench -n -M prepared     -f /scripts/03_run_benchmark.sql -c 1500 -j 1500 -T 30'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/c2d-32_native_warm_c1500.txt
+pgbench (18.4 (Debian 18.4-1.pgdg13+1))
+transaction type: /scripts/03_run_benchmark.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 1500
+number of threads: 1500
+maximum number of tries: 1
+duration: 30 s
+number of transactions actually processed: 5001
+number of failed transactions: 0 (0.000%)
+latency average = 9700.026 ms
+initial connection time = 2572.146 ms
+tps = 154.638764 (without initial connection time)
++ pgbench_run c2d-32_native_c1500 10.128.0.14 1500 60
++ local tag=c2d-32_native_c1500 db_ip=10.128.0.14 clients=1500 secs=60
+++ date -u +%H:%M:%SZ
++ echo '=== c2d-32_native_c1500 13:27:04Z ==='
+=== c2d-32_native_c1500 13:27:04Z ===
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.45.193.6 'sudo docker run --rm --network host --privileged     --ulimit nofile=1048576:1048576     -v /tmp/pg_cpu_benchmark:/scripts:ro     --entrypoint pgbench -e PGPASSWORD=postgres ghcr.io/sparecores/benchmark-pgbench-postgres:main     -h 10.128.0.14 -U postgres -d bench -n -M prepared     -f /scripts/03_run_benchmark.sql -c 1500 -j 1500 -T 60'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/c2d-32_native_c1500.txt
+pgbench (18.4 (Debian 18.4-1.pgdg13+1))
+transaction type: /scripts/03_run_benchmark.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 1500
+number of threads: 1500
+maximum number of tries: 1
+duration: 60 s
+number of transactions actually processed: 9871
+number of failed transactions: 0 (0.000%)
+latency average = 9533.762 ms
+initial connection time = 2531.973 ms
+tps = 157.335575 (without initial connection time)
++ netem ubuntu@34.16.70.35 1.5ms
++ local server=ubuntu@34.16.70.35 delay=1.5ms
++ '[' -z 1.5ms ']'
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.16.70.35 'sudo tc qdisc change dev ens4 root netem delay 1.5ms 2>/dev/null       || sudo tc qdisc add dev ens4 root netem delay 1.5ms; sudo tc qdisc show dev ens4 | head -1'
+qdisc netem 8002: root refcnt 33 limit 1000 delay 1.5ms
++ ping_pair ubuntu@34.16.70.35 c2d-32_1.5ms
++ local server=ubuntu@34.16.70.35 tag=c2d-32_1.5ms
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.16.70.35 'ping -c 20 10.128.0.46'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/ping_c2d-32_1.5ms.txt
++ tail -3
+--- 10.128.0.46 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19032ms
+rtt min/avg/max/mdev = 1.645/1.702/2.311/0.140 ms
++ pgbench_run c2d-32_1.5ms_c1 10.128.0.14 1 30
++ local tag=c2d-32_1.5ms_c1 db_ip=10.128.0.14 clients=1 secs=30
+++ date -u +%H:%M:%SZ
++ echo '=== c2d-32_1.5ms_c1 13:28:29Z ==='
+=== c2d-32_1.5ms_c1 13:28:29Z ===
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.45.193.6 'sudo docker run --rm --network host --privileged     --ulimit nofile=1048576:1048576     -v /tmp/pg_cpu_benchmark:/scripts:ro     --entrypoint pgbench -e PGPASSWORD=postgres ghcr.io/sparecores/benchmark-pgbench-postgres:main     -h 10.128.0.14 -U postgres -d bench -n -M prepared     -f /scripts/03_run_benchmark.sql -c 1 -j 1 -T 30'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/c2d-32_1.5ms_c1.txt
+pgbench (18.4 (Debian 18.4-1.pgdg13+1))
+transaction type: /scripts/03_run_benchmark.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 1
+number of threads: 1
+maximum number of tries: 1
+duration: 30 s
+number of transactions actually processed: 266
+number of failed transactions: 0 (0.000%)
+latency average = 113.094 ms
+initial connection time = 14.421 ms
+tps = 8.842223 (without initial connection time)
++ pgbench_run c2d-32_1.5ms_c1500 10.128.0.14 1500 60
++ local tag=c2d-32_1.5ms_c1500 db_ip=10.128.0.14 clients=1500 secs=60
+++ date -u +%H:%M:%SZ
++ echo '=== c2d-32_1.5ms_c1500 13:29:00Z ==='
+=== c2d-32_1.5ms_c1500 13:29:00Z ===
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.45.193.6 'sudo docker run --rm --network host --privileged     --ulimit nofile=1048576:1048576     -v /tmp/pg_cpu_benchmark:/scripts:ro     --entrypoint pgbench -e PGPASSWORD=postgres ghcr.io/sparecores/benchmark-pgbench-postgres:main     -h 10.128.0.14 -U postgres -d bench -n -M prepared     -f /scripts/03_run_benchmark.sql -c 1500 -j 1500 -T 60'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/c2d-32_1.5ms_c1500.txt
+pgbench (18.4 (Debian 18.4-1.pgdg13+1))
+transaction type: /scripts/03_run_benchmark.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 1500
+number of threads: 1500
+maximum number of tries: 1
+duration: 60 s
+number of transactions actually processed: 9853
+number of failed transactions: 0 (0.000%)
+latency average = 9530.292 ms
+initial connection time = 2491.758 ms
+tps = 157.392867 (without initial connection time)
++ netem ubuntu@34.16.70.35 5ms
++ local server=ubuntu@34.16.70.35 delay=5ms
++ '[' -z 5ms ']'
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.16.70.35 'sudo tc qdisc change dev ens4 root netem delay 5ms 2>/dev/null       || sudo tc qdisc add dev ens4 root netem delay 5ms; sudo tc qdisc show dev ens4 | head -1'
+qdisc netem 8002: root refcnt 33 limit 1000 delay 5ms
++ ping_pair ubuntu@34.16.70.35 c2d-32_5ms
++ local server=ubuntu@34.16.70.35 tag=c2d-32_5ms
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.16.70.35 'ping -c 20 10.128.0.46'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/ping_c2d-32_5ms.txt
++ tail -3
+--- 10.128.0.46 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19024ms
+rtt min/avg/max/mdev = 5.156/5.208/5.686/0.110 ms
++ pgbench_run c2d-32_5ms_c1 10.128.0.14 1 30
++ local tag=c2d-32_5ms_c1 db_ip=10.128.0.14 clients=1 secs=30
+++ date -u +%H:%M:%SZ
++ echo '=== c2d-32_5ms_c1 13:30:26Z ==='
+=== c2d-32_5ms_c1 13:30:26Z ===
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.45.193.6 'sudo docker run --rm --network host --privileged     --ulimit nofile=1048576:1048576     -v /tmp/pg_cpu_benchmark:/scripts:ro     --entrypoint pgbench -e PGPASSWORD=postgres ghcr.io/sparecores/benchmark-pgbench-postgres:main     -h 10.128.0.14 -U postgres -d bench -n -M prepared     -f /scripts/03_run_benchmark.sql -c 1 -j 1 -T 30'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/c2d-32_5ms_c1.txt
+pgbench (18.4 (Debian 18.4-1.pgdg13+1))
+transaction type: /scripts/03_run_benchmark.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 1
+number of threads: 1
+maximum number of tries: 1
+duration: 30 s
+number of transactions actually processed: 233
+number of failed transactions: 0 (0.000%)
+latency average = 129.128 ms
+initial connection time = 31.871 ms
+tps = 7.744242 (without initial connection time)
++ pgbench_run c2d-32_5ms_c1500 10.128.0.14 1500 60
++ local tag=c2d-32_5ms_c1500 db_ip=10.128.0.14 clients=1500 secs=60
+++ date -u +%H:%M:%SZ
++ echo '=== c2d-32_5ms_c1500 13:30:56Z ==='
+=== c2d-32_5ms_c1500 13:30:56Z ===
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.45.193.6 'sudo docker run --rm --network host --privileged     --ulimit nofile=1048576:1048576     -v /tmp/pg_cpu_benchmark:/scripts:ro     --entrypoint pgbench -e PGPASSWORD=postgres ghcr.io/sparecores/benchmark-pgbench-postgres:main     -h 10.128.0.14 -U postgres -d bench -n -M prepared     -f /scripts/03_run_benchmark.sql -c 1500 -j 1500 -T 60'
++ tee /home/bra/cvs/sparecores/sc-db-benchmark-tmp/pg_cpu_benchmark/runs/c2d-32_5ms_c1500.txt
+pgbench (18.4 (Debian 18.4-1.pgdg13+1))
+transaction type: /scripts/03_run_benchmark.sql
+scaling factor: 1
+query mode: prepared
+number of clients: 1500
+number of threads: 1500
+maximum number of tries: 1
+duration: 60 s
+number of transactions actually processed: 9753
+number of failed transactions: 0 (0.000%)
+latency average = 9556.482 ms
+initial connection time = 2500.220 ms
+tps = 156.961529 (without initial connection time)
++ netem ubuntu@34.16.70.35 ''
++ local server=ubuntu@34.16.70.35 delay=
++ '[' -z '' ']'
++ ssh -i /home/bra/.ssh/id_spare-cores ubuntu@34.16.70.35 'sudo tc qdisc del dev ens4 root 2>/dev/null || true; sudo tc qdisc show dev ens4 | head -1'
+qdisc mq 0: root 
++ echo '######## DONE c2d-32 ########'
+######## DONE c2d-32 ########
++ echo ALL_RO_CPU_LATENCY_DONE
+ALL_RO_CPU_LATENCY_DONE

@@ -1,0 +1,69 @@
+BEGIN
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+INSERT 0 5000
+INSERT 0 50000
+INSERT 0 250000
+INSERT 0 750000
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+ANALYZE
+ANALYZE
+ANALYZE
+ANALYZE
+GRANT
+COMMIT
+       table       | total_with_indexes 
+-------------------+--------------------
+ ro_cpu_order      | 93 MB
+ ro_cpu_order_item | 64 MB
+ ro_cpu_customer   | 12 MB
+ ro_cpu_product    | 1560 kB
+(4 rows)
+
+SET
+ warm_customers 
+----------------
+     1250025000
+(1 row)
+
+ warm_orders 
+-------------
+ 31250125000
+(1 row)
+
+ warm_products 
+---------------
+      12502500
+(1 row)
+
+ warm_items 
+------------
+    3750015
+(1 row)
+
+      relname      |  heap   |  total  
+-------------------+---------+---------
+ ro_cpu_order      | 75 MB   | 93 MB
+ ro_cpu_order_item | 37 MB   | 64 MB
+ ro_cpu_customer   | 8464 kB | 12 MB
+ ro_cpu_product    | 1296 kB | 1560 kB
+(4 rows)
+
+ all_ro_cpu_total 
+------------------
+ 170 MB
+(1 row)
+
