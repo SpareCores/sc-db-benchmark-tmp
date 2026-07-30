@@ -2234,7 +2234,7 @@ xychart-beta
 
 **Goal:** find how to combine the cached multi-query RO script ([`03_run_benchmark_scaled.sql`](pg_cpu_benchmark/03_run_benchmark_scaled.sql)) with `--pipeline-depth` so benchmarks (1) extract max machine throughput, (2) stay stable under RTT, and (3) honestly rank CPU SKUs (n2-32 vs c2d-32).
 
-Topology same as run11. Script change: per-txn `SET` removed (GUCs applied once via `ALTER DATABASE`); work multiplier via `pgbench -D scale=N` (scales LIMIT/slice widths). Artifacts: [`run12-heavy-pipeline/`](run12-heavy-pipeline/). Screening ran in `screen` on the client (`PHASE=screen`); full suite is `PHASE=full` in `screen` session `run12full`.
+Topology same as run11. Script change: per-txn `SET` removed (GUCs applied once via `ALTER DATABASE`); work multiplier via `pgbench -D scale=N` (scales LIMIT/slice widths). Artifacts: [`run12-heavy-pipeline/`](run12-heavy-pipeline/). Screening + full suite both complete (`PHASE=screen` → `PHASE=full`).
 
 ## Screening matrix (short T)
 
@@ -2318,6 +2318,27 @@ With **many clients**:
 | **Avoid** | `scale=4`; pipeline at high c on this load; using pipeline as a substitute for making the txn heavy enough. |
 | **Use `--pipeline-depth` for** | Classic `-S` / other RTT-bound scripts (run11) — **not** this CPU-heavy script. |
 
-## Full suite (in progress)
+## Full suite (confirmed)
 
-`screen -S run12full` on client: scale∈{1,2} × depth∈{0,1,10} × c∈{1,32,1500} × netem∈{native,1.5ms,5ms} × both SKUs, with toxic `depth>0 @ c=1500` skipped, T=45/60/90, 20 s cooldown after each c=1500. Results will land in [`runs/full/`](run12-heavy-pipeline/) and be folded in when complete.
+84 measured cells (+2 warms): scale∈{1,2} × depth∈{0,1,10} × c∈{1,32,1500} × netem∈{native,1.5ms,5ms} × both SKUs; `depth>0 @ c=1500` skipped; T=45/60/90. Artifacts: [`full/`](run12-heavy-pipeline/full/), [`full/summary.csv`](run12-heavy-pipeline/full/summary.csv). Finished `2026-07-30T22:37:53Z`.
+
+### Headline numbers — `scale=1`, `depth=0`, native (TPM = TPS×60)
+
+| SKU | c=1 | c=32 (peak) | c=1500 |
+|-----|-----|-------------|--------|
+| n2-32 | 7.58 TPS / **455 TPM** (132 ms) | **151.5 / 9 092** (211 ms) | 147.9 / 8 871 (9.8 s) |
+| c2d-32 | 9.37 TPS / **562 TPM** (107 ms) | **162.5 / 9 749** (197 ms) | 158.1 / 9 488 (9.1 s) |
+| **c2d/n2** | **1.24×** | 1.07× | 1.07× |
+
+### Confirms screen recommendations
+
+| Claim | Full-suite evidence |
+|-------|---------------------|
+| Peak at `c≈ncpus`, not 1500 | native d=0: c32 ≥ c1500 on both SKUs (151.5 vs 147.9; 162.5 vs 158.1) |
+| Depth does not raise peak | native s1 c32: d0/d1/d10 within ±3% (n2 147–152; c2d 162–164) |
+| Depth useless at c=1 for TPM | d1/d10 ≈ d0 (±2%); d10 only inflates reported latency (~10× in-flight) |
+| RTT-tolerant without pipeline | d=0 +5 ms vs native: c=1 −4%; c=32 −1…−5%; c=1500 ≈ flat |
+| Best CPU separator is c=1 serial | c2d/n2 **1.23–1.25×** across native/1.5/5 ms; collapses to ~1.07–1.12× at c=32 |
+| `scale=2` is ~2× heavier, same story | native d0 c32 ≈ half TPS of s1; c1 lat ~2× (n2 268 ms, c2d 216 ms) |
+
+**Inspector takeaway (unchanged):** heavy RO = serial (`depth=0`), `scale=1`, concurrency `{1, V/2, V, 2·V}`, score in **TPM**. Do not enable `--pipeline-depth` for this script.
