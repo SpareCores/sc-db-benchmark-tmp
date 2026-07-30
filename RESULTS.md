@@ -2251,24 +2251,53 @@ Topology same as run11. Script change: per-txn `SET` removed (GUCs applied once 
 
 scale=1 matches the prior ~50–100 ms+ target band. scale=2 is usable but ~4× heavier (Q3 slice dominates). scale=4 is too heavy / unstable for short runs.
 
-**Peak throughput (native)** — saturates by **c=32**, not c=1500:
+### Latency vs queueing — what actually matters for this load
+
+Classic `-S` is **RTT-bound**: server work ≈ 0.1 ms, so a 5 ms RTT dominates and serial TPS collapses (~98% at c=1). Pipelining (batch or our sliding window) fixes that by keeping queries in flight across the wire.
+
+Our custom load is the opposite: **CPU-bound**. One txn is ~110–130 ms of server CPU (`scale=1`). RTT is a few percent of service time, not the bill:
+
+| | classic `-S` | heavy RO (`scale=1`) |
+|--|--------------|----------------------|
+| Service time S | ~0.1 ms | ~120 ms |
+| RTT R (native / +5 ms) | 0.2 / 5 ms | same |
+| R as fraction of S | **≫ S** | **~0.2–4% of S** |
+| Serial @ c=1 under +5 ms | dies (~−98%) | mostly fine (~−10–15% when healthy) |
+
+So for heavy RO, **the workload itself is already latency-tolerant**. You do not need a pipeline to “save” it from netem the way you do for `-S`.
+
+What each mode does on a **single connection**:
+
+1. **`depth=0` (serial)** — send one query, wait for the result, repeat. Throughput ≈ `1/(S+R)`. When S≫R, extra RTT barely matters.
+2. **`depth=1`** — still only one txn in flight; nearly identical to serial for a one-statement script once S≫R.
+3. **`depth=10` (our sliding window)** — up to 10 queries queued on that backend. The backend still runs them **one at a time**. You only hide ~one RTT behind ~120 ms of compute → theoretical gain ≈ `(S+R)/S ≈ 1.04×` at +5 ms. Screen matches: at c=1/32, depth 0/1/10 are **within noise** on native (~7.5 / ~151–163 TPS).
+
+With **many clients**:
+
+- **c≈ncpus (32), any depth** — enough backends to saturate CPU. Peak TPS; depth does not raise it.
+- **c=1500, depth=0** — same TPS as c=32, latency ≈ seconds (queueing). RTT disappears into the queue (ratio ≈ 1.0) at the cost of awful latency.
+- **c=1500, depth=10** — up to ~15 000 queries on 32 cores → latency explodes, TPS **collapses** (÷2 to ÷200). Harmful.
+
+**Peak throughput (native)** — saturates by **c=32**:
 
 | SKU | best cell | TPS |
 |-----|-----------|-----|
 | c2d-32 | s1 d10 c32 | **163** |
 | n2-32 | s1 d0/d10 c32 | **151** |
 
-c=1500 serial scale=1 ≈ c=32 (145–155 TPS). Extra clients only add queueing latency.
+### Does pipelining / our `--pipeline-depth` make sense for this custom load?
 
-**Pipeline vs heavy RO (unlike classic `-S`)**
+**Short answer: no, not for the goals we care about here.**
 
-| Situation | depth=0 | depth=1 | depth=10 |
-|-----------|---------|---------|----------|
-| native, any scale, c≤32 | peak | ≈ peak | ≈ peak |
-| **+5 ms, c=1/32, scale=1** | **broken in screen\*** | ≈ native | ≈ native |
-| c=1500, depth>0, any scale | — | **collapse** (TPS ÷2–÷200) | **collapse** |
+| Question | Answer |
+|----------|--------|
+| Need it for max TPS? | **No.** Peak is `scale=1`, `c=32`, serial. Depth=10 is not faster. |
+| Need it to survive RTT? | **Mostly no.** S≫R already does that. Depth≥1 is optional insurance at low c only. |
+| Need it to rank CPUs? | **No.** Best separator is `c=1` serial (~1.22–1.25× c2d/n2). |
+| When *does* sliding-window matter? | **Chatty / RTT-bound** workloads (classic `-S`) — run11, not this script. |
+| Can it hurt? | **Yes** — `depth>0` at very high c on a heavy CPU txn builds a huge server-side queue and tanks throughput. |
 
-\*Several `depth=0 @ 5ms` low-c cells showed 7–10 s latency after earlier `depth=10 @ c=1500` thrash — contaminated. Clean signal from depth≥1 and from prior run10 heavy-RO serial: +5 ms costs ~14% at c=1 when the server is healthy. **depth≥1 is the robust way to keep low-c heavy RO RTT-tolerant** (batches the single round-trip; service time ≫ RTT so depth>1 adds nothing).
+**Bottom line:** for the custom heavy RO script, `--pipeline-depth` is unnecessary. Prefer **serial** + **`c=1` for ranking** + **`c=ncpus` for peak**. Keep sliding-window pipelining for lightweight/RTT-dominated benchmarks.
 
 **CPU ranking (c2d / n2 TPS @ native)**
 
@@ -2283,10 +2312,11 @@ c=1500 serial scale=1 ≈ c=32 (145–155 TPS). Extra clients only add queueing 
 
 | Goal | Setting |
 |------|---------|
-| **Max machine performance** | `scale=1`, **c=32** (=ncpus), `depth=0` or `1` (same TPS). Do not bother with c=1500 for peak. |
-| **Least sensitive to RTT** | `scale=1`, **`depth=1` (or 10)**, **c=32**. Avoid serial (`depth=0`) at low c if RTT varies. Never use `depth>0` at c=1500 on this workload. |
-| **Honest CPU SKU ranking** | `scale=1`, **c=1**, `depth=0` or `1`, native (and confirm under +5 ms with depth≥1). Expect ~**1.22–1.25×** c2d over n2. High-c compresses the gap to ~1.07×. |
-| **Avoid** | `scale=4`; `depth∈{1,10} @ c=1500`; running short cells immediately after a collapsed high-c pipeline run without cooldown. |
+| **Max machine performance** | `scale=1`, **c=32**, **`depth=0`**. Not c=1500. |
+| **Least sensitive to RTT** | Rely on S≫R: `scale=1`, **c=32 serial**. Optional `depth=1` at c=1. Never `depth>0` at c=1500. |
+| **Honest CPU SKU ranking** | `scale=1`, **c=1**, **`depth=0`**, native. Expect ~**1.22–1.25×** c2d over n2. |
+| **Avoid** | `scale=4`; pipeline at high c on this load; using pipeline as a substitute for making the txn heavy enough. |
+| **Use `--pipeline-depth` for** | Classic `-S` / other RTT-bound scripts (run11) — **not** this CPU-heavy script. |
 
 ## Full suite (in progress)
 
