@@ -1937,19 +1937,43 @@ Per-instance result trees: `run4-wikipedia/<instance>/` (`t2d-standard-16`, `t2d
 |------|-----------|------------|-----|--------------|
 | **Client** | `34.45.193.6` | `10.128.0.46` | `t2d-standard-32` | 32 / 32 (no SMT) |
 | Server A | `34.60.177.253` | `10.128.0.45` | `n2-standard-32` | 32 / 16 SMT |
-| Server B | `136.114.235.169` | `10.128.0.104` | `c2d-standard-16` | 16 / 8 SMT |
+| Server B | `34.16.70.35` | `10.128.0.14` | `c2d-standard-32` | 32 / 16 SMT |
 
-Same-zone VPC. Postgres: `benchmark-postgres-server:main`, `--privileged --network host`, prod GUCs per SKU (n2-32: SB 32 GB; c2d-16: SB 15.9 GB — same 64 GiB/16‑vCPU tune as n2-16/t2d-16), sf 65, `-S -M prepared`. Netem on server `ens4`. Suites sequential (one server at a time); c2d-16 warmed with 120 s @ c=1500 before the native measure. Artifacts: [`matrix_t2d32_client/`](run10-pgbench-ro-latency/matrix_t2d32_client/) (prior t2d-16 suite archived under `archive_t2d-16/`).
+Same-zone VPC. Postgres: `benchmark-postgres-server:main`, `--privileged --network host`, **identical** prod GUCs on both servers (SB 32 GB / 128 GiB tune: `shared_buffers=32000MB`, `max_connections=3122`, `io_method=io_uring`, `synchronous_commit=on`, …), sf 65, `-S -M prepared`. Suites sequential (one server at a time); each new server warmed with 120 s @ c=1500 before the native measure. Artifacts: [`matrix_t2d32_client/`](run10-pgbench-ro-latency/matrix_t2d32_client/) (earlier t2d-16 / c2d-16 suites under `archive_t2d-16/` / `archive_c2d-16/`).
 
-**Findings:** With a strong **t2d-32 client**, native remote RO **does** reflect server capacity: **n2-32 ≈ 474 k TPS @ c=1500** vs **c2d-16 ≈ 192 k** (−59%). c2d-16 is the HT peer of n2-16 (16 vCPU / 8 cores / 64 GiB) with a much faster Milan CPU than n2, but still has **half the physical cores and half the RAM of n2-32**—and at high concurrency it lands near the old t2d-16 ceiling (~216 k), not near n2-32. Single-client is healthier than t2d was (**8.4 k** vs 7.1 k) but still below n2-32 (**10.9 k**). Little’s law held. **Latency:** +1.5 ms softens n2 (−14%) while c2d is flat/noise (+1%); **+5 ms** collapses c=1 to ~190 TPS on both (RTT-bound) and cuts n2 hard (−65% → **166 k**) while c2d only loses **−9% → 176 k**—under heavy delay the smaller Milan host again sits above the RTT-crushed n2. **Pipelining** at +5 ms: depth 1 ≈ serial; depth 10 yields ~**10× SELECT/s** on n2-32 (1.48 M), but c2d-16 drops txn TPS under c=1500×depth 10 (**67 k** txn / 669 k SELECT/s)—pipeline helps only when the server can absorb the extra in-flight work.
+### Netem (induced RTT)
+
+Added on the **Postgres server** NIC `ens4` (egress toward the client). Clear before native baseline and after the suite:
+
+```bash
+# clear
+sudo tc qdisc del dev ens4 root 2>/dev/null || true
+
+# +1.5 ms one-way → ~+3 ms RTT in ping
+sudo tc qdisc add dev ens4 root netem delay 1.5ms
+# or, if a netem qdisc already exists:
+sudo tc qdisc change dev ens4 root netem delay 1.5ms
+
+# +5 ms one-way → ~+10 ms RTT
+sudo tc qdisc add dev ens4 root netem delay 5ms
+# / change:
+sudo tc qdisc change dev ens4 root netem delay 5ms
+
+# verify
+sudo tc qdisc show dev ens4
+```
+
+Ping samples below are server→client (`ping -c 20 <client_private>`).
+
+**Findings:** Matched **topology peer** (both 32 vCPU / 16 physical / SMT / 128 GiB): native high-c RO is essentially a tie — **n2-32 474 k** vs **c2d-32 471 k** (0.995×). Milan’s higher per-core scores do **not** lift the remote RO peak once vCPU/SMT/RAM match; c=1 still favors n2 (**10.9 k** vs **8.3 k**). Little’s law held. **Latency:** both soften similarly at +1.5 ms (−14% n2 / −7% c2d) and collapse together at +5 ms (−65% both → **166 k / 164 k**). **Pipelining** @ +5 ms: depth 1 ≈ serial; depth 10 recovers ~**10× SELECT/s** on both (~1.48 M n2 / ~1.42 M c2d) without the oversubscription crash seen on undersized 16‑vCPU hosts.
 
 ### Baselines (no netem) — c=1 and c=1500
 
 | Server | ping avg | c=1 TPS | c=1 lat | c=1500 TPS | c=1500 lat |
 |--------|----------|---------|---------|------------|------------|
 | n2-standard-32 | 0.244 ms | **10,867** | 0.092 ms | **473,759** | 3.166 ms |
-| c2d-standard-16 | 0.163 ms | 8,439 | 0.118 ms | 192,286 | 7.801 ms |
-| c2d / n2 | — | 0.78× | — | **0.41×** | — |
+| c2d-standard-32 | 0.201 ms | 8,349 | 0.120 ms | 471,308 | 3.183 ms |
+| c2d / n2 | — | 0.77× | — | **0.995×** | — |
 
 ```mermaid
 ---
@@ -1959,11 +1983,11 @@ config:
       plotColorPalette: "#4e79a7, #f28e2b"
 ---
 xychart-beta
-    title "Baseline TPS — n2-32 vs c2d-16 (t2d-32 client, native RTT)"
+    title "Baseline TPS — n2-32 vs c2d-32 (t2d-32 client, native RTT)"
     x-axis [c=1, c=1500]
     y-axis "TPS" 0 --> 500000
-    bar "n2-32" [10867, 473759]
-    bar "c2d-16" [8439, 192286]
+    bar "n2-32" [10867, 473759 "n2-32"]
+    bar "c2d-32" [8349, 471308 "c2d-32"]
 ```
 
 ### Latency sweep (serial `-S`)
@@ -1973,9 +1997,9 @@ xychart-beta
 | n2-32 | native | 0.244 ms | 10,867 | **473,759** | — |
 | n2-32 | +1.5 ms | 1.820 ms | 593 | 408,904 | −14% |
 | n2-32 | +5 ms | 5.242 ms | 191 | 166,062 | **−65%** |
-| c2d-16 | native | 0.163 ms | 8,439 | **192,286** | — |
-| c2d-16 | +1.5 ms | 1.773 ms | 599 | 194,628 | +1% |
-| c2d-16 | +5 ms | 5.253 ms | 193 | 175,609 | −9% |
+| c2d-32 | native | 0.201 ms | 8,349 | **471,308** | — |
+| c2d-32 | +1.5 ms | 1.725 ms | 596 | 437,072 | −7% |
+| c2d-32 | +5 ms | 5.201 ms | 192 | 164,139 | **−65%** |
 
 ```mermaid
 ---
@@ -1985,11 +2009,11 @@ config:
       plotColorPalette: "#4e79a7, #f28e2b"
 ---
 xychart-beta
-    title "c=1500 TPS vs netem delay — n2-32 vs c2d-16"
+    title "c=1500 TPS vs netem delay — n2-32 vs c2d-32"
     x-axis [native, "+1.5ms", "+5ms"]
     y-axis "TPS" 0 --> 500000
-    line "n2-32" [473759, 408904, 166062]
-    line "c2d-16" [192286, 194628, 175609]
+    line "n2-32" [473759, 408904, 166062 "n2-32"]
+    line "c2d-32" [471308, 437072, 164139 "c2d-32"]
 ```
 
 ```mermaid
@@ -2000,16 +2024,16 @@ config:
       plotColorPalette: "#4e79a7, #f28e2b"
 ---
 xychart-beta
-    title "c=1 TPS vs netem delay — n2-32 vs c2d-16"
+    title "c=1 TPS vs netem delay — n2-32 vs c2d-32"
     x-axis [native, "+1.5ms", "+5ms"]
     y-axis "TPS" 0 --> 12000
-    line "n2-32" [10867, 593, 191]
-    line "c2d-16" [8439, 599, 193]
+    line "n2-32" [10867, 593, 191 "n2-32"]
+    line "c2d-32" [8349, 596, 192 "c2d-32"]
 ```
 
 ### Pipelining @ +5 ms
 
-SELECT/s = txn TPS × depth.
+SELECT/s = txn TPS × depth. Netem still `tc … netem delay 5ms` on server `ens4`.
 
 | Server | Mode | c | txn TPS | lat | SELECT/s |
 |--------|------|---|---------|-----|----------|
@@ -2019,25 +2043,26 @@ SELECT/s = txn TPS × depth.
 | n2-32 | serial | 1500 | 166,062 | 9.03 ms | 166,062 |
 | n2-32 | pipe d1 | 1500 | 165,648 | 9.06 ms | 165,648 |
 | n2-32 | pipe d10 | 1500 | 147,936 | 10.14 ms | **1,479,356** |
-| c2d-16 | serial | 1 | 193 | 5.18 ms | 193 |
-| c2d-16 | pipe d1 | 1 | 190 | 5.27 ms | 190 |
-| c2d-16 | pipe d10 | 1 | 177 | 5.66 ms | **1,767** |
-| c2d-16 | serial | 1500 | 175,609 | 8.54 ms | 175,609 |
-| c2d-16 | pipe d1 | 1500 | 175,001 | 8.57 ms | 175,001 |
-| c2d-16 | pipe d10 | 1500 | 66,938 | 22.41 ms | 669,376 |
+| c2d-32 | serial | 1 | 192 | 5.21 ms | 192 |
+| c2d-32 | pipe d1 | 1 | 188 | 5.32 ms | 188 |
+| c2d-32 | pipe d10 | 1 | 184 | 5.43 ms | **1,841** |
+| c2d-32 | serial | 1500 | 164,139 | 9.14 ms | 164,139 |
+| c2d-32 | pipe d1 | 1500 | 164,377 | 9.13 ms | 164,377 |
+| c2d-32 | pipe d10 | 1500 | 141,796 | 10.58 ms | **1,417,963** |
 
 ```mermaid
 ---
 config:
   themeVariables:
     xyChart:
-      plotColorPalette: "#4e79a7, #f28e2b, #59a14f, #e15759"
+      plotColorPalette: "#4e79a7, #f28e2b"
 ---
 xychart-beta
     title "SELECT/s @ +5ms, c=1500 — serial vs pipeline depth 10"
-    x-axis ["n2-32 serial", "n2-32 d10", "c2d-16 serial", "c2d-16 d10"]
+    x-axis [serial, "depth 10"]
     y-axis "SELECT/s" 0 --> 1600000
-    bar [166062, 1479356, 175609, 669376]
+    bar "n2-32" [166062, 1479356 "n2-32"]
+    bar "c2d-32" [164139, 1417963 "c2d-32"]
 ```
 
 ### Pilot note (n2-16 client → n2-32 only)
