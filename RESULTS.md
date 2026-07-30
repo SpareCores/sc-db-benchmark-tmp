@@ -2151,22 +2151,22 @@ Our new `CSTATE_WAIT_PIPELINE_TX` state reused the existing `readCommandResponse
 
 ### Results — native / +1.5 ms / +5 ms, serial vs `--pipeline-depth=10`
 
-SELECT/s = txn TPS (pipelining doesn't multiply SELECT count here since each in-flight txn is a single `-S` query, same as serial — depth only affects how many are outstanding at once).
+SELECT/s = txn TPS (pipelining doesn't multiply SELECT count here since each in-flight txn is a single `-S` query, same as serial — depth only affects how many are outstanding at once). All depth10 / `c=1500` cells below use **`-j 32`** (capping threads regardless of `-c`); earlier matrix cells that ran with `j=c=1500` were re-measured so the two SKUs are comparable.
 
 | Server | Netem | ping avg | Mode | c=1 TPS | c=1 lat | c=32 TPS | c=32 lat | c=1500 TPS | c=1500 lat |
 |--------|-------|----------|------|---------|---------|----------|----------|------------|------------|
 | n2-32 | native | 0.246 ms | serial | 8,870 | 0.113 ms | 217,638 | 0.147 ms | 382,854 | 3.91 ms |
-| n2-32 | native | 0.246 ms | depth10 | 42,131 | 0.237 ms | 900,631 | 0.355 ms | **977,796** | 15.20 ms |
+| n2-32 | native | 0.246 ms | depth10 | 42,131 | 0.237 ms | **900,631** | 0.355 ms | 298,404 | 46.9 ms |
 | n2-32 | +1.5 ms | 1.752 ms | serial | 589 | 1.70 ms | 18,960 | 1.69 ms | 367,661 | 4.08 ms |
-| n2-32 | +1.5 ms | 1.752 ms | depth10 | 4,243 | 2.36 ms | 159,743 | 2.00 ms | **740,577** | 20.17 ms |
+| n2-32 | +1.5 ms | 1.752 ms | depth10 | 4,243 | 2.36 ms | 159,743 | 2.00 ms | 247,659 | 46.2 ms |
 | n2-32 | +5 ms | 5.278 ms | serial | 191 | 5.25 ms | 6,127 | 5.22 ms | 162,867 | 9.18 ms |
-| n2-32 | +5 ms | 5.278 ms | depth10 | 1,676 | 5.97 ms | 54,931 | 5.82 ms | **333,194** | 43.80 ms |
+| n2-32 | +5 ms | 5.278 ms | depth10 | 1,676 | 5.97 ms | 54,931 | 5.82 ms | **333,194** | 43.8 ms |
 | c2d-32 | native | 0.213 ms | serial | 7,432 | 0.134 ms | 200,101 | 0.160 ms | **457,628** | 3.22 ms |
-| c2d-32 | native | 0.213 ms | depth10 | 33,717 | 0.296 ms | 287,283 | 1.11 ms | 126,454 | 68.52 ms |
+| c2d-32 | native | 0.213 ms | depth10 | 33,717 | 0.296 ms | 287,283 | 1.11 ms | 276,832 | 45.0 ms |
 | c2d-32 | +1.5 ms | 1.714 ms | serial | 593 | 1.69 ms | 18,916 | 1.69 ms | **429,538** | 3.47 ms |
-| c2d-32 | +1.5 ms | 1.714 ms | depth10 | 4,518 | 2.21 ms | 156,959 | 2.04 ms | 258,666 | 48.08 ms |
+| c2d-32 | +1.5 ms | 1.714 ms | depth10 | 4,518 | 2.21 ms | 156,959 | 2.04 ms | 258,666 | 48.1 ms |
 | c2d-32 | +5 ms | 5.204 ms | serial | 192 | 5.20 ms | 6,151 | 5.20 ms | 164,207 | 9.10 ms |
-| c2d-32 | +5 ms | 5.204 ms | depth10 | 1,656 | 6.04 ms | 54,719 | 5.85 ms | **330,558** | 44.13 ms |
+| c2d-32 | +5 ms | 5.204 ms | depth10 | 1,656 | 6.04 ms | 54,719 | 5.85 ms | **330,558** | 44.1 ms |
 
 0 failed transactions across every cell in the matrix.
 
@@ -2178,13 +2178,13 @@ config:
       plotColorPalette: "#4e79a7, #f28e2b, #59a14f, #e15759"
 ---
 xychart-beta
-    title "c=1500 TPS — serial vs pipeline-depth=10 across netem ladder"
+    title "c=1500 TPS — serial vs pipeline-depth=10 across netem ladder (j≤32)"
     x-axis [native, "+1.5ms", "+5ms"]
-    y-axis "TPS" 0 --> 1000000
+    y-axis "TPS" 0 --> 500000
     line "n2-32 serial" [382854, 367661, 162867 "n2-32 serial"]
-    line "n2-32 depth10" [977796, 740577, 333194 "n2-32 depth10"]
+    line "n2-32 depth10" [298404, 247659, 333194 "n2-32 depth10"]
     line "c2d-32 serial" [457628, 429538, 164207 "c2d-32 serial"]
-    line "c2d-32 depth10" [126454, 258666, 330558 "c2d-32 depth10"]
+    line "c2d-32 depth10" [276832, 258666, 330558 "c2d-32 depth10"]
 ```
 
 ### Pipeline-depth=10 — scale with concurrency
@@ -2197,11 +2197,11 @@ config:
       plotColorPalette: "#4e79a7, #f28e2b, #e15759"
 ---
 xychart-beta
-    title "n2-32 depth10 TPS vs concurrency"
+    title "n2-32 depth10 TPS vs concurrency (j≤32)"
     x-axis ["c=1", "c=32", "c=1500"]
-    y-axis "TPS" 0 --> 1000000
-    line "native (0.25ms)" [42131, 900631, 977796 "native (0.25ms)"]
-    line "+1.5ms (1.75ms)" [4243, 159743, 740577 "+1.5ms (1.75ms)"]
+    y-axis "TPS" 0 --> 950000
+    line "native (0.25ms)" [42131, 900631, 298404 "native (0.25ms)"]
+    line "+1.5ms (1.75ms)" [4243, 159743, 247659 "+1.5ms (1.75ms)"]
     line "+5ms (5.28ms)" [1676, 54931, 333194 "+5ms (5.28ms)"]
 ```
 
@@ -2213,16 +2213,17 @@ config:
       plotColorPalette: "#4e79a7, #f28e2b, #e15759"
 ---
 xychart-beta
-    title "c2d-32 depth10 TPS vs concurrency"
+    title "c2d-32 depth10 TPS vs concurrency (j≤32)"
     x-axis ["c=1", "c=32", "c=1500"]
     y-axis "TPS" 0 --> 350000
-    line "native (0.21ms)" [33717, 287283, 126454 "native (0.21ms)"]
+    line "native (0.21ms)" [33717, 287283, 276832 "native (0.21ms)"]
     line "+1.5ms (1.71ms)" [4518, 156959, 258666 "+1.5ms (1.71ms)"]
     line "+5ms (5.20ms)" [1656, 54719, 330558 "+5ms (5.20ms)"]
 ```
 
 ### Takeaways
 
-- **`--pipeline-depth=10` is a huge win once RTT is nonzero**, at every concurrency level: at c=1 it's a **5–9×** TPS multiplier (n2 4.8×/8.8× at +1.5/+5 ms; c2d 7.6×/8.6×) since it hides RTT behind the queue instead of paying it serially. At c=1500 under real latency it's **+2.0×** on n2 and **+1.6–2.0×** on c2d.
-- **At native (near-zero RTT) + max concurrency, depth10 backfired on c2d-32**: 126 k TPS vs 458 k serial (−72%), with latency ballooning to 68 ms (vs 3.2 ms serial). With no RTT to hide, queueing 10× more work per client than the server can usefully run in parallel just adds queueing delay (Little's Law) plus client-side pipeline bookkeeping overhead, without a throughput payoff. n2-32 did *not* show this regression at native c=1500 (977 k, +2.6× over serial) — worth a follow-up to see whether it's `max_connections`/scheduler-related or an artifact of this specific run.
-- Net implication for the sliding-window feature: **enable it adaptively / only under measurable RTT**, not unconditionally at max concurrency — the wrong choice can cost more than serial.
+- **`--pipeline-depth=10` is a huge win once RTT is nonzero at low/mid concurrency**: at c=1 it's a **5–9×** TPS multiplier; at c=32 under +1.5/+5 ms it's ~8–9× serial. At c=1500 with `j=32`, depth10 ≈ serial under native RTT and **~2× serial at +5 ms** on both SKUs (~330 k).
+- **The earlier “c2d collapses / n2 soars at native c=1500” picture was an apples-to-oranges artifact**: the first n2 native/1.5 ms depth10 c=1500 cells ran with `j=1500` (≈978 k / 741 k), while c2d used `j=32` and one cell was pathological (lat stddev **1638 ms** → 126 k). Re-measured with matched `j=32`, both SKUs land in a tight band (~248–333 k) across the latency ladder — charts above use those numbers.
+- **Remaining real shape difference at c=32 / native**: n2 hits **901 k** while c2d tops out at **287 k** (same `j=32`). Both then flatten or drop into the ~250–300 k band at c=1500 — oversubscription past ~1 client/vCPU with a deep pipeline doesn't buy more throughput once the server is saturated.
+- Net implication: sliding-window pipelining pays off when there is RTT to hide or when concurrency is moderate; at extreme `c` with near-zero RTT, prefer serial (or a shallower depth) unless client thread count is also scaled carefully.
