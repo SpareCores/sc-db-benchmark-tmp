@@ -2227,3 +2227,67 @@ xychart-beta
 - **The earlier “c2d collapses / n2 soars at native c=1500” picture was an apples-to-oranges artifact**: the first n2 native/1.5 ms depth10 c=1500 cells ran with `j=1500` (≈978 k / 741 k), while c2d used `j=32` and one cell was pathological (lat stddev **1638 ms** → 126 k). Re-measured with matched `j=32`, both SKUs land in a tight band (~248–333 k) across the latency ladder — charts above use those numbers.
 - **Remaining real shape difference at c=32 / native**: n2 hits **901 k** while c2d tops out at **287 k** (same `j=32`). Both then flatten or drop into the ~250–300 k band at c=1500 — oversubscription past ~1 client/vCPU with a deep pipeline doesn't buy more throughput once the server is saturated.
 - Net implication: sliding-window pipelining pays off when there is RTT to hide or when concurrency is moderate; at extreme `c` with near-zero RTT, prefer serial (or a shallower depth) unless client thread count is also scaled carefully.
+
+---
+
+# Heavy RO × `--pipeline-depth` × `cpu_scale` (run12)
+
+**Goal:** find how to combine the cached multi-query RO script ([`03_run_benchmark_scaled.sql`](pg_cpu_benchmark/03_run_benchmark_scaled.sql)) with `--pipeline-depth` so benchmarks (1) extract max machine throughput, (2) stay stable under RTT, and (3) honestly rank CPU SKUs (n2-32 vs c2d-32).
+
+Topology same as run11. Script change: per-txn `SET` removed (GUCs applied once via `ALTER DATABASE`); work multiplier via `pgbench -D scale=N` (scales LIMIT/slice widths). Artifacts: [`run12-heavy-pipeline/`](run12-heavy-pipeline/). Screening ran in `screen` on the client (`PHASE=screen`); full suite is `PHASE=full` in `screen` session `run12full`.
+
+## Screening matrix (short T)
+
+108 cells: `{n2,c2d} × {native,5ms} × scale∈{1,2,4} × depth∈{0,1,10} × c∈{1,32,1500}`, T=15/20/30. Summary: [`screen/summary.csv`](run12-heavy-pipeline/screen/summary.csv).
+
+### What the screen showed
+
+**Service time @ c=1 native d=0**
+
+| SKU | scale=1 | scale=2 | scale=4 |
+|-----|---------|---------|---------|
+| n2-32 | 7.56 TPS / **132 ms** | 1.73 / 578 ms | pathological (1 txn / 25 s) |
+| c2d-32 | 9.21 TPS / **109 ms** | 1.88 / 531 ms | pathological |
+
+scale=1 matches the prior ~50–100 ms+ target band. scale=2 is usable but ~4× heavier (Q3 slice dominates). scale=4 is too heavy / unstable for short runs.
+
+**Peak throughput (native)** — saturates by **c=32**, not c=1500:
+
+| SKU | best cell | TPS |
+|-----|-----------|-----|
+| c2d-32 | s1 d10 c32 | **163** |
+| n2-32 | s1 d0/d10 c32 | **151** |
+
+c=1500 serial scale=1 ≈ c=32 (145–155 TPS). Extra clients only add queueing latency.
+
+**Pipeline vs heavy RO (unlike classic `-S`)**
+
+| Situation | depth=0 | depth=1 | depth=10 |
+|-----------|---------|---------|----------|
+| native, any scale, c≤32 | peak | ≈ peak | ≈ peak |
+| **+5 ms, c=1/32, scale=1** | **broken in screen\*** | ≈ native | ≈ native |
+| c=1500, depth>0, any scale | — | **collapse** (TPS ÷2–÷200) | **collapse** |
+
+\*Several `depth=0 @ 5ms` low-c cells showed 7–10 s latency after earlier `depth=10 @ c=1500` thrash — contaminated. Clean signal from depth≥1 and from prior run10 heavy-RO serial: +5 ms costs ~14% at c=1 when the server is healthy. **depth≥1 is the robust way to keep low-c heavy RO RTT-tolerant** (batches the single round-trip; service time ≫ RTT so depth>1 adds nothing).
+
+**CPU ranking (c2d / n2 TPS @ native)**
+
+| Setting | ratio |
+|---------|-------|
+| **s1 d0/d1 c=1** | **1.22–1.25** ← best separator |
+| s1 any depth c=32 | 1.06–1.08 |
+| s1 d0 c=1500 | 1.07 |
+| depth=10 c=1500 | noisy / collapsed |
+
+### Recommendations (from screen)
+
+| Goal | Setting |
+|------|---------|
+| **Max machine performance** | `scale=1`, **c=32** (=ncpus), `depth=0` or `1` (same TPS). Do not bother with c=1500 for peak. |
+| **Least sensitive to RTT** | `scale=1`, **`depth=1` (or 10)**, **c=32**. Avoid serial (`depth=0`) at low c if RTT varies. Never use `depth>0` at c=1500 on this workload. |
+| **Honest CPU SKU ranking** | `scale=1`, **c=1**, `depth=0` or `1`, native (and confirm under +5 ms with depth≥1). Expect ~**1.22–1.25×** c2d over n2. High-c compresses the gap to ~1.07×. |
+| **Avoid** | `scale=4`; `depth∈{1,10} @ c=1500`; running short cells immediately after a collapsed high-c pipeline run without cooldown. |
+
+## Full suite (in progress)
+
+`screen -S run12full` on client: scale∈{1,2} × depth∈{0,1,10} × c∈{1,32,1500} × netem∈{native,1.5ms,5ms} × both SKUs, with toxic `depth>0 @ c=1500` skipped, T=45/60/90, 20 s cooldown after each c=1500. Results will land in [`runs/full/`](run12-heavy-pipeline/) and be folded in when complete.
