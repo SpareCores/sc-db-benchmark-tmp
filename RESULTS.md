@@ -2189,25 +2189,20 @@ xychart-beta
 
 ### Pipeline-depth=10 — scale with concurrency
 
-Latency lines share the TPS axis as **ms × 10 000** (so 15 ms → 150 000); mermaid has no dual Y-axis. Solid-looking darker lines = TPS; lighter = latency.
-
 ```mermaid
 ---
 config:
   themeVariables:
     xyChart:
-      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #a0cbe8, #ffbe7d, #fabfd2"
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759"
 ---
 xychart-beta
-    title "n2-32 depth10 — TPS & latency vs concurrency"
+    title "n2-32 depth10 TPS vs concurrency"
     x-axis ["c=1", "c=32", "c=1500"]
-    y-axis "TPS / lat×10k" 0 --> 1000000
-    line "TPS native" [42131, 900631, 977796 "TPS native"]
-    line "TPS +1.5ms" [4243, 159743, 740577 "TPS +1.5ms"]
-    line "TPS +5ms" [1676, 54931, 333194 "TPS +5ms"]
-    line "lat native×10k" [2370, 3550, 152000 "lat native×10k"]
-    line "lat +1.5ms×10k" [23600, 20000, 201700 "lat +1.5ms×10k"]
-    line "lat +5ms×10k" [59700, 58200, 438000 "lat +5ms×10k"]
+    y-axis "TPS" 0 --> 1000000
+    line "native (0.25ms)" [42131, 900631, 977796 "native (0.25ms)"]
+    line "+1.5ms (1.75ms)" [4243, 159743, 740577 "+1.5ms (1.75ms)"]
+    line "+5ms (5.28ms)" [1676, 54931, 333194 "+5ms (5.28ms)"]
 ```
 
 ```mermaid
@@ -2215,18 +2210,15 @@ xychart-beta
 config:
   themeVariables:
     xyChart:
-      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #a0cbe8, #ffbe7d, #fabfd2"
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759"
 ---
 xychart-beta
-    title "c2d-32 depth10 — TPS & latency vs concurrency"
+    title "c2d-32 depth10 TPS vs concurrency"
     x-axis ["c=1", "c=32", "c=1500"]
-    y-axis "TPS / lat×10k" 0 --> 700000
-    line "TPS native" [33717, 287283, 126454 "TPS native"]
-    line "TPS +1.5ms" [4518, 156959, 258666 "TPS +1.5ms"]
-    line "TPS +5ms" [1656, 54719, 330558 "TPS +5ms"]
-    line "lat native×10k" [2960, 11140, 685200 "lat native×10k"]
-    line "lat +1.5ms×10k" [22100, 20400, 480800 "lat +1.5ms×10k"]
-    line "lat +5ms×10k" [60400, 58470, 441300 "lat +5ms×10k"]
+    y-axis "TPS" 0 --> 350000
+    line "native (0.21ms)" [33717, 287283, 126454 "native (0.21ms)"]
+    line "+1.5ms (1.71ms)" [4518, 156959, 258666 "+1.5ms (1.71ms)"]
+    line "+5ms (5.20ms)" [1656, 54719, 330558 "+5ms (5.20ms)"]
 ```
 
 ### Takeaways
