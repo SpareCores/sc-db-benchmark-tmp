@@ -2132,3 +2132,63 @@ xychart-beta
     line "heavy n2-32" [100, 94, 86 "heavy n2-32"]
     line "heavy c2d-32" [100, 96, 84 "heavy c2d-32"]
 ```
+
+---
+
+# Custom `pgbench --pipeline-depth` sliding window (run11)
+
+**Goal:** unlike batch `\startpipeline`/`\endpipeline` (run10 above, which sends N queries then blocks until *all* N complete), implement a true sliding-window mode in our `postgres` fork's `pgbench`: keep a settable number of transactions continuously in flight per client, immediately re-filling the window as each one completes, with correct `-T` cutoff draining (in-flight transactions are still counted/timed; no new ones start once the timer fires). Added as `--pipeline-depth=N` (`src/bin/pgbench/pgbench.c`, new `CSTATE_WAIT_PIPELINE_TX` state + per-client FIFO); requires `-M extended`/`prepared` and is incompatible with `-C`/`-R`/`-L`/`--max-tries`/explicit pipeline metacommands. Then re-ran the same latency-ladder protocol as run10 (native / +1.5 ms / +5 ms, `c=1/32/1500`, sf 65 `-S`) comparing serial vs `--pipeline-depth=10`.
+
+Topology reused run10's client/server roles but hosts were recreated with swapped SKUs: client `t2d-standard-32` (`34.60.177.253` / `10.128.0.47`), server A `n2-standard-32` (`34.45.193.6` / `10.128.0.24`, fresh VM, 120 s warmup), server B `c2d-standard-32` (`34.16.70.35` / `10.128.0.14`, unchanged, 60 s warmup). `-j` capped at 32 regardless of `-c` (see bug below). Artifacts: [`run11-pipeline-depth/`](run11-pipeline-depth/).
+
+### Critical bug found & fixed: libpq `PQgetResult()` blocking inside the "non-blocking" dispatch loop
+
+The very first remote matrix run repeatedly **hung indefinitely** on `c=1500, --pipeline-depth=10` under netem, with the client process alive but idle (0% CPU) and the server idle too — a real deadlock, not slow draining. Two theories were tested and ruled out/fixed along the way, but the **actual root cause**, found via `gdb -p <pid> -batch -ex "thread apply all bt"` on the stuck client:
+
+Our new `CSTATE_WAIT_PIPELINE_TX` state reused the existing `readCommandResponse()` helper to drain each completed transaction's results. That function's loop unconditionally calls `PQgetResult()` *twice* per iteration — once for the real result, once to "peek" one result ahead and detect the last one. The first call is safe (guarded by a prior `PQisBusy()` check), but the **peek call has no such guard**: if the next message hasn't arrived on the wire yet (very plausible under network latency + many concurrently-pipelined clients), `PQgetResult()` blocks *inside libpq* with no timeout — completely bypassing pgbench's own non-blocking poll loop and its `-T` cutoff stall watchdog. This is a latent risk in the classic batch `\endpipeline` usage too, but the race window there is tiny (everything's usually long-buffered by the time you check); with a sliding window under latency it was hit almost every time at `c=1500`.
+
+**Fix:** replaced the call with a new `drainPipelineTxResult()` that processes exactly one message per `PQgetResult()` call, always re-checking `PQisBusy()`/`PQconsumeInput()` immediately beforehand, and persists resumable sub-state (`pipe_awaiting_null`, `pipe_saw_sync`) in `CState` so a partially-drained transaction can safely yield back to the event loop and resume later once more input arrives — never blocking inside libpq. (The `-T` cutoff stall watchdog and the "always poll with ≤1 s timeout for `CSTATE_WAIT_PIPELINE_TX` clients" tweak from earlier debugging remain in place as defense in depth, but with this fix they're no longer needed to make forward progress.) Verified with 4 repeated runs of the exact hang-reproduction case (`c=1500, j=32, depth=10, -T 30`, +5 ms netem) plus the original failing `-T 120` case — all now finish in wall-clock time matching `-T` (e.g. `-T 120` → `real 2m9.8s`) with 0 failed transactions, instead of hanging forever.
+
+### Results — native / +1.5 ms / +5 ms, serial vs `--pipeline-depth=10`
+
+SELECT/s = txn TPS (pipelining doesn't multiply SELECT count here since each in-flight txn is a single `-S` query, same as serial — depth only affects how many are outstanding at once).
+
+| Server | Netem | ping avg | Mode | c=1 TPS | c=1 lat | c=32 TPS | c=32 lat | c=1500 TPS | c=1500 lat |
+|--------|-------|----------|------|---------|---------|----------|----------|------------|------------|
+| n2-32 | native | 0.246 ms | serial | 8,870 | 0.113 ms | 217,638 | 0.147 ms | 382,854 | 3.91 ms |
+| n2-32 | native | 0.246 ms | depth10 | 42,131 | 0.237 ms | 900,631 | 0.355 ms | **977,796** | 15.20 ms |
+| n2-32 | +1.5 ms | 1.752 ms | serial | 589 | 1.70 ms | 18,960 | 1.69 ms | 367,661 | 4.08 ms |
+| n2-32 | +1.5 ms | 1.752 ms | depth10 | 4,243 | 2.36 ms | 159,743 | 2.00 ms | **740,577** | 20.17 ms |
+| n2-32 | +5 ms | 5.278 ms | serial | 191 | 5.25 ms | 6,127 | 5.22 ms | 162,867 | 9.18 ms |
+| n2-32 | +5 ms | 5.278 ms | depth10 | 1,676 | 5.97 ms | 54,931 | 5.82 ms | **333,194** | 43.80 ms |
+| c2d-32 | native | 0.213 ms | serial | 7,432 | 0.134 ms | 200,101 | 0.160 ms | **457,628** | 3.22 ms |
+| c2d-32 | native | 0.213 ms | depth10 | 33,717 | 0.296 ms | 287,283 | 1.11 ms | 126,454 | 68.52 ms |
+| c2d-32 | +1.5 ms | 1.714 ms | serial | 593 | 1.69 ms | 18,916 | 1.69 ms | **429,538** | 3.47 ms |
+| c2d-32 | +1.5 ms | 1.714 ms | depth10 | 4,518 | 2.21 ms | 156,959 | 2.04 ms | 258,666 | 48.08 ms |
+| c2d-32 | +5 ms | 5.204 ms | serial | 192 | 5.20 ms | 6,151 | 5.20 ms | 164,207 | 9.10 ms |
+| c2d-32 | +5 ms | 5.204 ms | depth10 | 1,656 | 6.04 ms | 54,719 | 5.85 ms | **330,558** | 44.13 ms |
+
+0 failed transactions across every cell in the matrix.
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #59a14f, #e15759"
+---
+xychart-beta
+    title "c=1500 TPS — serial vs pipeline-depth=10 across netem ladder"
+    x-axis [native, "+1.5ms", "+5ms"]
+    y-axis "TPS" 0 --> 1000000
+    line "n2-32 serial" [382854, 367661, 162867 "n2-32 serial"]
+    line "n2-32 depth10" [977796, 740577, 333194 "n2-32 depth10"]
+    line "c2d-32 serial" [457628, 429538, 164207 "c2d-32 serial"]
+    line "c2d-32 depth10" [126454, 258666, 330558 "c2d-32 depth10"]
+```
+
+### Takeaways
+
+- **`--pipeline-depth=10` is a huge win once RTT is nonzero**, at every concurrency level: at c=1 it's a **5–9×** TPS multiplier (n2 4.8×/8.8× at +1.5/+5 ms; c2d 7.6×/8.6×) since it hides RTT behind the queue instead of paying it serially. At c=1500 under real latency it's **+2.0×** on n2 and **+1.6–2.0×** on c2d.
+- **At native (near-zero RTT) + max concurrency, depth10 backfired on c2d-32**: 126 k TPS vs 458 k serial (−72%), with latency ballooning to 68 ms (vs 3.2 ms serial). With no RTT to hide, queueing 10× more work per client than the server can usefully run in parallel just adds queueing delay (Little's Law) plus client-side pipeline bookkeeping overhead, without a throughput payoff. n2-32 did *not* show this regression at native c=1500 (977 k, +2.6× over serial) — worth a follow-up to see whether it's `max_connections`/scheduler-related or an artifact of this specific run.
+- Net implication for the sliding-window feature: **enable it adaptively / only under measurable RTT**, not unconditionally at max concurrency — the wrong choice can cost more than serial.
