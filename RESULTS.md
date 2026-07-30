@@ -2187,6 +2187,48 @@ xychart-beta
     line "c2d-32 depth10" [126454, 258666, 330558 "c2d-32 depth10"]
 ```
 
+### Pipeline-depth=10 — scale with concurrency
+
+Latency lines share the TPS axis as **ms × 10 000** (so 15 ms → 150 000); mermaid has no dual Y-axis. Solid-looking darker lines = TPS; lighter = latency.
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #a0cbe8, #ffbe7d, #fabfd2"
+---
+xychart-beta
+    title "n2-32 depth10 — TPS & latency vs concurrency"
+    x-axis ["c=1", "c=32", "c=1500"]
+    y-axis "TPS / lat×10k" 0 --> 1000000
+    line "TPS native" [42131, 900631, 977796 "TPS native"]
+    line "TPS +1.5ms" [4243, 159743, 740577 "TPS +1.5ms"]
+    line "TPS +5ms" [1676, 54931, 333194 "TPS +5ms"]
+    line "lat native×10k" [2370, 3550, 152000 "lat native×10k"]
+    line "lat +1.5ms×10k" [23600, 20000, 201700 "lat +1.5ms×10k"]
+    line "lat +5ms×10k" [59700, 58200, 438000 "lat +5ms×10k"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759, #a0cbe8, #ffbe7d, #fabfd2"
+---
+xychart-beta
+    title "c2d-32 depth10 — TPS & latency vs concurrency"
+    x-axis ["c=1", "c=32", "c=1500"]
+    y-axis "TPS / lat×10k" 0 --> 700000
+    line "TPS native" [33717, 287283, 126454 "TPS native"]
+    line "TPS +1.5ms" [4518, 156959, 258666 "TPS +1.5ms"]
+    line "TPS +5ms" [1656, 54719, 330558 "TPS +5ms"]
+    line "lat native×10k" [2960, 11140, 685200 "lat native×10k"]
+    line "lat +1.5ms×10k" [22100, 20400, 480800 "lat +1.5ms×10k"]
+    line "lat +5ms×10k" [60400, 58470, 441300 "lat +5ms×10k"]
+```
+
 ### Takeaways
 
 - **`--pipeline-depth=10` is a huge win once RTT is nonzero**, at every concurrency level: at c=1 it's a **5–9×** TPS multiplier (n2 4.8×/8.8× at +1.5/+5 ms; c2d 7.6×/8.6×) since it hides RTT behind the queue instead of paying it serially. At c=1500 under real latency it's **+2.0×** on n2 and **+1.6–2.0×** on c2d.
