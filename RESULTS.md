@@ -2068,3 +2068,67 @@ xychart-beta
 ### Pilot note (n2-16 client → n2-32 only)
 
 Earlier same protocol with client `n2-standard-16` (`34.46.244.224`): native **442 k @ c=1500**, +1.5 ms −4%, +5 ms −63%, pipe d10 ~10× SELECT/s. Weaker client capped the native ceiling vs the t2d-32-client re-run (474 k). Details/raw: [`run10-pgbench-ro-latency/`](run10-pgbench-ro-latency/) (pre-matrix files) + [`summary.json`](run10-pgbench-ro-latency/matrix_t2d32_client/summary.json).
+
+---
+
+# Heavy cached RO (table CPU) vs classic `-S` under netem
+
+**Goal:** same topology and netem rungs as run10, but replace tiny `pgbench -S` with the cached multi-query RO script in [`pg_cpu_benchmark/`](pg_cpu_benchmark/) (~170 MB `ro_cpu_*` tables, CTEs/joins/aggs + regex/jsonb over a cached order slice). One txn ≈ **100–130 ms** server CPU at c=1, so RTT should be a small fraction of latency.
+
+Same client/servers as above; netem on server `ens4` (`delay 1.5ms` / `5ms`). Measure: c=1 × 30 s, c=1500 × 60 s (`-M prepared`). Artifacts: [`pg_cpu_benchmark/runs/`](pg_cpu_benchmark/runs/).
+
+**Findings:** Classic `-S` is **RTT-dominated** (c=1 collapses ~98% at +5 ms; c=1500 −65%). Heavy RO is almost **netem-immune at c=1500** (Δ within ±0.3%) and only mildly softer at c=1 (−14% / −16% at +5 ms — roughly adding one-way delay onto ~110–130 ms service time). CPU ranking also flips the wrong way for `-S` at high-c (tie) but shows up here: **c2d-32 ≈ 1.23× n2-32 at c=1** and **≈ 1.06× at c=1500**.
+
+### Side-by-side: Δ TPS vs native
+
+| Workload | Server | +1.5 ms @ c=1 | +5 ms @ c=1 | +1.5 ms @ c=1500 | +5 ms @ c=1500 |
+|----------|--------|---------------|-------------|------------------|----------------|
+| classic `-S` | n2-32 | **−95%** | **−98%** | −14% | **−65%** |
+| classic `-S` | c2d-32 | **−93%** | **−98%** | −7% | **−65%** |
+| heavy RO | n2-32 | −6% | −14% | −0.3% | **+0.0%** |
+| heavy RO | c2d-32 | −4% | −16% | +0.0% | −0.2% |
+
+### Heavy RO absolute numbers
+
+| Server | Condition | ping | c=1 TPS | c=1 lat | c=1500 TPS | c=1500 lat |
+|--------|-----------|------|---------|---------|------------|------------|
+| n2-32 | native | 0.234 ms | 7.52 | 133 ms | 148.8 | 10.08 s |
+| n2-32 | +1.5 ms | 1.762 ms | 7.09 | 141 ms | 148.4 | 10.11 s |
+| n2-32 | +5 ms | 5.265 ms | 6.43 | 155 ms | 148.8 | 10.08 s |
+| c2d-32 | native | 0.200 ms | **9.24** | 108 ms | **157.3** | 9.53 s |
+| c2d-32 | +1.5 ms | 1.702 ms | 8.84 | 113 ms | 157.4 | 9.53 s |
+| c2d-32 | +5 ms | 5.208 ms | 7.74 | 129 ms | 157.0 | 9.56 s |
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #59a14f, #e15759"
+---
+xychart-beta
+    title "c=1500 TPS vs netem — classic -S vs heavy RO (normalized to native=100)"
+    x-axis [native, "+1.5ms", "+5ms"]
+    y-axis "% of native" 0 --> 110
+    line "-S n2-32" [100, 86, 35 "-S n2-32"]
+    line "-S c2d-32" [100, 93, 35 "-S c2d-32"]
+    line "heavy n2-32" [100, 100, 100 "heavy n2-32"]
+    line "heavy c2d-32" [100, 100, 100 "heavy c2d-32"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #59a14f, #e15759"
+---
+xychart-beta
+    title "c=1 TPS vs netem — classic -S vs heavy RO (normalized to native=100)"
+    x-axis [native, "+1.5ms", "+5ms"]
+    y-axis "% of native" 0 --> 110
+    line "-S n2-32" [100, 5, 2 "-S n2-32"]
+    line "-S c2d-32" [100, 7, 2 "-S c2d-32"]
+    line "heavy n2-32" [100, 94, 86 "heavy n2-32"]
+    line "heavy c2d-32" [100, 96, 84 "heavy c2d-32"]
+```
