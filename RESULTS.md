@@ -2842,9 +2842,63 @@ xychart-beta
     line "v2" [130, 53, 129, 129, 54, 123, 65, 106, 62, 58 "v2"]
 ```
 
-## Parallel efficiency (v2)
+## Weak scaling efficiency (v2)
 
-Efficiency = `TPM(c) / (TPM(1)·c)`. Ideal linear = 100%.
+Cross-SKU scaling vs the family's **c=1** baseline (not within-SKU `TPM(c)/(TPM(1)·c)`).
+
+```
+eff(SKU) = (peak_TPM / V) / ref × 100%
+```
+
+| Family | Reference (`ref`) | Meaning of 100% |
+|--------|-------------------|-----------------|
+| **t2d** | t2d-1 @ c=1 = **127 TPM** | ideal: every vCPU delivers the same TPM as that single client |
+| **n2** | n2-2 @ c=1 per vCPU = **106/2 = 53** | no n2-1; normalize to the smallest SKU's single-thread per vCPU |
+
+| Instance | V | peak TPM | peak / V | eff vs c=1 ref |
+|----------|--:|---------:|---------:|---------------:|
+| t2d-1 | 1 | 130 | 130 | **100%** (c=1 = 127; peak ≈ same) |
+| t2d-4 | 4 | 517 | 129 | **102%** |
+| t2d-8 | 8 | 1 034 | 129 | **102%** |
+| t2d-16 | 16 | 1 963 | 123 | **97%** |
+| t2d-32 | 32 | 3 378 | 106 | **83%** |
+| n2-2 | 2 | 106 | 53 | **100%** |
+| n2-16 | 16 | 859 | 54 | **101%** |
+| n2-32 | 32 | 2 086 | 65 | **123%** |
+| n2-80 | 80 | 4 977 | 62 | **117%** |
+| n2-128 | 128 | 7 383 | 58 | **109%** |
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7"
+---
+xychart-beta
+    title "Weak scaling vs t2d-1 c=1 — peak TPM/vCPU (v2)"
+    x-axis ["t2d-1", "t2d-4", "t2d-8", "t2d-16", "t2d-32"]
+    y-axis "eff % (ref=127 TPM)" 0 --> 110
+    bar "eff" [100, 102, 102, 97, 83 "eff"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#f28e2b"
+---
+xychart-beta
+    title "Weak scaling vs n2-2 c=1/vCPU — peak TPM/vCPU (v2)"
+    x-axis ["n2-2", "n2-16", "n2-32", "n2-80", "n2-128"]
+    y-axis "eff % (ref=53 TPM/vCPU)" 0 --> 130
+    bar "eff" [100, 101, 123, 117, 109 "eff"]
+```
+
+### Within-SKU concurrency (for profile shape only)
+
+Same machine: `TPM(c) / (TPM(1)·c)`. Ideal linear in clients = 100%. Shows why winners sit at `V` (t2d) vs `V/2` (n2 ≤80).
 
 | Instance | @ V/2 | @ V | @ 2·V | 2·V uplift vs V |
 |----------|------:|----:|------:|----------------:|
@@ -2864,34 +2918,6 @@ Efficiency = `TPM(c) / (TPM(1)·c)`. Ideal linear = 100%.
 config:
   themeVariables:
     xyChart:
-      plotColorPalette: "#4e79a7"
----
-xychart-beta
-    title "Parallel efficiency at c=V (v2) — t2d"
-    x-axis ["t2d-1", "t2d-4", "t2d-8", "t2d-16", "t2d-32"]
-    y-axis "efficiency %" 0 --> 110
-    bar "eff@V" [100, 96, 102, 93, 81 "eff@V"]
-```
-
-```mermaid
----
-config:
-  themeVariables:
-    xyChart:
-      plotColorPalette: "#f28e2b"
----
-xychart-beta
-    title "Parallel efficiency at c=V (v2) — n2"
-    x-axis ["n2-2", "n2-16", "n2-32", "n2-80", "n2-128"]
-    y-axis "efficiency %" 0 --> 110
-    bar "eff@V" [45, 46, 46, 43, 44 "eff@V"]
-```
-
-```mermaid
----
-config:
-  themeVariables:
-    xyChart:
       plotColorPalette: "#4e79a7, #f28e2b, #e15759"
 ---
 xychart-beta
@@ -2903,9 +2929,9 @@ xychart-beta
 ```
 
 **Reading:**
-- **t2d** ≈ linear through `c=V`; `2·V` is flat (+0–2%).
-- **n2 ≤80** saturates by `c=V/2`; `c=V` / `2·V` add nothing.
-- **n2-128 (v2):** unlike smaller n2, **`c=V` is +51% over `c=V/2`** (4 875→7 383); `2·V` is flat (−0.5%). Under v1 the big jump was V→2·V (+33%); under v2 the jump moved earlier (V/2→V). Still keep `2·V` in the profile.
+- **t2d weak scaling:** ~linear through 8 vCPU (**102%** of t2d-1 c=1); mild fade at 16 (**97%**), clear fade at 32 (**83%**).
+- **n2 weak scaling:** at/above the n2-2 c=1/vCPU floor (larger SKUs have slightly higher single-thread TPM, so eff can exceed 100%).
+- **Within-SKU:** t2d ≈ linear through `c=V`; n2 ≤80 saturates by `c=V/2`. **n2-128** jumps V/2→V (+51%); `2·V` flat — keep measuring both.
 - **c=1** still a clean IPC rank signal (t2d ≈ 127–135 TPM, n2 ≈ 106–141 TPM; lat 425–567 ms).
 
 ## Validation checklist
