@@ -2534,3 +2534,99 @@ Peak **67 067 @ c=540 = 1.5·V**. Fastest single-thread (**674 TPM**, 89 ms)
 ### Inspector takeaway
 
 The current RO profile **`{1, V/2, V, 2·V}` + TPM score** is validated from 8→360 vCPU. Optional one-liner: if `V` and `2·V` are within 5%, add **`1.5·V`**. Only run upward search when `2·V` beats `V` by ≥5% (large n2).
+
+# TPC-B latency + peak TPM (run14)
+
+**Goal:** measure how **network RTT** affects default pgbench **TPC-B** (`tpcb-like`, `-M prepared`, durable `synchronous_commit=on`), and whether the inspector’s TPC-B ladder `{1, V/4, V/2, V}` + 5% upward search finds the true peak.
+
+Artifacts: [`run14-tpcb-latency/`](run14-tpcb-latency/). Same run13 GCP hosts (client **t2d-standard-60**). Separate DB `tpcb` (not `ro_cpu`). Scales: n2-8 **-s 64**, n2-128 **-s 512**, t2d-60 **-s 256**. Warm ~30–45 s, measure **T=40 s**, `j=min(c,32)`. Netem on **server** egress (`ens4`). **c3d-360 skipped** (root disk full mid-init at `-s 1536`; incomplete indexes).
+
+> **Verdicts:** (1) TPC-B is **RTT-dominated** — +1.5 ms one-way netem cuts c=1 TPM to ~12% of native; +5 ms → ~4%. Latency ≈ native + ~7×RTT (multi-statement txn). (2) Heavy RO (run13) is **service-time dominated** — same delays are noise. (3) Native peak concurrency is **SKU-specific and not at `V`**: n2-8 still climbing at **4·V**; n2-128 peaks at **0.75·V** then collapses; t2d-60 peaks near **3·V**. (4) Inspector search **misses interstitial ladder points before `V`** (e.g. c=96 on n2-128) → can undershoot peak by **~34%**.
+
+## Native dense peak (no netem)
+
+| SKU | Peak TPM | @ c | vs V | vs 2·V | Notes |
+|-----|---------:|----:|-----:|-------:|-------|
+| n2-8 | **812 489** | **32 (=4V)** | 258 k (32%) | 481 k (59%) | Still rising at search cap |
+| n2-128 | **2 068 106** | **96 (~0.75V)** | 1 190 k (58%) | 8 k (collapsed) | Cliff past ~128 |
+| t2d-60 | **2 232 881** | **180 (=3V)** | 1 365 k (61%) | 2 071 k (93%) | Early-stop after 192/240 |
+
+### n2-standard-8 (V=8, -s 64)
+
+| c | 1 | 2 | 4 | **8 (=V)** | 16 (=2V) | 24 | **32 (=4V)** |
+|--:|--:|--:|--:|-----------:|---------:|---:|-------------:|
+| TPM | 38 467 | 73 827 | 142 384 | 258 275 | 480 569 | 669 425 | **812 489** |
+| lat ms | 1.56 | 1.63 | 1.69 | 1.86 | 2.00 | 2.15 | 2.36 |
+
+### n2-standard-128 (V=128, -s 512)
+
+| c | 1 | 32 (=V/4) | **64 (=V/2)** | **96** | 128 (=V) | 256 (=2V) |
+|--:|--:|----------:|--------------:|-------:|---------:|----------:|
+| TPM | 41 140 | 966 873 | 1 371 959 | **2 068 106** | 1 189 701 | 8 383 |
+| lat ms | 1.46 | 1.99 | 2.80 | 2.78 | 6.45 | 1675 |
+
+### t2d-standard-60 (V=60, -s 256) — client=server
+
+| c | 1 | 32 | 60 (=V) | 64 | 96 | 120 (~2V) | **180 (=3V)** | 240 |
+|--:|--:|---:|--------:|---:|---:|----------:|--------------:|----:|
+| TPM | 61 243 | 974 564 | 1 365 013 | 1 555 109 | 1 920 770 | 2 071 293 | **2 232 881** | 495 751 |
+
+## Latency matrix (netem on server)
+
+Observed avg latency ≈ `L0 + N·δ` with **N≈7** (tpcb-like issues several sync statements per txn under `-M prepared`, no pipeline).
+
+| Host | netem | c=1 TPM | c=1 lat | @V TPM | @2V TPM |
+|------|-------|--------:|--------:|-------:|--------:|
+| n2-8 | native | 38 467 | 1.56 ms | 258 275 | 480 569 |
+| n2-8 | **+1.5 ms** | **4 811** (−87%) | 12.5 ms | 37 690 | 74 794 |
+| n2-8 | **+5 ms** | **1 608** (−96%) | 37.3 ms | 12 818 | 25 475 |
+| n2-128 | native | 41 140 | 1.46 ms | 1 189 701 | 8 383† |
+| n2-128 | **+1.5 ms** | **4 785** (−88%) | 12.5 ms | 575 024 | **1 130 434** |
+| n2-128 | **+5 ms** | **1 616** (−96%) | 37.1 ms | 203 059 | 396 345 |
+
+†Native 2·V collapsed (oversubscribe). With extra RTT, throughput stays **linear in c** through 2·V — peak concurrency **moves right** (clients fill the longer pipeline). Ranking at fixed `c=V` under remote RTT therefore confounds SKU CPU with path latency.
+
+### vs heavy RO (run13)
+
+| Workload | Service / txn | +1.5 ms RTT effect | Peak algorithm |
+|----------|---------------|--------------------|----------------|
+| `ro_cpu` | ~tens–hundreds ms | Negligible | Fixed `{1,V/2,V,2V}` ≥99% |
+| `tpcb-like` | ~1–3 ms native | **TPM ∝ 1/(L0+N·δ)** | Needs denser search; RTT-aware |
+
+## Does inspector TPC-B search find the peak?
+
+Inspector plan (`benchmark.py`): anchors `{1, rung(V/4), rung(V/2), rung(V)}`, then geometric rungs **strictly above `max(anchor)`** while TPM improves ≥5%.
+
+| SKU | True peak | Inspector path | Reported peak (est.) | Coverage |
+|-----|----------:|----------------|---------------------:|---------:|
+| n2-8 | 812 k @32 | anchors→12→16→24→32 (all ≥5%) | **812 k @32** | **100%** |
+| n2-128 | 2 068 k @**96** | anchors 1/32/64/128; **96 never run** (96 < max anchor 128); stop after 192+ | **1 372 k @64** | **66%** |
+| t2d-60 | 2 233 k @180 | anchors…64 →96 (+24%) →128 (−6% stop) | **1 921 k @96** | **86%** |
+
+**Bug shape:** peaks that sit **between `V/2` and `V`** (or between `V` and `2V` off the post-`V` stop) are invisible. Adaptive search only walks **up from `V`**, never fills gaps below `V`.
+
+## Recommended TPC-B peak algorithm
+
+```
+1. Size -s so scale ≥ concurrency_search_cap(V); durable or async as product requires.
+2. Anchors: {1, V/4, V/2, V}  PLUS interstitial ladder points between V/2 and V
+   (at least rung(0.75·V) — e.g. 96 when V=128).
+3. Measure upward from max(anchor) while improve ≥ 5%, cap at ~4·V (existing).
+4. Optional: if TPM(V) < TPM(V/2), treat as “peak below V” — densify (V/2, V)
+   before searching past V.
+5. For remote clients: either co-locate, or report c=1 lat + TPM, and/or use
+   --pipeline-depth for classic short txns (not a substitute for fair peak search).
+6. Do NOT reuse the RO fixed {1,V/2,V,2V} profile for TPC-B peak —
+   2·V can be a cliff (n2-128) or still climbing (n2-8).
+```
+
+### Inspector takeaways
+
+| Item | Action |
+|------|--------|
+| TPC-B ≠ RO peak shape | Keep separate profiles (already done) |
+| Gap below `V` | Include ladder rungs between `V/2` and `V` in the always-measured set, or search both directions from the best anchor |
+| Latency / placement | Companion RTT swings TPC-B TPM by **orders of magnitude**; prefer same-zone private IP and record `latency average` beside score |
+| `--pipeline-depth` | Helps classic short TPC-B under RTT; irrelevant for heavy RO (run12) |
+| c3d-360 | Re-run at modest `-s` once disk sized; not in this matrix |
+
