@@ -2630,3 +2630,242 @@ Inspector plan (`benchmark.py`): anchors `{1, rung(V/4), rung(V/2), rung(V)}`, t
 | `--pipeline-depth` | Helps classic short TPC-B under RTT; irrelevant for heavy RO (run12) |
 | c3d-360 | Re-run at modest `-s` once disk sized; not in this matrix |
 
+
+---
+
+# Heavy RO v2 txn — fleet validation vs v1 (2026-07-31 evening)
+
+> **Labels:** **v1** = prior fleet section (`pgbench_postgres_multi_ro_durable`, lighter txn, c=1 ≈ 450–520 TPM / ~120 ms). **v2** = current `ro_cpu_txn.sql` (mixed btree / hash+merge join / regex / FTS+GIN / arrays / stats aggs / TOAST / seqscan; local Docker cal ≈ 78 ms/txn). Same inspector profile `{1, V/2, V, 2·V}`, score = max TPM, `cpu_scale=1`. Source: `sc-inspector-data` GCP multi_ro_durable (9 SKUs complete at write time; remaining SKUs still rolling).
+
+> **Verdict:** v2 is a uniform **~4× slower** txn (peak retention **19–26%**, mean **23%**; c=1 retention **24–31%**). Scalability shape is **unchanged**: t2d stays near-linear to `c=V`; n2 saturates by `c=V/2`. Profile `{1,V/2,V,2·V}` still captures the peak (≥99% of measured max on every completed SKU). Companion sizing (≤8 vCPU here) is fine — clients stay tiny vs DB work.
+
+## Matched SKUs — peak & c=1
+
+| Instance | V | v1 peak | v2 peak | v2/v1 | Winner @ (v2) | v1 c=1 | v2 c=1 | v2 c=1 lat | cli |
+|----------|--:|--------:|--------:|------:|---------------|-------:|-------:|-----------:|----:|
+| t2d-standard-1 | 1 | 503 | **130** | 0.26× | c=2 | 503 | 127 | 472 ms | 1 |
+| n2-standard-2 | 2 | 501 | **106** | 0.21× | c=1 / c=4 | 445 | 106 | 567 ms | 2 |
+| t2d-standard-4 | 4 | 2 039 | **517** | 0.25× | **c=4** | 506 | 135 | 446 ms | 4 |
+| t2d-standard-8 | 8 | 4 076 | **1 034** | 0.25× | **c=8** | 498 | 127 | 473 ms | 4 |
+| n2-standard-16 | 16 | 4 611 | **859** | 0.19× | c=8 (=V/2) | 451 | 116 | 518 ms | 4 |
+| t2d-standard-16 | 16 | 8 294 | **1 963** | 0.24× | **c=16** | 518 | 132 | 455 ms | 4 |
+| n2-standard-32 | 32 | 9 225 | **2 086** | 0.23× | **c=16** (=V/2) | 455 | 135 | 444 ms | 4 |
+| t2d-standard-32 | 32 | 15 604 | **3 378** | 0.22× | **c=64** (=2·V) | 507 | 129 | 465 ms | 4 |
+| n2-standard-80 | 80 | 18 898 | **4 977** | 0.26× | **c=40** (=V/2) | 449 | 141 | 425 ms | 8 |
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b"
+---
+xychart-beta
+    title "Peak TPM — v1 vs v2 (matched SKUs)"
+    x-axis ["t2d-1", "n2-2", "t2d-4", "t2d-8", "n2-16", "t2d-16", "n2-32", "t2d-32", "n2-80"]
+    y-axis "Peak TPM" 0 --> 20000
+    bar "v1 (lighter txn)" [503, 501, 2039, 4076, 4611, 8294, 9225, 15604, 18898]
+    bar "v2 (mixed txn)" [130, 106, 517, 1034, 859, 1963, 2086, 3378, 4977]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#59a14f"
+---
+xychart-beta
+    title "Peak TPM retention (v2 / v1)"
+    x-axis ["t2d-1", "n2-2", "t2d-4", "t2d-8", "n2-16", "t2d-16", "n2-32", "t2d-32", "n2-80"]
+    y-axis "v2/v1" 0 --> 0.30
+    bar [0.258, 0.212, 0.254, 0.254, 0.186, 0.237, 0.226, 0.216, 0.263]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #e15759"
+---
+xychart-beta
+    title "c=1 latency — v1 (~120 ms) vs v2"
+    x-axis ["t2d-1", "n2-2", "t2d-4", "t2d-8", "n2-16", "t2d-16", "n2-32", "t2d-32", "n2-80"]
+    y-axis "latency avg (ms)" 0 --> 600
+    bar "v1 ≈120 ms" [120, 120, 120, 120, 120, 120, 120, 120, 120]
+    bar "v2 measured" [472, 567, 446, 473, 518, 455, 444, 465, 425]
+```
+
+## Concurrency profile (v2) — TPM at each rung
+
+| Instance | V | c=1 | c=V/2 | c=V | c=2·V | Winner |
+|----------|--:|----:|------:|----:|------:|--------|
+| t2d-standard-1 | 1 | 127 | 127 | 127 | **130** | c=2 |
+| n2-standard-2 | 2 | **106** | 106 | 96 | **106** | c=1 / c=4 |
+| t2d-standard-4 | 4 | 135 | 264 | **517** | 513 | **c=4** |
+| t2d-standard-8 | 8 | 127 | 507 | **1 034** | 1 030 | **c=8** |
+| n2-standard-16 | 16 | 116 | **859** | 859 | 859 | **c=8** (flat to 2·V) |
+| t2d-standard-16 | 16 | 132 | 1 015 | **1 963** | 1 947 | **c=16** |
+| n2-standard-32 | 32 | 135 | **2 086** | 1 968 | 1 953 | **c=16** |
+| t2d-standard-32 | 32 | 129 | 2 054 | 3 340 | **3 378** | **c=64** (+1% vs V) |
+| n2-standard-80 | 80 | 141 | **4 977** | 4 865 | 4 870 | **c=40** |
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #59a14f, #e15759"
+---
+xychart-beta
+    title "v2 TPM by relative concurrency (t2d ladder)"
+    x-axis ["t2d-1", "t2d-4", "t2d-8", "t2d-16", "t2d-32"]
+    y-axis "TPM" 0 --> 3500
+    bar "c=1" [127, 135, 127, 132, 129]
+    bar "c=V/2" [127, 264, 507, 1015, 2054]
+    bar "c=V" [127, 517, 1034, 1963, 3340]
+    bar "c=2·V" [130, 513, 1030, 1947, 3378]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #59a14f, #e15759"
+---
+xychart-beta
+    title "v2 TPM by relative concurrency (n2 ladder)"
+    x-axis ["n2-2", "n2-16", "n2-32", "n2-80"]
+    y-axis "TPM" 0 --> 5200
+    bar "c=1" [106, 116, 135, 141]
+    bar "c=V/2" [106, 859, 2086, 4977]
+    bar "c=V" [96, 859, 1968, 4865]
+    bar "c=2·V" [106, 859, 1953, 4870]
+```
+
+## Scalability — peak TPM vs vCPU (v1 vs v2)
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #76b7b2, #e15759"
+---
+xychart-beta
+    title "Peak TPM vs V — t2d family"
+    x-axis [1, 4, 8, 16, 32]
+    y-axis "Peak TPM" 0 --> 16000
+    line "v1 t2d" [503, 2039, 4076, 8294, 15604]
+    line "v2 t2d" [130, 517, 1034, 1963, 3378]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b"
+---
+xychart-beta
+    title "Peak TPM vs V — n2 family (matched)"
+    x-axis [2, 16, 32, 80]
+    y-axis "Peak TPM" 0 --> 20000
+    line "v1 n2" [501, 4611, 9225, 18898]
+    line "v2 n2" [106, 859, 2086, 4977]
+```
+
+| Family | Size span | v1 peak scaling | v2 peak scaling | Notes |
+|--------|-----------|-----------------|-----------------|-------|
+| **t2d** | 1→32 | ~31× (503→15 604) | ~26× (130→3 378) | Near-linear until 16; mild fade at 32 (TPM/vCPU 130→106) |
+| **n2** | 2→80 | ~38× (501→18 898) | ~47× (106→4 977) | Absolute TPM/vCPU ~half of t2d; winner still at **V/2** |
+
+### TPM / vCPU
+
+| V | v1 n2 | v2 n2 | v1 t2d | v2 t2d | t2d/n2 (v2) |
+|--:|------:|------:|-------:|-------:|------------:|
+| 1 | — | — | 503 | **130** | — |
+| 2 | 251 | **53** | — | — | — |
+| 4 | — | — | 510 | **129** | — |
+| 8 | — | — | 510 | **129** | — |
+| 16 | 288 | **54** | 518 | **123** | **2.3×** |
+| 32 | 288 | **65** | 488 | **106** | **1.6×** |
+| 80 | 236 | **62** | — | — | — |
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b"
+---
+xychart-beta
+    title "TPM per vCPU at peak (v2)"
+    x-axis ["t2d-1", "n2-2", "t2d-4", "t2d-8", "n2-16", "t2d-16", "n2-32", "t2d-32", "n2-80"]
+    y-axis "TPM / vCPU" 0 --> 140
+    bar [130, 53, 129, 129, 54, 123, 65, 106, 62]
+```
+
+## Parallel efficiency (v2)
+
+Efficiency = `TPM(c) / (TPM(1)·c)`. Ideal linear = 100%.
+
+| Instance | @ V/2 | @ V | @ 2·V | 2·V uplift vs V |
+|----------|------:|----:|------:|----------------:|
+| t2d-1 | 100% | 100% | 51% | +2% |
+| t2d-4 | 98% | 96% | 48% | −1% |
+| t2d-8 | 100% | **102%** | 51% | 0% |
+| t2d-16 | 96% | 93% | 46% | −1% |
+| t2d-32 | **100%** | 81% | 41% | **+1%** |
+| n2-2 | 100% | 45% | 25% | +10% (noise) |
+| n2-16 | 93% | 46% | 23% | 0% |
+| n2-32 | **97%** | 46% | 23% | −1% |
+| n2-80 | 88% | 43% | 22% | 0% |
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#4e79a7, #f28e2b, #e15759"
+---
+xychart-beta
+    title "Parallel efficiency at c=V (v2)"
+    x-axis ["t2d-1", "t2d-4", "t2d-8", "t2d-16", "t2d-32", "n2-2", "n2-16", "n2-32", "n2-80"]
+    y-axis "efficiency %" 0 --> 110
+    bar [100, 96, 102, 93, 81, 45, 46, 46, 43]
+```
+
+**Reading (same as v1):**
+- **t2d** ≈ linear through `c=V` (SMT / core count); `2·V` is flat (+0–2%).
+- **n2** saturates by `c=V/2` (~physical cores); `c=V` and `c=2·V` add nothing useful on these completed sizes.
+- **c=1** still a clean IPC rank signal (t2d ≈ 127–135 TPM, n2 ≈ 106–141 TPM; lat 425–567 ms).
+
+## Validation checklist
+
+| Check | Expected | Observed (v2) | Pass |
+|-------|----------|---------------|------|
+| Uniform slowdown vs v1 | ~same ratio across SKUs | Peak 0.19–0.26× (mean 0.23×); c=1 0.24–0.31× | ✅ |
+| c=1 latency ↑ | ~3–4× vs ~120 ms | 425–567 ms (~3.5–4.7×); local Docker cal ~78 ms (fleet RTT + VM overhead) | ✅ |
+| t2d > n2 at matched V | Yes (v1 ~1.7–2.1×) | At 16: 1 963/859 = **2.3×**; at 32: 3 378/2 086 = **1.6×** | ✅ |
+| Peak near V or V/2 | t2d@V, n2@V/2 | Holds on all 9 SKUs | ✅ |
+| Profile covers peak | `{1,V/2,V,2·V}` ≥99% of dense peak | Winner always one of the four rungs; 2·V never required except t2d-32 (+1%) | ✅ |
+| TPM scales with V | Near-linear t2d | t2d 1→16: 130→1 963 (**15×** on 16× cores) | ✅ |
+| Client not limiting | cli ≪ DB work | cli=1–8; score rises with DB V; n2-80 cli=8 still OK | ✅ |
+| Zero failed txns | Clean runs | Exit 0 on all completed | ✅ |
+
+## Cross-checks vs prior lab
+
+| Reference | Value | v2 fleet |
+|-----------|-------|----------|
+| Local Docker cal (scale=1) | ~78 ms / txn | Fleet c=1 **425–567 ms** (remote pgbench + colder caches + larger machines still single-thread bound at c=1) |
+| run13 / v1 fleet n2-32 peak | 9 225 TPM | v2 **2 086** (0.23×) |
+| run13 / v1 fleet t2d-32 peak | 15 604 TPM | v2 **3 378** (0.22×) |
+| Companion sizing change | `ceil(clients/20)`, min 4 | Observed cli=4 for V≤32, cli=8 for V=80 — consistent |
+
+## Still pending (not in charts)
+
+Larger / other SKUs from the same republish wave (n2-4/8/48/64/96/128, t2d-2/48/60, DBaaS, etc.) were not yet exit-0 at write time. Re-append when they land; expect the same ~0.23× retention and n2-@V/2 / t2d-@V winner pattern.
+
