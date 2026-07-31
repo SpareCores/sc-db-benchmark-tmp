@@ -2802,13 +2802,14 @@ xychart-beta
 config:
   themeVariables:
     xyChart:
-      plotColorPalette: "#4e79a7"
+      plotColorPalette: "#4e79a7, #f28e2b"
 ---
 xychart-beta
-    title "TPM per vCPU at peak (v2)"
+    title "TPM per vCPU at peak — v1 vs v2"
     x-axis ["t2d-1", "n2-2", "t2d-4", "t2d-8", "n2-16", "t2d-16", "n2-32", "t2d-32", "n2-80", "n2-128"]
-    y-axis "TPM / vCPU" 0 --> 140
-    bar "TPM/vCPU" [130, 53, 129, 129, 54, 123, 65, 106, 62, 58 "TPM/vCPU"]
+    y-axis "TPM / vCPU" 0 --> 520
+    bar "v1" [503, 251, 510, 510, 288, 518, 288, 488, 236, 258 "v1"]
+    bar "v2" [130, 53, 129, 129, 54, 123, 65, 106, 62, 58 "v2"]
 ```
 
 ## Parallel efficiency (v2)
