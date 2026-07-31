@@ -2864,13 +2864,27 @@ Efficiency = `TPM(c) / (TPM(1)·c)`. Ideal linear = 100%.
 config:
   themeVariables:
     xyChart:
-      plotColorPalette: "#4e79a7, #f28e2b"
+      plotColorPalette: "#4e79a7"
 ---
 xychart-beta
-    title "Parallel efficiency at c=V (v2)"
-    x-axis ["t2d-1", "t2d-4", "t2d-8", "t2d-16", "t2d-32", "n2-2", "n2-16", "n2-32", "n2-80", "n2-128"]
+    title "Parallel efficiency at c=V (v2) — t2d"
+    x-axis ["t2d-1", "t2d-4", "t2d-8", "t2d-16", "t2d-32"]
     y-axis "efficiency %" 0 --> 110
-    bar "eff@V" [100, 96, 102, 93, 81, 45, 46, 46, 43, 44 "eff@V"]
+    bar "eff@V" [100, 96, 102, 93, 81 "eff@V"]
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#f28e2b"
+---
+xychart-beta
+    title "Parallel efficiency at c=V (v2) — n2"
+    x-axis ["n2-2", "n2-16", "n2-32", "n2-80", "n2-128"]
+    y-axis "efficiency %" 0 --> 110
+    bar "eff@V" [45, 46, 46, 43, 44 "eff@V"]
 ```
 
 ```mermaid
