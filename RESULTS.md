@@ -2342,3 +2342,93 @@ With **many clients**:
 | `scale=2` is ~2× heavier, same story | native d0 c32 ≈ half TPS of s1; c1 lat ~2× (n2 268 ms, c2d 216 ms) |
 
 **Inspector takeaway (unchanged):** heavy RO = serial (`depth=0`), `scale=1`, concurrency `{1, V/2, V, 2·V}`, score in **TPM**. Do not enable `--pipeline-depth` for this script.
+
+---
+
+# Fleet scalability — `pgbench_postgres_multi_ro_durable` (n2 / t2d)
+
+Heavy cached RO (`ro_cpu`, `cpu_scale=1`), fixed profile `{1, V/2, V, 2·V}`, score = max TPM. Source: `sc-inspector-data` GCP runs dated 2026-07-31 (18/18 exit 0, zero failed txns). Aligns with run12: n2-32 peak **9 225 TPM** vs lab ~9 092.
+
+## Concurrency profile TPM (winner bold)
+
+Each row is one SKU. Columns are the four visited relative rungs; **bold** = max TPM on that SKU (the headline score). For tiny SKUs `V/2` collapses to `c=1`.
+
+### n2-standard
+
+| Instance | V | c=1 | c=V/2 | c=V | c=2·V | Winner @ |
+|----------|--:|----:|------:|----:|------:|----------|
+| n2-standard-2 | 2 | 445 | 445 (c=1) | **501** | **501** (c=4) | c=2 / c=4 (tie) |
+| n2-standard-4 | 4 | 445 | 834 (c=2) | **977** | 974 (c=8) | **c=4** |
+| n2-standard-8 | 8 | 453 | 1 744 (c=4) | 1 983 | **1 984** (c=16) | **c=16** |
+| n2-standard-16 | 16 | 451 | 3 625 (c=8) | 4 605 | **4 611** (c=32) | **c=32** |
+| n2-standard-32 | 32 | 455 | 7 281 (c=16) | 9 127 | **9 225** (c=64) | **c=64** |
+| n2-standard-48 | 48 | 446 | 10 486 (c=24) | 13 477 | **13 747** (c=96) | **c=96** |
+| n2-standard-64 | 64 | 448 | 14 402 (c=32) | 16 592 | **17 030** (c=128) | **c=128** |
+| n2-standard-80 | 80 | 449 | 16 876 (c=40) | 18 111 | **18 898** (c=160) | **c=160** |
+| n2-standard-96 | 96 | 451 | 17 463 (c=48) | 24 773 | **26 552** (c=192) | **c=192** |
+| n2-standard-128 | 128 | 456 | 17 919 (c=64) | 24 861 | **32 971** (c=256) | **c=256** |
+
+### t2d-standard
+
+| Instance | V | c=1 | c=V/2 | c=V | c=2·V | Winner @ |
+|----------|--:|----:|------:|----:|------:|----------|
+| t2d-standard-1 | 1 | **503** | **503** (c=1) | **503** | 492 (c=2) | **c=1** |
+| t2d-standard-2 | 2 | 507 | 507 (c=1) | 953 | **1 011** (c=4) | **c=4** |
+| t2d-standard-4 | 4 | 506 | 1 011 (c=2) | 2 021 | **2 039** (c=8) | **c=8** |
+| t2d-standard-8 | 8 | 498 | 2 012 (c=4) | 4 006 | **4 076** (c=16) | **c=16** |
+| t2d-standard-16 | 16 | 518 | 4 164 (c=8) | 8 169 | **8 294** (c=32) | **c=32** |
+| t2d-standard-32 | 32 | 507 | 8 153 (c=16) | 14 995 | **15 604** (c=64) | **c=64** |
+| t2d-standard-48 | 48 | 507 | 10 230 (c=24) | 18 145 | **20 414** (c=96) | **c=96** |
+| t2d-standard-60 | 60 | 502 | 14 620 (c=30) | 21 523 | **23 818** (c=120) | **c=120** |
+
+## How the profile scales
+
+Parallel efficiency = `TPM(c) / (TPM(1)·c)`. Ideal linear = 100%.
+
+| Family | At c=V/2 | At c=V | At c=2·V | 2·V uplift vs c=V |
+|--------|----------|--------|----------|-------------------|
+| **t2d** (≤16 vCPU) | ~100% | ~99–101% | ~50% | +1–2% (flat) |
+| **t2d** (32–60) | 84–97% | 71–92% | 40–48% | **+4–13%** (still useful) |
+| **n2** (≤48) | ~94–100% | ~55–64% | ~27–32% | +0–2% (noise) |
+| **n2** (64–96) | 81–100% | 50–58% | 26–31% | +3–7% |
+| **n2-128** | **61%** (early fade) | 43% | 28% | **+33%** (outlier — keep measuring 2·V) |
+
+**Reading:**
+- **t2d** scales nearly linearly up to ~`c=V` through 16 vCPU (Milan SMT helps little beyond one thread per vCPU until the machine is full). Oversubscribe (`2·V`) only pays on larger t2d.
+- **n2** saturates by ~`c=V/2` in TPM terms (≈ physical cores without HT), then `c=V` adds ~30–40% more TPM, and `c=2·V` is usually a tiny bump — except **n2-128**, where 2·V still adds a third. That is the main reason to keep `2·V` in the fleet profile rather than stopping at `V`.
+- **c=1** is rock-stable (~445–456 n2, ~498–518 t2d) across the whole size ladder → good single-thread rank signal.
+
+## Peak TPM and TPM/vCPU (fleet ranking)
+
+| V | n2 peak TPM | n2 TPM/vCPU | t2d peak TPM | t2d TPM/vCPU | t2d/n2 (peak) | t2d/n2 (c=1) |
+|--:|------------:|------------:|-------------:|-------------:|--------------:|-------------:|
+| 1 | — | — | **503** | 503 | — | — |
+| 2 | 501 | 251 | **1 011** | 506 | 2.02× | 1.14× |
+| 4 | 977 | 244 | **2 039** | 510 | 2.09× | 1.14× |
+| 8 | 1 984 | 248 | **4 076** | 510 | 2.05× | 1.10× |
+| 16 | 4 611 | 288 | **8 294** | 518 | 1.80× | 1.15× |
+| 32 | 9 225 | 288 | **15 604** | 488 | 1.69× | 1.11× |
+| 48 | 13 747 | 286 | **20 414** | 425 | 1.48× | 1.14× |
+| 60 | — | — | **23 818** | 397 | — | — |
+| 64 | **17 030** | 266 | — | — | — | — |
+| 80 | **18 898** | **236** | — | — | — | — |
+| 96 | **26 552** | 277 | — | — | — | — |
+| 128 | **32 971** | 258 | — | — | — | — |
+
+**t2d wins every matched size** on peak TPM. The gap is mostly multi-core scaling (peak ratio 1.5–2.1×), not single-thread (c=1 only ~1.10–1.15×).
+
+## Fleet evaluation notes
+
+| Topic | Finding |
+|-------|---------|
+| **Benchmark health** | All 18 GCP SKUs clean. No need to rerun for errors. |
+| **Score definition** | Max over `{1,V/2,V,2·V}` is the right headline: peak is almost always at `2·V` (or tied), never at c=1. |
+| **Is `2·V` worth keeping?** | Yes. Cheap on small/mid SKUs (+0–2%), material on large t2d (+10–13%) and **essential on n2-128 (+33%)**. Dropping it would under-rank big n2. |
+| **Is `V/2` informative?** | Yes for n2: it marks the HT knee (~linear to physical cores). On t2d ≤16 it is nearly identical to a linear ramp toward `V`. |
+| **Weak n2 SKUs** | **n2-80** has the worst TPM/vCPU (236). Soft but monotonic (no classic `-S`-style inversion vs neighbors). |
+| **Large-n2 caveat** | n2-96/128 still climb in absolute TPM, but efficiency falls; n2-128’s big 2·V jump deserves a replicate if used for published rankings. |
+| **t2d diminishing returns** | TPM/vCPU holds ~500 through 16 vCPU, then 488 → 425 → 397 at 32/48/60 — still the better family where both exist. |
+| **vs classic `-S` RO** | Absolute TPM is ~50–100× lower; curves are smoother (no 48/80 cliffs that inverted rankings). Prefer this workload for CPU ranking. |
+| **vs run12 lab** | Same shape: peak near `c≈V`–`2·V`, c=1 for IPC rank, pipeline irrelevant. Fleet n2-32 matches lab within ~1.5%. |
+
+**Practical ranking recipe for this fleet:** sort by peak TPM for “how much DB work can this SKU do”; use c=1 TPM (or latency) when comparing microarchitectures at equal thread count; treat TPM/vCPU as the value metric (t2d dominates; avoid n2-80 if efficiency matters).
