@@ -2432,3 +2432,105 @@ Parallel efficiency = `TPM(c) / (TPM(1)·c)`. Ideal linear = 100%.
 | **vs run12 lab** | Same shape: peak near `c≈V`–`2·V`, c=1 for IPC rank, pipeline irrelevant. Fleet n2-32 matches lab within ~1.5%. |
 
 **Practical ranking recipe for this fleet:** sort by peak TPM for “how much DB work can this SKU do”; use c=1 TPM (or latency) when comparing microarchitectures at equal thread count; treat TPM/vCPU as the value metric (t2d dominates; avoid n2-80 if efficiency matters).
+
+---
+
+# Peak-TPM algorithm (run13) — heavy RO across 8→360 vCPU
+
+**Goal:** find a reliable way to measure **peak TPM** for the cached `ro_cpu` workload on widely different SKUs, and check whether the inspector’s fixed profile `{1, V/2, V, 2·V}` is enough.
+
+Artifacts: [`run13-peak-tpm/`](run13-peak-tpm/). Dense concurrency sweeps (relative anchors + geometric points up to **4·V**, early-stop after 2 non-improves past 2·V). `cpu_scale=1`, serial, `j=min(c,32)`, warm 45 s @ `c=V`, measure **T=40 s** / settle 8 s.
+
+| Role | SKU | IP (private) |
+|------|-----|--------------|
+| Client (primary) | t2d-standard-60 | 34.26.64.141 (10.142.15.229) |
+| Server | n2-standard-128 | 35.229.60.127 (10.142.15.228) |
+| Server | n2-standard-8 | 35.231.27.230 (10.142.15.230) |
+| Server | c3d-highcpu-360 | 34.24.131.253 (10.142.15.231) |
+| Server (local / reverse) | t2d-standard-60 | same as client |
+| Client (reverse) | n2-standard-128 | → t2d-60 |
+
+## Dense-sweep TPM tables (winner bold)
+
+### n2-standard-8 (V=8) — client t2d-60
+
+| c | 1 | 2 | 4 (=V/2) | 6 | **8 (=V)** | 10 | 12 | 16 (=2V) | **24** | 32 (=4V) |
+|--:|--:|--:|---------:|--:|-----------:|---:|---:|---------:|-------:|---------:|
+| TPM | 452 | 913 | 1 811 | 2 077 | 2 298 | 2 311 | 2 312 | 2 291 | **2 319** | 2 287 |
+
+Peak **2 319 @ c=24** (noise: only +0.9% over `c=V`). Plateau from ~`c=V`.
+
+### n2-standard-128 (V=128) — client t2d-60
+
+| c | 1 | 64 (=V/2) | 96 | **128 (=V)** | 160 | 192 | **256 (=2V)** | 384 (=3V) | 512 (=4V) |
+|--:|--:|----------:|---:|-------------:|----:|----:|--------------:|----------:|----------:|
+| TPM | 455 | 17 586 | 19 279 | 28 610 | 31 236 | 32 363 | **32 634** | 32 536 | 32 378 |
+
+Peak **32 634 @ c=256 = 2·V**. `2V` is **+14%** over `V` (fleet’s larger jump was partly a soft `V` rung). `3V`/`4V` do not help.
+
+### t2d-standard-60 — local client (same host)
+
+| c | 1 | 30 (=V/2) | **60 (=V)** | 90 | 96 | **120 (=2V)** | **128** | 180 (=3V) |
+|--:|--:|----------:|------------:|---:|---:|--------------:|--------:|----------:|
+| TPM | 502 | 14 508 | 23 740 | 23 680 | 23 854 | 23 889 | **23 942** | 23 568 |
+
+Peak **23 942 @ c=128** (~2·V). Matches fleet t2d-60 (23 818) within ~0.5%.
+
+### t2d-standard-60 — reverse (client = n2-128)
+
+| c | 1 | 30 | 60 (=V) | 90 | **120 (=2V)** | 128 | 180 |
+|--:|--:|---:|--------:|---:|--------------:|----:|----:|
+| TPM | 503 | 14 119 | 18 803† | 23 626 | **23 988** | 23 949 | 23 963 |
+
+†`c=V` was anomalously low (−21% vs local); peak at `2·V` still matches local (**23 988** vs 23 942). **Peak is robust to client SKU; mid-rungs can glitch — always keep `2·V`.**
+
+### c3d-highcpu-360 (V=360) — client t2d-60
+
+| c | 1 | 180 (=V/2) | 270 | **360 (=V)** | 450 | **540 (=1.5V)** | 720 (=2V) | 768 |
+|--:|--:|-----------:|----:|-------------:|----:|----------------:|----------:|----:|
+| TPM | 674 | 61 183 | 65 296 | 66 639 | 66 984 | **67 067** | 66 496 | 66 619 |
+
+Peak **67 067 @ c=540 = 1.5·V**. Fastest single-thread (**674 TPM**, 89 ms). `2·V` slightly below `V`.
+
+## Does `{1, V/2, V, 2·V}` find the peak?
+
+| SKU | True peak | @ c | Fixed-profile max | Coverage |
+|-----|----------:|----:|------------------:|---------:|
+| n2-8 | 2 319 | 24 (~3V) | 2 298 @ V | **99.1%** |
+| n2-128 | 32 634 | 256 (2V) | **32 634 @ 2V** | **100%** |
+| t2d-60 local | 23 942 | 128 | 23 889 @ 2V | **99.8%** |
+| t2d-60 reverse | 23 988 | 120 (2V) | **23 988 @ 2V** | **100%** |
+| c3d-360 | 67 067 | 540 (1.5V) | 66 639 @ V | **99.4%** |
+
+**Always within ~1% of a dense sweep.** Extra points past `2·V` never paid (≥0.9% noise only).
+
+## Recommended algorithm
+
+```
+1. Load fixed ~170 MB ro_cpu schema; GUCs once (jit=off, work_mem=64MB, parallel_gather=0).
+2. Warmup: c=V, ~45–60 s (or 120 s in inspector).
+3. Measure anchors C = {1, V/2, V, 2·V}  (dedupe; T≥40 s search / 300 s publish).
+4. j = min(c, 32). No --pipeline-depth.
+5. Optional refine (cheap, +1 cell):
+     if 0.95 ≤ TPM(2V)/TPM(V) ≤ 1.05:  also measure c = round(1.5·V)
+     # catches c3d-style plateau peaks between V and 2V
+6. Optional upward search (large HT machines):
+     if TPM(2V) ≥ 1.05 × TPM(V):
+         for c in {3V, 4V}: measure; stop when improve < 5%
+7. score = max TPM over measured rungs; also keep c=1 for IPC rank.
+```
+
+### Why this shape
+
+| Rule | Evidence |
+|------|----------|
+| Keep `2·V` | n2-128 **+14%** over `V`; reverse t2d recovered a soft `V` only at `2V` |
+| Don’t bother past `2·V` by default | 3V/4V ≤ peak on every SKU here |
+| `1.5·V` optional when flat | c3d peak at 1.5V; fixed profile still 99.4% via `V` |
+| 5% adaptive threshold | Filters n2-8’s +0.9% noise at 3V; still fires for n2-128’s +14% |
+| Client ≥ ~20 clients/vCPU at `2·V` | t2d-60 drove c3d-360 @ 720 fine; reverse peak matched local |
+| Short T=40 s OK for search | Peaks align with fleet 300 s scores (t2d-60, n2-128) |
+
+### Inspector takeaway
+
+The current RO profile **`{1, V/2, V, 2·V}` + TPM score** is validated from 8→360 vCPU. Optional one-liner: if `V` and `2·V` are within 5%, add **`1.5·V`**. Only run upward search when `2·V` beats `V` by ≥5% (large n2).
